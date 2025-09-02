@@ -1,0 +1,83 @@
+{
+  "templates": [
+    {
+      "name": "JSON Test Template",
+      "description": "Test Template für JSON Database",
+      "content": "Erstelle einen {{style}} Text für {{product}} für {{audience}}",
+      "category": "test",
+      "tags": [
+        "json",
+        "test"
+      ],
+      "variables": [
+        "style",
+        "product",
+        "audience"
+      ],
+      "id": "0c11bab9-f827-4863-a266-c9519e536ecd",
+      "created_at": "2025-09-01T20:19:49.069Z",
+      "updated_at": "2025-09-01T20:19:49.069Z"
+    },
+    {
+      "name": "Dragon Waist up",
+      "description": "Dragon Waist up",
+      "content": "Generate a unique fantasy {{description}} dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "category": "general",
+      "tags": [
+        "dragon"
+      ],
+      "variables": [
+        "description"
+      ],
+      "id": "03d7c4a5-306e-406b-91cb-4cc07497681f",
+      "created_at": "2025-09-02T16:36:44.027Z",
+      "updated_at": "2025-09-02T16:36:44.027Z"
+    }
+  ],
+  "variables": [],
+  "variableSets": [],
+  "generatedPrompts": [],
+  "automationTargets": [
+    {
+      "id": "chatgpt-default",
+      "name": "ChatGPT",
+      "type": "chatgpt",
+      "url": "https://chat.openai.com/",
+      "selectors": {
+        "input": "#prompt-textarea",
+        "submit": "button[data-testid=\"send-button\"]",
+        "response": "[data-message-author-role=\"assistant\"] .markdown",
+        "newChat": "nav a[href=\"/\"]"
+      },
+      "config": {
+        "delayBetweenPrompts": 5000,
+        "maxRetries": 3,
+        "waitForResponse": 30000,
+        "useNewChatPerPrompt": false
+      },
+      "created_at": "2025-09-01T20:19:21.792Z",
+      "updated_at": "2025-09-01T20:19:21.792Z"
+    },
+    {
+      "id": "claude-default",
+      "name": "Claude",
+      "type": "claude",
+      "url": "https://claude.ai/",
+      "selectors": {
+        "input": "div[contenteditable=\"true\"]",
+        "submit": "button[aria-label=\"Send Message\"]",
+        "response": "[data-is-streaming=\"false\"] .font-claude-message",
+        "newChat": "button[aria-label=\"Start new conversation\"]"
+      },
+      "config": {
+        "delayBetweenPrompts": 3000,
+        "maxRetries": 3,
+        "waitForResponse": 30000,
+        "useNewChatPerPrompt": false
+      },
+      "created_at": "2025-09-01T20:19:21.792Z",
+      "updated_at": "2025-09-01T20:19:21.792Z"
+    }
+  ],
+  "automationSessions": []
+}

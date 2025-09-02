@@ -1,0 +1,24 @@
+{
+  "name": "@prompt-bulk-tool/automation",
+  "version": "1.0.0",
+  "description": "Playwright Automation Scripts für Browser-Integration",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@prompt-bulk-tool/shared": "^1.0.0",
+    "playwright": "^1.40.1",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "typescript": "^5.3.3"
+  }
+}

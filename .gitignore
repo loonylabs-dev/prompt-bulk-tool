@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Runtime files
+*.log
+logs/
+.npm
+.pnpm-debug.log*
+.yarn-debug.log*
+.yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Coverage reports
+coverage/
+*.lcov
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Lock files (choose one strategy)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Runtime data - KEEP DATABASE FOR BACKUP/SYNC
+# database/ - INTENTIONALLY NOT IGNORED
+# database/prompt-bulk-tool.json - INTENTIONALLY NOT IGNORED
+
+# But ignore potential backup files
+database/*.bak
+database/*.backup
+database/*.tmp

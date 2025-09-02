@@ -63,24 +63,42 @@ export function createJsonGenerationRoutes(db: JsonDatabase): Router {
       });
     }
 
-    // Get variables - either from variable set or custom variables
+    // Get variables - either from variable presets or custom variables
     let variableData: Record<string, string[]>;
     
-    if (validatedRequest.variableSetId) {
-      const variableSet = await db.getVariableSetById(validatedRequest.variableSetId);
-      if (!variableSet) {
-        return res.status(404).json({
-          success: false,
-          error: 'Variable set not found'
-        });
+    if (validatedRequest.variablePresetIds && validatedRequest.variablePresetIds.length > 0) {
+      variableData = {};
+      
+      // Load all Variable-Presets and parse their values
+      for (const presetId of validatedRequest.variablePresetIds) {
+        const preset = await db.getVariablePresetById(presetId);
+        if (!preset) {
+          return res.status(404).json({
+            success: false,
+            error: `Variable preset with ID ${presetId} not found`
+          });
+        }
+        
+        // Parse semicolon-separated values
+        const values = preset.values.split(';')
+          .map((v: string) => v.trim())
+          .filter((v: string) => v.length > 0);
+          
+        if (values.length === 0) {
+          return res.status(400).json({
+            success: false,
+            error: `Variable preset "${preset.name}" has no valid values`
+          });
+        }
+        
+        variableData[preset.placeholder] = values;
       }
-      variableData = variableSet.variables;
     } else if (validatedRequest.customVariables) {
       variableData = validatedRequest.customVariables;
     } else {
       return res.status(400).json({
         success: false,
-        error: 'Either variableSetId or customVariables must be provided'
+        error: 'Either variablePresetIds or customVariables must be provided'
       });
     }
 

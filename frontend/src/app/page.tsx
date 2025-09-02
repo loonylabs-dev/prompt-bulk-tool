@@ -6,7 +6,8 @@ import {
   Bot,
   ArrowRight,
   CheckCircle,
-  Sparkles
+  Sparkles,
+  Settings
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -32,10 +33,10 @@ export default function HomePage() {
                 Templates
               </Link>
               <Link 
-                href="/variables" 
+                href="/variable-presets" 
                 className="btn btn-outline btn-md"
               >
-                Variablen
+                Variable-Presets
               </Link>
               <Link 
                 href="/generation" 
@@ -116,28 +117,28 @@ export default function HomePage() {
 
               {/* Step 2 */}
               <div className="text-center">
-                <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <Variable className="w-8 h-8 text-green-600" />
+                <div className="mx-auto w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
+                  <Settings className="w-8 h-8 text-purple-600" />
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-gray-900">
-                  2. Variablen definieren
+                  2. Variable-Presets erstellen
                 </h3>
                 <p className="mt-4 text-gray-600">
-                  Definiere mögliche Werte für deine Variablen oder erstelle Variable-Sets 
-                  für die Bulk-Generierung.
+                  Erstelle wiederverwendbare Variable-Presets mit Semikolon-getrennten Werten 
+                  für deine Template-Platzhalter.
                 </p>
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg text-left">
                   <div className="text-sm text-gray-700">
-                    <div><strong>style:</strong> modern, klassisch, kreativ</div>
-                    <div><strong>product:</strong> Smartphone, Laptop, Tablet</div>
+                    <div><strong>style:</strong> modern;klassisch;kreativ;minimalistisch</div>
+                    <div><strong>product:</strong> Smartphone;Laptop;Tablet;Smartwatch</div>
                   </div>
                 </div>
               </div>
 
               {/* Step 3 */}
               <div className="text-center">
-                <div className="mx-auto w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Zap className="w-8 h-8 text-purple-600" />
+                <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Zap className="w-8 h-8 text-blue-600" />
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-gray-900">
                   3. Bulk generieren

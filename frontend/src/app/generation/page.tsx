@@ -25,11 +25,13 @@ interface Template {
   variables: string[];
 }
 
-interface VariableSet {
+interface VariablePreset {
   id: string;
   name: string;
   description: string;
-  variables: Record<string, string[]>;
+  placeholder: string;
+  values: string;
+  tags: string[];
 }
 
 interface GeneratedPrompt {
@@ -44,14 +46,14 @@ interface GeneratedPrompt {
 
 export default function GenerationPage() {
   const [templates, setTemplates] = useState<Template[]>([]);
-  const [variableSets, setVariableSets] = useState<VariableSet[]>([]);
+  const [variablePresets, setVariablePresets] = useState<VariablePreset[]>([]);
   const [generatedPrompts, setGeneratedPrompts] = useState<GeneratedPrompt[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   
   // Form state
   const [selectedTemplateIds, setSelectedTemplateIds] = useState<string[]>([]);
-  const [selectedVariableSetId, setSelectedVariableSetId] = useState('');
+  const [selectedVariablePresetIds, setSelectedVariablePresetIds] = useState<string[]>([]);
   const [customVariables, setCustomVariables] = useState<Record<string, string>>({});
   const [useCustomVariables, setUseCustomVariables] = useState(false);
   
@@ -59,7 +61,7 @@ export default function GenerationPage() {
   useEffect(() => {
     Promise.all([
       fetchTemplates(),
-      fetchVariableSets(),
+      fetchVariablePresets(),
       fetchGeneratedPrompts()
     ]).finally(() => setLoading(false));
   }, []);
@@ -76,15 +78,15 @@ export default function GenerationPage() {
     }
   };
 
-  const fetchVariableSets = async () => {
+  const fetchVariablePresets = async () => {
     try {
-      const response = await fetch('/api/variables/sets');
+      const response = await fetch('/api/variable-presets');
       if (response.ok) {
         const data = await response.json();
-        setVariableSets(data.data);
+        setVariablePresets(data.data);
       }
     } catch (error) {
-      console.error('Error fetching variable sets:', error);
+      console.error('Error fetching variable presets:', error);
     }
   };
 
@@ -106,8 +108,8 @@ export default function GenerationPage() {
       return;
     }
     
-    if (!useCustomVariables && !selectedVariableSetId) {
-      alert('Bitte wähle ein Variable-Set aus oder verwende benutzerdefinierte Variablen');
+    if (!useCustomVariables && selectedVariablePresetIds.length === 0) {
+      alert('Bitte wähle mindestens ein Variable-Preset aus oder verwende benutzerdefinierte Variablen');
       return;
     }
 
@@ -126,7 +128,7 @@ export default function GenerationPage() {
         });
         requestBody.customVariables = variablesArray;
       } else {
-        requestBody.variableSetId = selectedVariableSetId;
+        requestBody.variablePresetIds = selectedVariablePresetIds;
       }
 
       const response = await fetch('/api/generation/generate', {
@@ -329,7 +331,7 @@ export default function GenerationPage() {
                         checked={!useCustomVariables}
                         onChange={() => setUseCustomVariables(false)}
                       />
-                      <span className="text-sm text-gray-900">Variable-Set verwenden</span>
+                      <span className="text-sm text-gray-900">Variable-Presets verwenden</span>
                     </label>
                     <label className="flex items-center space-x-3">
                       <input
@@ -344,33 +346,66 @@ export default function GenerationPage() {
                   </div>
                 </div>
 
-                {/* Variable Set Selection */}
+                {/* Variable Preset Selection */}
                 {!useCustomVariables && (
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Variable-Set
+                      Variable-Presets
                     </label>
-                    {variableSets.length === 0 ? (
+                    {variablePresets.length === 0 ? (
                       <div className="text-center py-4">
                         <Package className="mx-auto w-8 h-8 text-gray-300" />
-                        <p className="mt-2 text-sm text-gray-600">Keine Variable-Sets verfügbar</p>
-                        <Link href="/variables/sets/new" className="mt-2 btn btn-primary btn-xs">
-                          Variable-Set erstellen
+                        <p className="mt-2 text-sm text-gray-600">Keine Variable-Presets verfügbar</p>
+                        <Link href="/variable-presets/create" className="mt-2 btn btn-primary btn-xs">
+                          Variable-Preset erstellen
                         </Link>
                       </div>
                     ) : (
-                      <select
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                        value={selectedVariableSetId}
-                        onChange={(e) => setSelectedVariableSetId(e.target.value)}
-                      >
-                        <option value="">Variable-Set auswählen...</option>
-                        {variableSets.map((set) => (
-                          <option key={set.id} value={set.id}>
-                            {set.name} ({Object.keys(set.variables).length} Variablen)
-                          </option>
+                      <div className="space-y-2 max-h-40 overflow-y-auto">
+                        {variablePresets.map((preset) => (
+                          <label key={preset.id} className="flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                            <input
+                              type="checkbox"
+                              className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                              checked={selectedVariablePresetIds.includes(preset.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedVariablePresetIds([...selectedVariablePresetIds, preset.id]);
+                                } else {
+                                  setSelectedVariablePresetIds(selectedVariablePresetIds.filter(id => id !== preset.id));
+                                }
+                              }}
+                            />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-medium text-gray-900">
+                                {preset.name}
+                              </div>
+                              <div className="text-xs text-gray-600 mb-1">
+                                {preset.description}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                Platzhalter: <code className="bg-gray-100 px-1 rounded">{'{{' + preset.placeholder + '}}'}</code>
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1">
+                                {preset.values.split(';').length} Werte: {preset.values.split(';').slice(0, 3).join(', ')}
+                                {preset.values.split(';').length > 3 && '...'}
+                              </div>
+                              {preset.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                  {preset.tags.map((tag) => (
+                                    <span
+                                      key={tag}
+                                      className="inline-block px-1.5 py-0.5 bg-primary-100 text-primary-700 text-xs rounded"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </label>
                         ))}
-                      </select>
+                      </div>
                     )}
                   </div>
                 )}
@@ -409,7 +444,7 @@ export default function GenerationPage() {
                 {/* Generate Button */}
                 <button
                   onClick={generatePrompts}
-                  disabled={generating || selectedTemplateIds.length === 0 || (!useCustomVariables && !selectedVariableSetId)}
+                  disabled={generating || selectedTemplateIds.length === 0 || (!useCustomVariables && selectedVariablePresetIds.length === 0)}
                   className="w-full btn btn-primary btn-lg"
                 >
                   {generating ? (

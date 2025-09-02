@@ -4,8 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface DatabaseData {
   templates: any[];
-  variables: any[];
-  variableSets: any[];
+  variablePresets: any[];
   generatedPrompts: any[];
   automationTargets: any[];
   automationSessions: any[];
@@ -16,8 +15,7 @@ export class JsonDatabase {
   private dbPath: string;
   private data: DatabaseData = {
     templates: [],
-    variables: [],
-    variableSets: [],
+    variablePresets: [],
     generatedPrompts: [],
     automationTargets: [],
     automationSessions: []
@@ -46,6 +44,30 @@ export class JsonDatabase {
     try {
       const dataString = await fs.readFile(this.dbPath, 'utf-8');
       this.data = JSON.parse(dataString);
+      
+      // Migration: Remove old fields and ensure new fields exist
+      let needsSave = false;
+      
+      // Remove old variables and variableSets fields
+      if ((this.data as any).variables) {
+        delete (this.data as any).variables;
+        needsSave = true;
+      }
+      if ((this.data as any).variableSets) {
+        delete (this.data as any).variableSets;
+        needsSave = true;
+      }
+      
+      // Ensure variablePresets field exists
+      if (!this.data.variablePresets) {
+        this.data.variablePresets = [];
+        needsSave = true;
+      }
+      
+      if (needsSave) {
+        await this.save();
+      }
+      
       console.log('JSON Database loaded successfully');
     } catch (error) {
       // File doesn't exist, create with default data
@@ -57,8 +79,7 @@ export class JsonDatabase {
   private async initializeDatabase(): Promise<void> {
     this.data = {
       templates: [],
-      variables: [],
-      variableSets: [],
+      variablePresets: [],
       generatedPrompts: [],
       automationTargets: [
         {
@@ -161,43 +182,6 @@ export class JsonDatabase {
     return false;
   }
 
-  // Variable operations
-  public async insertVariable(variable: any): Promise<any> {
-    variable.id = uuidv4();
-    variable.created_at = new Date().toISOString();
-    variable.updated_at = new Date().toISOString();
-    
-    this.data.variables.push(variable);
-    await this.save();
-    return variable;
-  }
-
-  public async getVariables(): Promise<any[]> {
-    return this.data.variables;
-  }
-
-  public async getVariableById(id: string): Promise<any | null> {
-    return this.data.variables.find(v => v.id === id) || null;
-  }
-
-  // Variable Set operations
-  public async insertVariableSet(variableSet: any): Promise<any> {
-    variableSet.id = uuidv4();
-    variableSet.created_at = new Date().toISOString();
-    variableSet.updated_at = new Date().toISOString();
-    
-    this.data.variableSets.push(variableSet);
-    await this.save();
-    return variableSet;
-  }
-
-  public async getVariableSets(): Promise<any[]> {
-    return this.data.variableSets;
-  }
-
-  public async getVariableSetById(id: string): Promise<any | null> {
-    return this.data.variableSets.find(vs => vs.id === id) || null;
-  }
 
   // Generated Prompts operations
   public async insertGeneratedPrompts(prompts: any[]): Promise<void> {
@@ -244,6 +228,54 @@ export class JsonDatabase {
     this.data.generatedPrompts = [];
     await this.save();
     return count;
+  }
+
+  // Variable Preset operations
+  public async insertVariablePreset(preset: any): Promise<any> {
+    preset.id = uuidv4();
+    preset.created_at = new Date().toISOString();
+    preset.updated_at = new Date().toISOString();
+    
+    this.data.variablePresets.push(preset);
+    await this.save();
+    return preset;
+  }
+
+  public async getVariablePresets(): Promise<any[]> {
+    return this.data.variablePresets;
+  }
+
+  public async getVariablePresetById(id: string): Promise<any | null> {
+    return this.data.variablePresets.find(vp => vp.id === id) || null;
+  }
+
+  public async updateVariablePreset(id: string, updates: any): Promise<any> {
+    const index = this.data.variablePresets.findIndex(vp => vp.id === id);
+    if (index === -1) {
+      throw new Error('Variable preset not found');
+    }
+
+    const preset = this.data.variablePresets[index];
+    this.data.variablePresets[index] = {
+      ...preset,
+      ...updates,
+      id: preset.id, // Keep original ID
+      created_at: preset.created_at, // Keep original creation time
+      updated_at: new Date().toISOString()
+    };
+
+    await this.save();
+    return this.data.variablePresets[index];
+  }
+
+  public async deleteVariablePreset(id: string): Promise<void> {
+    const index = this.data.variablePresets.findIndex(vp => vp.id === id);
+    if (index === -1) {
+      throw new Error('Variable preset not found');
+    }
+
+    this.data.variablePresets.splice(index, 1);
+    await this.save();
   }
 
   // Automation targets

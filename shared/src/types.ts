@@ -48,7 +48,39 @@ export interface UpdateVariableRequest extends Partial<CreateVariableRequest> {
   id: string;
 }
 
-// Variable Set Types
+// Variable Preset Types
+export interface VariablePreset {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
+  placeholder: string;        // Template placeholder (e.g., "dragon description")
+  values: string;             // Semicolon-separated values
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreateVariablePresetRequest {
+  name: string;
+  description: string;
+  tags: string[];
+  placeholder: string;
+  values: string;
+}
+
+export interface UpdateVariablePresetRequest extends Partial<CreateVariablePresetRequest> {
+  id: string;
+}
+
+// Template Placeholder Types
+export interface TemplatePlaceholder {
+  name: string;
+  usedInTemplates: number;
+  templateIds: string[];
+  templateNames: string[];
+}
+
+// Variable Set Types (DEPRECATED - will be replaced by Variable Presets)
 export interface VariableSet {
   id: string;
   name: string;
@@ -81,7 +113,7 @@ export interface GeneratedPrompt {
 
 export interface GenerationRequest {
   templateIds: string[];
-  variableSetId?: string;
+  variablePresetIds?: string[];
   customVariables?: Record<string, string[]>;
 }
 
@@ -174,6 +206,7 @@ export interface ExportData {
   templates: PromptTemplate[];
   variables: PromptVariable[];
   variableSets: VariableSet[];
+  variablePresets: VariablePreset[];
   automationTargets: AutomationTarget[];
   exportedAt: Date;
   version: string;
@@ -183,6 +216,7 @@ export interface ImportResult {
   templatesImported: number;
   variablesImported: number;
   variableSetsImported: number;
+  variablePresetsImported: number;
   automationTargetsImported: number;
   errors: string[];
 }

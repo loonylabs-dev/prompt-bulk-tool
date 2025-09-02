@@ -11,8 +11,8 @@ import { errorHandler } from './middleware/errorHandler';
 
 // Import JSON-compatible route handlers
 import { createJsonTemplateRoutes } from './routes/jsonTemplates';
-import { createJsonVariableRoutes } from './routes/jsonVariables';
 import { createJsonGenerationRoutes } from './routes/jsonGeneration';
+import { createVariablePresetRoutes } from './routes/variablePresets';
 
 dotenv.config();
 
@@ -58,7 +58,7 @@ async function startServer() {
     
     // Setup API routes with JSON database
     app.use('/api/templates', createJsonTemplateRoutes(jsonDb));
-    app.use('/api/variables', createJsonVariableRoutes(jsonDb));
+    app.use('/api/variable-presets', createVariablePresetRoutes(jsonDb));
     app.use('/api/generation', createJsonGenerationRoutes(jsonDb));
     
     // Simple automation placeholder

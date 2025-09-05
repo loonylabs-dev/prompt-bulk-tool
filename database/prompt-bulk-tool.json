@@ -18,88 +18,52 @@
   ],
   "generatedPrompts": [
     {
-      "id": "9aaa78e6-bbbf-4280-9cce-6ab417237470",
+      "id": "de9d7ad8-a30f-47cf-a19d-75cadc8d68be",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy ancient dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy boss stark mega böse ganzkörper sixpack dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "ancient"
+        "dragon description": "boss stark mega böse ganzkörper sixpack"
       },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
+      "generatedAt": "2025-09-04T15:28:41.133Z",
       "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
+      "generated_at": "2025-09-04T15:28:41.133Z"
     },
     {
-      "id": "bb04dcda-6b6d-4993-8e4a-a33a6788a024",
+      "id": "21f3d140-5774-4903-a9a7-5459b72a9f29",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy young dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy super boss stark mega böse ganzkörper sixpack dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "young"
+        "dragon description": "super boss stark mega böse ganzkörper sixpack"
       },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
+      "generatedAt": "2025-09-04T15:28:41.133Z",
       "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
+      "generated_at": "2025-09-04T15:28:41.133Z"
     },
     {
-      "id": "d429dc6c-251f-463d-bb77-cef784350baa",
+      "id": "c7df402a-ddcb-498c-a7a5-b2b7d8191c54",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy wise dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy stark mega böse ganzkörper sixpack dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "wise"
+        "dragon description": "stark mega böse ganzkörper sixpack"
       },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
+      "generatedAt": "2025-09-04T15:28:41.133Z",
       "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
+      "generated_at": "2025-09-04T15:28:41.133Z"
     },
     {
-      "id": "625fd447-00be-4477-b621-400cc3dc39b4",
+      "id": "03f3d3ea-c4dd-48cd-9f27-a33cf35f1787",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy fierce dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy super mega böse ganzkörper dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "fierce"
+        "dragon description": "super mega böse ganzkörper"
       },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
+      "generatedAt": "2025-09-04T15:28:41.133Z",
       "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
-    },
-    {
-      "id": "79712efb-a8b4-45b4-aa4b-9af2f11a82a8",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy elemental fire dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "elemental fire"
-      },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
-      "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
-    },
-    {
-      "id": "df6b6f52-77fb-41ec-ac65-04aab09b65a3",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy elemental ice dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "elemental ice"
-      },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
-      "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
-    },
-    {
-      "id": "90cd2af2-27eb-47df-adaf-2a6a371b471a",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy celestial dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "celestial"
-      },
-      "generatedAt": "2025-09-02T21:28:04.161Z",
-      "status": "pending",
-      "generated_at": "2025-09-02T21:28:04.161Z"
+      "generated_at": "2025-09-04T15:28:41.133Z"
     }
   ],
   "automationTargets": [
@@ -150,14 +114,14 @@
       "name": "Dragon Types",
       "description": "Different types of dragons for fantasy art",
       "placeholder": "dragon description",
-      "values": "ancient;young;wise;fierce;elemental fire;elemental ice;celestial",
+      "values": "boss stark mega böse ganzkörper sixpack; super boss stark mega böse ganzkörper sixpack; stark mega böse ganzkörper sixpack; super mega böse ganzkörper",
       "tags": [
         "fantasy",
         "dragons"
       ],
       "id": "d11f496d-903a-4036-8467-617a03b1bcea",
       "created_at": "2025-09-02T20:47:09.713Z",
-      "updated_at": "2025-09-02T20:47:09.713Z"
+      "updated_at": "2025-09-04T15:28:18.026Z"
     }
   ]
 }

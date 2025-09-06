@@ -1,6 +1,19 @@
 {
   "templates": [
     {
+      "name": "Adventure Image - vertical",
+      "description": "an adventure image",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of {{adventure description}} with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "category": "general",
+      "tags": [],
+      "variables": [
+        "adventure description"
+      ],
+      "id": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "created_at": "2025-09-06T14:42:31.420Z",
+      "updated_at": "2025-09-06T14:42:31.420Z"
+    },
+    {
       "name": "Dragon Full Body Iso",
       "description": "a dragon full body iso perspective",
       "content": "Generate a unique fantasy {{dragon description}} dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
@@ -178,6 +191,16 @@
       ],
       "created_at": "2025-09-06T10:53:05.223Z",
       "updated_at": "2025-09-06T10:55:46.962Z"
+    },
+    {
+      "name": "Cool Adventures",
+      "description": "cool adventures",
+      "placeholder": "adventure description",
+      "values": "eine Reise durch das verzauberte Nebelwald- Königreich, um den verborgenen Kristall des Lebens zu finden;das Abenteuer, den verschollenen Thron des Drachenkönigs in den Wolkenburgen zu erobern;die Suche nach dem verlorenen Buch der Unendlichen Geschichten in der verbotenen Bibliothek;ein gefahrvoller Marsch durch das Land der Riesen, um den magischen Goldenen Apfel zu erlangen;das Unternehmen, das mysteriöse Schloss des Schattenfürsten zu stürmen und seine finstere Macht zu brechen;die Reise zum verborgene Insel der Sirenen, um ihr geheimes Lied der Unsterblichkeit zu erlernen;das Wagnis, den gefährlichen Untergrundtunnel der Minotauren zu durchqueren, um das Herz des Labyrinths zu finden;die Expedition in das verborgene Tal der Einhörner, um das Geheimnis ihrer Magie zu lüften;das Abenteuer, den vergessenen Tempel der Sterne zu betreten und die Prophezeiung des Himmels zu entschlüsseln;die Reise durch die verbotene Wüste der Wüstengeister, um das vergrabenen Schatz der Pharaonen zu entdecken",
+      "tags": [],
+      "id": "c0d748ad-8bb8-4d56-bc19-4f56ea667ded",
+      "created_at": "2025-09-06T14:43:30.786Z",
+      "updated_at": "2025-09-06T14:44:18.044Z"
     }
   ]
 }

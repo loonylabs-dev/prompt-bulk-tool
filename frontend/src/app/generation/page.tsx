@@ -16,7 +16,9 @@ import {
   CheckCircle,
   AlertCircle,
   Clock,
-  Copy
+  Copy,
+  ChevronDown,
+  Search
 } from 'lucide-react';
 import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
 import { templateApi, variablePresetApi, generationApi } from '../../lib/api';
@@ -60,6 +62,10 @@ export default function GenerationPage() {
   const [customVariables, setCustomVariables] = useState<Record<string, string>>({});
   const [useCustomVariables, setUseCustomVariables] = useState(false);
   
+  // Variable Preset Dropdown state
+  const [showVariablePresetDropdown, setShowVariablePresetDropdown] = useState(false);
+  const [variablePresetSearch, setVariablePresetSearch] = useState('');
+  
   // Dialog state
   const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
   const [confirmDialog, setConfirmDialog] = useState<{ show: boolean; title: string; message: string; onConfirm: () => void }>({ show: false, title: '', message: '', onConfirm: () => {} });
@@ -72,6 +78,25 @@ export default function GenerationPage() {
       fetchGeneratedPrompts()
     ]).finally(() => setLoading(false));
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showVariablePresetDropdown) {
+        const target = event.target as Element;
+        if (!target.closest('.variable-preset-dropdown')) {
+          setShowVariablePresetDropdown(false);
+        }
+      }
+    };
+
+    if (showVariablePresetDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showVariablePresetDropdown]);
 
   const fetchTemplates = async () => {
     try {
@@ -246,6 +271,27 @@ export default function GenerationPage() {
     });
   };
 
+  // Filter variable presets for search
+  const filteredVariablePresets = variablePresets.filter(preset =>
+    preset.name.toLowerCase().includes(variablePresetSearch.toLowerCase()) ||
+    preset.description.toLowerCase().includes(variablePresetSearch.toLowerCase()) ||
+    preset.placeholder.toLowerCase().includes(variablePresetSearch.toLowerCase())
+  );
+
+  // Get selected variable presets for details display
+  const selectedVariablePresets = variablePresets.filter(preset => 
+    selectedVariablePresetIds.includes(preset.id)
+  );
+
+  // Toggle preset selection
+  const toggleVariablePreset = (presetId: string) => {
+    if (selectedVariablePresetIds.includes(presetId)) {
+      setSelectedVariablePresetIds(selectedVariablePresetIds.filter(id => id !== presetId));
+    } else {
+      setSelectedVariablePresetIds([...selectedVariablePresetIds, presetId]);
+    }
+  };
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'pending': return <Clock className="w-4 h-4 text-gray-500" />;
@@ -418,7 +464,7 @@ export default function GenerationPage() {
                 {!useCustomVariables && (
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Variable-Presets
+                      Variable-Presets {selectedVariablePresetIds.length > 0 && `(${selectedVariablePresetIds.length} ausgewählt)`}
                     </label>
                     {variablePresets.length === 0 ? (
                       <div className="text-center py-4">
@@ -429,51 +475,145 @@ export default function GenerationPage() {
                         </Link>
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-40 overflow-y-auto">
-                        {variablePresets.map((preset) => (
-                          <label key={preset.id} className="flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
-                            <input
-                              type="checkbox"
-                              className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                              checked={selectedVariablePresetIds.includes(preset.id)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setSelectedVariablePresetIds([...selectedVariablePresetIds, preset.id]);
-                                } else {
-                                  setSelectedVariablePresetIds(selectedVariablePresetIds.filter(id => id !== preset.id));
-                                }
-                              }}
-                            />
-                            <div className="flex-1 min-w-0">
-                              <div className="text-sm font-medium text-gray-900">
-                                {preset.name}
-                              </div>
-                              <div className="text-xs text-gray-600 mb-1">
-                                {preset.description}
-                              </div>
-                              <div className="text-xs text-gray-500">
-                                Platzhalter: <code className="bg-gray-100 px-1 rounded">{'{{' + preset.placeholder + '}}'}</code>
-                              </div>
-                              <div className="text-xs text-gray-500 mt-1">
-                                {preset.values.split(';').length} Werte: {preset.values.split(';').slice(0, 3).join(', ')}
-                                {preset.values.split(';').length > 3 && '...'}
-                              </div>
-                              {preset.tags.length > 0 && (
-                                <div className="flex flex-wrap gap-1 mt-1">
-                                  {preset.tags.map((tag) => (
-                                    <span
-                                      key={tag}
-                                      className="inline-block px-1.5 py-0.5 bg-primary-100 text-primary-700 text-xs rounded"
-                                    >
-                                      {tag}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
+                      <>
+                        {/* Lookup Dropdown */}
+                        <div className="relative variable-preset-dropdown">
+                          <button
+                            type="button"
+                            onClick={() => setShowVariablePresetDropdown(!showVariablePresetDropdown)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-left focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-600">
+                                {selectedVariablePresetIds.length === 0 
+                                  ? 'Variable-Presets auswählen...' 
+                                  : `${selectedVariablePresetIds.length} Preset${selectedVariablePresetIds.length > 1 ? 's' : ''} ausgewählt`}
+                              </span>
+                              <ChevronDown className="w-5 h-5 text-gray-400" />
                             </div>
-                          </label>
-                        ))}
-                      </div>
+                          </button>
+
+                          {showVariablePresetDropdown && (
+                            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                              {/* Search */}
+                              <div className="p-3 border-b border-gray-200">
+                                <div className="relative">
+                                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                  <input
+                                    type="text"
+                                    placeholder="Variable-Presets suchen..."
+                                    className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                    value={variablePresetSearch}
+                                    onChange={(e) => setVariablePresetSearch(e.target.value)}
+                                    onClick={(e) => e.stopPropagation()}
+                                  />
+                                </div>
+                              </div>
+                              {/* Preset List */}
+                              <div className="max-h-60 overflow-y-auto">
+                                {filteredVariablePresets.length > 0 ? (
+                                  filteredVariablePresets.map((preset) => (
+                                    <button
+                                      key={preset.id}
+                                      type="button"
+                                      onClick={() => toggleVariablePreset(preset.id)}
+                                      className="w-full px-3 py-3 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+                                    >
+                                      <div className="flex items-start space-x-3">
+                                        <input
+                                          type="checkbox"
+                                          className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                                          checked={selectedVariablePresetIds.includes(preset.id)}
+                                          onChange={() => {}} // Handled by parent button click
+                                          onClick={(e) => e.stopPropagation()}
+                                        />
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-sm font-medium text-gray-900">
+                                            {preset.name}
+                                          </div>
+                                          <div className="text-xs text-gray-600">
+                                            {preset.description}
+                                          </div>
+                                          <div className="text-xs text-gray-500 mt-1">
+                                            <code className="bg-gray-100 px-1 rounded">{'{{' + preset.placeholder + '}}'}</code>
+                                            {' • '}{preset.values.split(';').length} Werte
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </button>
+                                  ))
+                                ) : (
+                                  <div className="px-3 py-6 text-center text-gray-500">
+                                    Keine passenden Variable-Presets gefunden
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Selected Presets Details */}
+                        {selectedVariablePresets.length > 0 && (
+                          <div className="mt-4 space-y-3">
+                            <h4 className="text-sm font-medium text-gray-700">Ausgewählte Variable-Presets:</h4>
+                            {selectedVariablePresets.map((preset) => (
+                              <div key={preset.id} className="p-3 border border-gray-200 rounded-lg bg-gray-50">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1 min-w-0">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      {preset.name}
+                                    </div>
+                                    <div className="text-xs text-gray-600 mb-2">
+                                      {preset.description}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mb-2">
+                                      Platzhalter: <code className="bg-white px-1 rounded border">{'{{' + preset.placeholder + '}}'}</code>
+                                    </div>
+                                    <div className="text-xs text-gray-700">
+                                      <strong>Werte ({preset.values.split(';').length}):</strong>
+                                      <div className="mt-1 flex flex-wrap gap-1">
+                                        {preset.values.split(';').slice(0, 6).map((value, index) => (
+                                          <span
+                                            key={index}
+                                            className="inline-block px-2 py-1 bg-white border border-gray-200 rounded text-xs"
+                                          >
+                                            {value.trim()}
+                                          </span>
+                                        ))}
+                                        {preset.values.split(';').length > 6 && (
+                                          <span className="inline-block px-2 py-1 bg-gray-200 border border-gray-300 rounded text-xs text-gray-600">
+                                            +{preset.values.split(';').length - 6} weitere
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    {preset.tags.length > 0 && (
+                                      <div className="flex flex-wrap gap-1 mt-2">
+                                        {preset.tags.map((tag) => (
+                                          <span
+                                            key={tag}
+                                            className="inline-block px-1.5 py-0.5 bg-primary-100 text-primary-700 text-xs rounded"
+                                          >
+                                            {tag}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleVariablePreset(preset.id)}
+                                    className="ml-2 text-gray-400 hover:text-red-600"
+                                    title="Entfernen"
+                                  >
+                                    ×
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 )}

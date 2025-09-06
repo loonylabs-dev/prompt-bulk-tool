@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X, Trash2, Wand2 } from 'lucide-react';
 import { ConfirmDialog } from '../../../../components/Dialog';
 import toast from 'react-hot-toast';
+import { aiApi, variablePresetApi } from '../../../../lib/api';
 
 interface VariablePreset {
   id: string;
@@ -61,19 +62,14 @@ export default function EditVariablePresetPage() {
   const fetchPreset = async () => {
     try {
       setInitialLoading(true);
-      const response = await fetch(`/api/variable-presets/${presetId}`);
+      const response = await variablePresetApi.getById(presetId);
       
-      if (!response.ok) {
-        if (response.status === 404) {
-          router.push('/variable-presets');
-          return;
-        }
-        throw new Error('Failed to fetch preset');
+      if (!response.success) {
+        router.push('/variable-presets');
+        return;
       }
 
-      const data = await response.json();
-      if (data.success) {
-        const preset: VariablePreset = data.data;
+      const preset: VariablePreset = response.data;
         setFormData({
           name: preset.name,
           description: preset.description,
@@ -81,7 +77,6 @@ export default function EditVariablePresetPage() {
           values: preset.values,
           tags: preset.tags
         });
-      }
     } catch (err) {
       setErrors({ general: 'Fehler beim Laden des Variable-Presets' });
     } finally {
@@ -91,11 +86,9 @@ export default function EditVariablePresetPage() {
 
   const fetchPlaceholders = async () => {
     try {
-      const response = await fetch('/api/variable-presets/placeholders/all');
-      const data = await response.json();
-      
-      if (data.success) {
-        setPlaceholders(data.data);
+      const response = await variablePresetApi.getPlaceholders();
+      if (response.success) {
+        setPlaceholders(response.data);
       }
     } catch (err) {
       console.error('Error fetching placeholders:', err);
@@ -142,20 +135,13 @@ export default function EditVariablePresetPage() {
     try {
       setLoading(true);
       
-      const response = await fetch(`/api/variable-presets/${presetId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formData, id: presetId }),
-      });
+      const response = await variablePresetApi.update(presetId, { ...formData, id: presetId });
 
-      if (response.ok) {
+      if (response.success) {
         toast.success('Variable-Preset erfolgreich gespeichert!');
         router.push('/variable-presets');
       } else {
-        const errorData = await response.json();
-        setErrors({ general: errorData.error || 'Fehler beim Aktualisieren des Variable-Presets' });
+        setErrors({ general: response.error || 'Fehler beim Aktualisieren des Variable-Presets' });
       }
     } catch (err) {
       setErrors({ general: 'Fehler beim Verbinden mit dem Server' });
@@ -170,11 +156,9 @@ export default function EditVariablePresetPage() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`/api/variable-presets/${presetId}`, {
-        method: 'DELETE',
-      });
+      const response = await variablePresetApi.delete(presetId);
 
-      if (response.ok) {
+      if (response.success) {
         toast.success('Variable-Preset gelöscht!');
         router.push('/variable-presets');
       } else {
@@ -616,29 +600,17 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
       // we'd fetch the actual template content that uses this variable
       const dummyTemplate = `Generate a {{${variableName}}} for the story.`;
 
-      const response = await fetch('/api/ai/generate-variable-values', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          templateContent: dummyTemplate,
-          variableName,
-          direction,
-          count
-        }),
+      const response = await aiApi.generateVariableValues({
+        templateContent: dummyTemplate,
+        variableName,
+        direction,
+        count
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Fehler bei der Generierung');
-      }
-
-      if (data.success && data.data?.values) {
-        onGenerate(data.data.values);
+      if (response.success && response.data?.values) {
+        onGenerate(response.data.values);
       } else {
-        throw new Error('Keine Werte generiert');
+        throw new Error(response.error || 'Keine Werte generiert');
       }
 
     } catch (err) {

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { AlertDialog } from '../../../components/Dialog';
 import toast from 'react-hot-toast';
+import { templateApi } from '../../../lib/api';
 
 export default function NewTemplatePage() {
   const router = useRouter();
@@ -75,23 +76,16 @@ export default function NewTemplatePage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/templates', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await templateApi.create(formData);
 
-      if (response.ok) {
+      if (response.success) {
         toast.success('Template erfolgreich erstellt!');
         router.push('/templates');
       } else {
-        const error = await response.json();
         setAlertDialog({
           show: true,
           title: 'Erstellungsfehler',
-          message: `Fehler beim Erstellen des Templates: ${error.error}`,
+          message: `Fehler beim Erstellen des Templates: ${response.error}`,
           type: 'error'
         });
       }

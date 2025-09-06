@@ -19,6 +19,7 @@ import {
   Copy
 } from 'lucide-react';
 import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
+import { templateApi, variablePresetApi, generationApi } from '../../lib/api';
 
 interface Template {
   id: string;
@@ -74,7 +75,7 @@ export default function GenerationPage() {
 
   const fetchTemplates = async () => {
     try {
-      const response = await fetch('/api/templates');
+      const response = await templateApi.getAll();
       if (response.ok) {
         const data = await response.json();
         setTemplates(data.data);
@@ -86,7 +87,7 @@ export default function GenerationPage() {
 
   const fetchVariablePresets = async () => {
     try {
-      const response = await fetch('/api/variable-presets');
+      const response = await variablePresetApi.getAll();
       if (response.ok) {
         const data = await response.json();
         setVariablePresets(data.data);
@@ -98,7 +99,7 @@ export default function GenerationPage() {
 
   const fetchGeneratedPrompts = async () => {
     try {
-      const response = await fetch('/api/generation/prompts');
+      const response = await generationApi.getPrompts();
       if (response.ok) {
         const data = await response.json();
         setGeneratedPrompts(data.data.prompts);

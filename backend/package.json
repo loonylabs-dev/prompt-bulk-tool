@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc && npm run copy-sql",
-    "dev": "concurrently \"tsc --watch\" \"npm run copy-sql\" \"nodemon dist/server-json.js\"",
+    "dev": "concurrently \"tsc --watch\" \"npm run copy-sql\" \"nodemon\"",
     "copy-sql": "node -e \"const fs = require('fs'); const path = require('path'); const srcFile = 'src/database/schema.sql'; const destDir = 'dist/database'; const destFile = path.join(destDir, 'schema.sql'); if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true }); fs.copyFileSync(srcFile, destFile); console.log('SQL file copied successfully');\"",
     "start": "node dist/server-json.js",
     "start-sqlite": "node dist/server.js",

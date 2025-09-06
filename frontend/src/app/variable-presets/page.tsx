@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Plus, Search, Tag, Edit2, Trash2, Filter, Copy } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
+import { variablePresetApi } from '../../lib/api';
 
 interface VariablePreset {
   id: string;
@@ -48,11 +49,10 @@ export default function VariablePresetsPage() {
   const fetchPresets = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/variable-presets');
-      const data: ApiResponse = await response.json();
+      const response = await variablePresetApi.getAll();
       
-      if (data.success) {
-        setPresets(data.data);
+      if (response.success) {
+        setPresets(response.data);
       } else {
         setError('Failed to load variable presets');
       }
@@ -65,11 +65,10 @@ export default function VariablePresetsPage() {
 
   const fetchAllTags = async () => {
     try {
-      const response = await fetch('/api/variable-presets/tags/all');
-      const data = await response.json();
+      const response = await variablePresetApi.getTags();
       
-      if (data.success) {
-        setAllTags(data.data);
+      if (response.success) {
+        setAllTags(response.data);
       }
     } catch (err) {
       console.error('Error fetching tags:', err);
@@ -84,11 +83,9 @@ export default function VariablePresetsPage() {
     if (!deleteDialog.presetId) return;
 
     try {
-      const response = await fetch(`/api/variable-presets/${deleteDialog.presetId}`, {
-        method: 'DELETE',
-      });
+      const response = await variablePresetApi.delete(deleteDialog.presetId);
 
-      if (response.ok) {
+      if (response.success) {
         await fetchPresets();
         toast.success('Variable-Preset gelöscht!');
       } else {
@@ -119,15 +116,9 @@ export default function VariablePresetsPage() {
     if (!duplicateDialog.presetId) return;
 
     try {
-      const response = await fetch(`/api/variable-presets/${duplicateDialog.presetId}/duplicate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ includeValues }),
-      });
+      const response = await variablePresetApi.duplicate(duplicateDialog.presetId, undefined);
 
-      if (response.ok) {
+      if (response.success) {
         await fetchPresets(); // Refresh the list
         toast.success('Variable-Preset dupliziert!', {
           icon: '📋',

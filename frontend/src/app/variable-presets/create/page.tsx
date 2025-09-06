@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X } from 'lucide-react';
+import { variablePresetApi } from '../../../lib/api';
 
 interface TemplatePlaceholder {
   name: string;
@@ -38,11 +39,10 @@ export default function CreateVariablePresetPage() {
 
   const fetchPlaceholders = async () => {
     try {
-      const response = await fetch('/api/variable-presets/placeholders/all');
-      const data = await response.json();
+      const response = await variablePresetApi.getPlaceholders();
       
-      if (data.success) {
-        setPlaceholders(data.data);
+      if (response.success) {
+        setPlaceholders(response.data);
       }
     } catch (err) {
       console.error('Error fetching placeholders:', err);
@@ -89,19 +89,12 @@ export default function CreateVariablePresetPage() {
     try {
       setLoading(true);
       
-      const response = await fetch('/api/variable-presets', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await variablePresetApi.create(formData);
 
-      if (response.ok) {
+      if (response.success) {
         router.push('/variable-presets');
       } else {
-        const errorData = await response.json();
-        setErrors({ general: errorData.error || 'Fehler beim Erstellen des Variable-Presets' });
+        setErrors({ general: response.error || 'Fehler beim Erstellen des Variable-Presets' });
       }
     } catch (err) {
       setErrors({ general: 'Fehler beim Verbinden mit dem Server' });

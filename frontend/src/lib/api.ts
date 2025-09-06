@@ -10,14 +10,21 @@ import {
   UpdateVariableRequest,
   VariableSet,
   CreateVariableSetRequest,
+  VariablePreset,
+  CreateVariablePresetRequest,
+  UpdateVariablePresetRequest,
   GeneratedPrompt,
   GenerationRequest,
-  GenerationResponse
+  GenerationResponse,
+  AIGenerateVariableValuesRequest,
+  AIGenerateVariableValuesResponse,
+  AIConnectionTestResponse,
+  AIApiResponse
 } from '@prompt-bulk-tool/shared';
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -136,6 +143,54 @@ export const variableApi = {
   },
 };
 
+// Variable Preset API  
+export const variablePresetApi = {
+  getAll: async (params?: {
+    page?: number;
+    pageSize?: number;
+    search?: string;
+    tags?: string[];
+  }): Promise<PaginatedResponse<VariablePreset>> => {
+    const { data } = await api.get('/variable-presets', { params });
+    return data;
+  },
+
+  getById: async (id: string): Promise<ApiResponse<VariablePreset>> => {
+    const { data } = await api.get(`/variable-presets/${id}`);
+    return data;
+  },
+
+  create: async (preset: CreateVariablePresetRequest): Promise<ApiResponse<VariablePreset>> => {
+    const { data } = await api.post('/variable-presets', preset);
+    return data;
+  },
+
+  update: async (id: string, preset: Partial<CreateVariablePresetRequest>): Promise<ApiResponse<VariablePreset>> => {
+    const { data } = await api.put(`/variable-presets/${id}`, preset);
+    return data;
+  },
+
+  delete: async (id: string): Promise<ApiResponse<void>> => {
+    const { data } = await api.delete(`/variable-presets/${id}`);
+    return data;
+  },
+
+  duplicate: async (id: string, name?: string): Promise<ApiResponse<VariablePreset>> => {
+    const { data } = await api.post(`/variable-presets/${id}/duplicate`, { name });
+    return data;
+  },
+
+  getTags: async (): Promise<ApiResponse<string[]>> => {
+    const { data } = await api.get('/variable-presets/tags/all');
+    return data;
+  },
+
+  getPlaceholders: async (): Promise<ApiResponse<string[]>> => {
+    const { data } = await api.get('/variable-presets/placeholders/all');
+    return data;
+  },
+};
+
 // Variable Set API
 export const variableSetApi = {
   getAll: async (params?: {
@@ -215,6 +270,19 @@ export const generationApi = {
       responseType: 'blob',
     });
     return response.data;
+  },
+};
+
+// AI API
+export const aiApi = {
+  generateVariableValues: async (request: AIGenerateVariableValuesRequest): Promise<AIApiResponse<AIGenerateVariableValuesResponse>> => {
+    const { data } = await api.post('/ai/generate-variable-values', request);
+    return data;
+  },
+
+  testConnection: async (): Promise<AIApiResponse<AIConnectionTestResponse>> => {
+    const { data } = await api.get('/ai/test-connection');
+    return data;
   },
 };
 

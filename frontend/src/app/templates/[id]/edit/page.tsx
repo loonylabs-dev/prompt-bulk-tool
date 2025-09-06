@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { AlertDialog } from '../../../../components/Dialog';
 import toast from 'react-hot-toast';
+import { templateApi } from '../../../../lib/api';
 
 interface Template {
   id: string;
@@ -56,10 +57,9 @@ export default function EditTemplatePage() {
 
   const fetchTemplate = async () => {
     try {
-      const response = await fetch(`/api/templates/${templateId}`);
-      if (response.ok) {
-        const data = await response.json();
-        const templateData = data.data;
+      const response = await templateApi.getById(templateId);
+      if (response.success) {
+        const templateData = response.data;
         setTemplate(templateData);
         setFormData({
           name: templateData.name,
@@ -69,7 +69,7 @@ export default function EditTemplatePage() {
           tags: templateData.tags || [],
         });
         setExtractedVariables(templateData.variables || []);
-      } else if (response.status === 404) {
+      } else {
         router.push('/templates');
       }
     } catch (error) {
@@ -126,23 +126,16 @@ export default function EditTemplatePage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`/api/templates/${templateId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await templateApi.update(templateId, formData);
 
-      if (response.ok) {
+      if (response.success) {
         toast.success('Template erfolgreich gespeichert!');
         router.push('/templates');
       } else {
-        const error = await response.json();
         setAlertDialog({
           show: true,
           title: 'Speicherfehler',
-          message: `Fehler beim Speichern des Templates: ${error.error}`,
+          message: `Fehler beim Speichern des Templates: ${response.error}`,
           type: 'error'
         });
       }

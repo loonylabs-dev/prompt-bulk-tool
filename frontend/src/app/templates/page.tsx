@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ConfirmDialog } from '../../components/Dialog';
 import toast from 'react-hot-toast';
+import { templateApi } from '../../lib/api';
 
 interface Template {
   id: string;
@@ -45,10 +46,9 @@ export default function TemplatesPage() {
 
   const fetchTemplates = async () => {
     try {
-      const response = await fetch('/api/templates');
-      if (response.ok) {
-        const data = await response.json();
-        setTemplates(data.data);
+      const response = await templateApi.getAll();
+      if (response.success) {
+        setTemplates(response.data);
       }
     } catch (error) {
       console.error('Error fetching templates:', error);
@@ -59,10 +59,9 @@ export default function TemplatesPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/templates/categories');
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data.data);
+      const response = await templateApi.getCategories();
+      if (response.success) {
+        setCategories(response.data);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -77,10 +76,8 @@ export default function TemplatesPage() {
     if (!deleteDialog.templateId) return;
     
     try {
-      const response = await fetch(`/api/templates/${deleteDialog.templateId}`, {
-        method: 'DELETE'
-      });
-      if (response.ok) {
+      const response = await templateApi.delete(deleteDialog.templateId);
+      if (response.success) {
         setTemplates(templates.filter(t => t.id !== deleteDialog.templateId));
         fetchCategories();
         toast.success('Template gelöscht!');
@@ -95,12 +92,8 @@ export default function TemplatesPage() {
 
   const duplicateTemplate = async (template: Template) => {
     try {
-      const response = await fetch(`/api/templates/${template.id}/duplicate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: `${template.name} (Kopie)` })
-      });
-      if (response.ok) {
+      const response = await templateApi.duplicate(template.id, `${template.name} (Kopie)`);
+      if (response.success) {
         fetchTemplates();
         fetchCategories();
       }

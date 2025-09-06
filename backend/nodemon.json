@@ -1,0 +1,25 @@
+{
+  "watch": ["dist/"],
+  "ext": "js",
+  "ignore": [
+    "node_modules/",
+    "*.test.js",
+    "*.spec.js",
+    "database/*.db",
+    "database/*.db-*",
+    "logs/",
+    "*.log",
+    ".git/",
+    "coverage/",
+    ".nyc_output/"
+  ],
+  "delay": 2000,
+  "restartable": "rs",
+  "verbose": false,
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "signal": "SIGTERM",
+  "killTimeout": 5000,
+  "exec": "node dist/server-json.js"
+}

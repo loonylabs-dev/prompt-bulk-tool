@@ -140,16 +140,16 @@
     },
     {
       "id": "3086e9bb-9479-420a-98fb-eda776f4dbab",
-      "name": "Dragon Types - niedlich COPY",
+      "name": "Dragon Types - feindlich",
       "description": "Different types of dragons for fantasy art",
       "placeholder": "dragon description",
-      "values": "",
+      "values": "a towering dragon with eyes burning like molten lava;a dragon whose scales shimmer like freshly forged iron;a colossal dragon with wings that cast an eerie shadow over the land;a dragon with teeth like daggers and a roar that shatters stone;a dragon whose breath is a torrent of poisonous smoke;a dragon with claws that can rip through the toughest armor;a dragon with a tail that lashes out like a venomous snake;a dragon with horns that glow with an ominous red light;a dragon whose belly is a pit of eternal darkness;a dragon with a gaze that can turn the bravest warrior to stone",
       "tags": [
         "fantasy",
         "dragons"
       ],
       "created_at": "2025-09-06T07:18:35.504Z",
-      "updated_at": "2025-09-06T07:18:35.504Z"
+      "updated_at": "2025-09-06T08:50:21.885Z"
     }
   ]
 }

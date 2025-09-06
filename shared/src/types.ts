@@ -220,3 +220,29 @@ export interface ImportResult {
   automationTargetsImported: number;
   errors: string[];
 }
+
+// AI Types
+export interface AIGenerateVariableValuesRequest {
+  templateContent: string;
+  variableName: string;
+  direction: string;
+  count: number;
+  existingValues?: string[];
+}
+
+export interface AIGenerateVariableValuesResponse {
+  values: string[];
+  variableName: string;
+  direction: string;
+  count: number;
+}
+
+export interface AIConnectionTestResponse {
+  connected: boolean;
+  message: string;
+}
+
+export interface AIApiResponse<T = any> extends ApiResponse<T> {
+  processingTime?: number;
+  tokensUsed?: number;
+}

@@ -531,10 +531,7 @@ export default function GenerationPage() {
                                           <div className="text-sm font-medium text-gray-900">
                                             {preset.name}
                                           </div>
-                                          <div className="text-xs text-gray-600">
-                                            {preset.description}
-                                          </div>
-                                          <div className="text-xs text-gray-500 mt-1">
+                                          <div className="text-xs text-gray-500">
                                             <code className="bg-gray-100 px-1 rounded">{'{{' + preset.placeholder + '}}'}</code>
                                             {' • '}{preset.values.split(';').length} Werte
                                           </div>

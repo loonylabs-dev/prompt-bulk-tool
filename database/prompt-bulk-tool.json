@@ -1,6 +1,21 @@
 {
   "templates": [
     {
+      "name": "Dragon Full Body Iso",
+      "description": "a dragon full body iso perspective",
+      "content": "Generate a unique fantasy {{dragon description}} dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "category": "general",
+      "tags": [
+        "dragon"
+      ],
+      "variables": [
+        "dragon description"
+      ],
+      "id": "0e660f01-b82a-45ab-87fb-e8e658502639",
+      "created_at": "2025-09-06T09:24:53.076Z",
+      "updated_at": "2025-09-06T09:25:28.828Z"
+    },
+    {
       "name": "Dragon Full Body Side",
       "description": "a dragon full body side perspective",
       "content": "Generate a unique fantasy {{dragon description}} dragon, full body in profile (side view), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
@@ -31,128 +46,7 @@
       "updated_at": "2025-09-02T17:39:44.079Z"
     }
   ],
-  "generatedPrompts": [
-    {
-      "id": "b1596276-d32b-4907-b90e-724d32b5fe5c",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a towering dragon with eyes burning like molten lava dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a towering dragon with eyes burning like molten lava"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "9dc37caf-8e89-4897-9970-32a2d9120492",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon whose scales shimmer like freshly forged iron dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon whose scales shimmer like freshly forged iron"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "869481d8-2d4b-4774-b49a-af89623c55f2",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a colossal dragon with wings that cast an eerie shadow over the land dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a colossal dragon with wings that cast an eerie shadow over the land"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "78986f3a-71a7-476a-a571-4de6c6f22f6b",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon with teeth like daggers and a roar that shatters stone dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon with teeth like daggers and a roar that shatters stone"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "9041005e-458e-44da-9573-86792df408f6",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon whose breath is a torrent of poisonous smoke dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon whose breath is a torrent of poisonous smoke"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "837ca38a-edce-4469-ba14-c4dba557f231",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon with claws that can rip through the toughest armor dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon with claws that can rip through the toughest armor"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "d4727da4-07fc-4e13-9a62-08c2f2c567ae",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon with a tail that lashes out like a venomous snake dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon with a tail that lashes out like a venomous snake"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "5d1392f6-5abe-4797-a50d-93759f7a8d56",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon with horns that glow with an ominous red light dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon with horns that glow with an ominous red light"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "11edc2aa-4be2-4a4d-af1b-a95433f45cb7",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon whose belly is a pit of eternal darkness dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon whose belly is a pit of eternal darkness"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    },
-    {
-      "id": "00a0f6ba-c6e4-44b6-a900-c8212018ab15",
-      "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
-      "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy a dragon with a gaze that can turn the bravest warrior to stone dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "a dragon with a gaze that can turn the bravest warrior to stone"
-      },
-      "generatedAt": "2025-09-06T09:19:52.173Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T09:19:52.173Z"
-    }
-  ],
+  "generatedPrompts": [],
   "automationTargets": [
     {
       "id": "chatgpt-default",

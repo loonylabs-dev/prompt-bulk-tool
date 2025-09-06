@@ -24,8 +24,8 @@ interface Template {
   category: string;
   tags: string[];
   variables: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
 
 export default function EditTemplatePage() {
@@ -58,7 +58,7 @@ export default function EditTemplatePage() {
   const fetchTemplate = async () => {
     try {
       const response = await templateApi.getById(templateId);
-      if (response.success) {
+      if (response.success && response.data) {
         const templateData = response.data;
         setTemplate(templateData);
         setFormData({

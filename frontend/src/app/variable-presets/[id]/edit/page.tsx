@@ -7,6 +7,7 @@ import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X, Trash2, Wand2 } fro
 import { ConfirmDialog } from '../../../../components/Dialog';
 import toast from 'react-hot-toast';
 import { aiApi, variablePresetApi } from '../../../../lib/api';
+import { VerbosityLevel } from '@prompt-bulk-tool/shared/dist/types';
 
 interface VariablePreset {
   id: string;
@@ -15,8 +16,8 @@ interface VariablePreset {
   placeholder: string;
   values: string;
   tags: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
 
 interface TemplatePlaceholder {
@@ -64,7 +65,7 @@ export default function EditVariablePresetPage() {
       setInitialLoading(true);
       const response = await variablePresetApi.getById(presetId);
       
-      if (!response.success) {
+      if (!response.success || !response.data) {
         router.push('/variable-presets');
         return;
       }
@@ -87,7 +88,7 @@ export default function EditVariablePresetPage() {
   const fetchPlaceholders = async () => {
     try {
       const response = await variablePresetApi.getPlaceholders();
-      if (response.success) {
+      if (response.success && response.data) {
         setPlaceholders(response.data);
       }
     } catch (err) {
@@ -135,7 +136,7 @@ export default function EditVariablePresetPage() {
     try {
       setLoading(true);
       
-      const response = await variablePresetApi.update(presetId, { ...formData, id: presetId });
+      const response = await variablePresetApi.update(presetId, formData);
 
       if (response.success) {
         toast.success('Variable-Preset erfolgreich gespeichert!');
@@ -580,6 +581,7 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
   const [count, setCount] = useState(10);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [verbosity, setVerbosity] = useState<VerbosityLevel>(VerbosityLevel.SHORT_CONCISE);
 
   const handleGenerate = async () => {
     if (!direction.trim()) {
@@ -604,7 +606,8 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
         templateContent: dummyTemplate,
         variableName,
         direction,
-        count
+        count,
+        verbosity
       });
 
       if (response.success && response.data?.values) {
@@ -660,6 +663,50 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
               />
               <p className="mt-1 text-xs text-gray-500">
                 Beschreiben Sie den gewünschten Stil oder die Richtung für die generierten Werte
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ausführlichkeit
+              </label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setVerbosity(VerbosityLevel.TITLE_ONLY)}
+                  className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    verbosity === VerbosityLevel.TITLE_ONLY
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  Nur Titel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVerbosity(VerbosityLevel.SHORT_CONCISE)}
+                  className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    verbosity === VerbosityLevel.SHORT_CONCISE
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  Kurz & prägnant
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVerbosity(VerbosityLevel.ONE_SENTENCE)}
+                  className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    verbosity === VerbosityLevel.ONE_SENTENCE
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  1 Satz
+                </button>
+              </div>
+              <p className="mt-1 text-xs text-gray-500">
+                Bestimmt wie ausführlich die generierten Werte sein sollen
               </p>
             </div>
 

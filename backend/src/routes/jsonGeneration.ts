@@ -29,12 +29,13 @@ function generateVariableCombinations(variableNames: string[], variableData: Rec
   return result;
 }
 
-function substituteVariables(template: string, variables: Record<string, string>): string {
+function substituteVariables(template: string, variables: Record<string, string>, wrapValues: boolean = false): string {
   let result = template;
   
   for (const [varName, value] of Object.entries(variables)) {
     const regex = new RegExp(`\\{\\{\\s*${varName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\}\\}`, 'g');
-    result = result.replace(regex, value);
+    const wrappedValue = wrapValues ? `[${value}]` : value;
+    result = result.replace(regex, wrappedValue);
   }
 
   return result;
@@ -123,7 +124,7 @@ export function createJsonGenerationRoutes(db: JsonDatabase): Router {
       const combinations = generateVariableCombinations(templateVariables, variableData);
       
       for (const variableAssignment of combinations) {
-        const promptContent = substituteVariables(template.content, variableAssignment);
+        const promptContent = substituteVariables(template.content, variableAssignment, validatedRequest.wrapVariableValues);
         
         const generatedPrompt = {
           id: uuidv4(),

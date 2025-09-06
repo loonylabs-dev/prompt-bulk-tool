@@ -46,7 +46,7 @@ interface GeneratedPrompt {
   content: string;
   variables: Record<string, string>;
   status: 'pending' | 'executing' | 'completed' | 'failed';
-  generatedAt: string;
+  generatedAt: string | Date;
 }
 
 export default function GenerationPage() {
@@ -57,14 +57,19 @@ export default function GenerationPage() {
   const [generating, setGenerating] = useState(false);
   
   // Form state
-  const [selectedTemplateIds, setSelectedTemplateIds] = useState<string[]>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(''); // Changed to single selection
   const [selectedVariablePresetIds, setSelectedVariablePresetIds] = useState<string[]>([]);
   const [customVariables, setCustomVariables] = useState<Record<string, string>>({});
   const [useCustomVariables, setUseCustomVariables] = useState(false);
+  const [wrapVariableValues, setWrapVariableValues] = useState(false); // New option for wrapping values
   
   // Variable Preset Dropdown state
   const [showVariablePresetDropdown, setShowVariablePresetDropdown] = useState(false);
   const [variablePresetSearch, setVariablePresetSearch] = useState('');
+
+  // Template Dropdown state
+  const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
+  const [templateSearch, setTemplateSearch] = useState('');
   
   // Dialog state
   const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
@@ -79,29 +84,30 @@ export default function GenerationPage() {
     ]).finally(() => setLoading(false));
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (showVariablePresetDropdown) {
-        const target = event.target as Element;
-        if (!target.closest('.variable-preset-dropdown')) {
-          setShowVariablePresetDropdown(false);
-        }
+      const target = event.target as Element;
+      if (showVariablePresetDropdown && !target.closest('.variable-preset-dropdown')) {
+        setShowVariablePresetDropdown(false);
+      }
+      if (showTemplateDropdown && !target.closest('.template-dropdown')) {
+        setShowTemplateDropdown(false);
       }
     };
 
-    if (showVariablePresetDropdown) {
+    if (showVariablePresetDropdown || showTemplateDropdown) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }
-  }, [showVariablePresetDropdown]);
+  }, [showVariablePresetDropdown, showTemplateDropdown]);
 
   const fetchTemplates = async () => {
     try {
       const response = await templateApi.getAll();
-      if (response.success) {
+      if (response.success && response.data) {
         setTemplates(response.data);
       }
     } catch (error) {
@@ -112,7 +118,7 @@ export default function GenerationPage() {
   const fetchVariablePresets = async () => {
     try {
       const response = await variablePresetApi.getAll();
-      if (response.success) {
+      if (response.success && response.data) {
         setVariablePresets(response.data);
       }
     } catch (error) {
@@ -123,7 +129,7 @@ export default function GenerationPage() {
   const fetchGeneratedPrompts = async () => {
     try {
       const response = await generationApi.getPrompts();
-      if (response.success) {
+      if (response.success && response.data) {
         setGeneratedPrompts(response.data.prompts);
       }
     } catch (error) {
@@ -132,11 +138,11 @@ export default function GenerationPage() {
   };
 
   const generatePrompts = async () => {
-    if (selectedTemplateIds.length === 0) {
+    if (!selectedTemplateId) {
       setAlertDialog({
         show: true,
         title: 'Template erforderlich',
-        message: 'Bitte wähle mindestens ein Template aus',
+        message: 'Bitte wähle ein Template aus',
         type: 'info'
       });
       return;
@@ -156,7 +162,8 @@ export default function GenerationPage() {
 
     try {
       const requestBody: any = {
-        templateIds: selectedTemplateIds,
+        templateIds: [selectedTemplateId], // Single template as array
+        wrapVariableValues, // Add the wrapping option
       };
 
       if (useCustomVariables) {
@@ -176,7 +183,7 @@ export default function GenerationPage() {
         setAlertDialog({
           show: true,
           title: 'Erfolgreich generiert',
-          message: `${response.data.totalCount} Prompts erfolgreich generiert!`,
+          message: `${response.data?.totalCount || 0} Prompts erfolgreich generiert!`,
           type: 'success'
         });
         fetchGeneratedPrompts();
@@ -252,16 +259,11 @@ export default function GenerationPage() {
     }
   };
 
-  // Get all required variables from selected templates
+  // Get all required variables from selected template
   const getAllRequiredVariables = () => {
-    const variables = new Set<string>();
-    selectedTemplateIds.forEach(templateId => {
-      const template = templates.find(t => t.id === templateId);
-      if (template) {
-        template.variables.forEach(variable => variables.add(variable));
-      }
-    });
-    return Array.from(variables);
+    if (!selectedTemplateId) return [];
+    const template = templates.find(t => t.id === selectedTemplateId);
+    return template ? template.variables : [];
   };
 
   const handleCustomVariableChange = (variable: string, value: string) => {
@@ -271,15 +273,44 @@ export default function GenerationPage() {
     });
   };
 
-  // Filter variable presets for search
-  const filteredVariablePresets = variablePresets.filter(preset =>
+  // Template helpers
+  const getTemplatePromptCount = (templateId: string) => {
+    return generatedPrompts.filter(p => p.templateId === templateId).length;
+  };
+
+  const filteredTemplates = templates.filter(t =>
+    t.name.toLowerCase().includes(templateSearch.toLowerCase()) ||
+    t.description.toLowerCase().includes(templateSearch.toLowerCase())
+  );
+
+  const selectedTemplate = templates.find(t => t.id === selectedTemplateId) || null;
+
+  // Prompts to display (filtered by selected template)
+  const displayedPrompts = selectedTemplateId
+    ? generatedPrompts.filter(p => p.templateId === selectedTemplateId)
+    : generatedPrompts;
+
+  // Get relevant variable presets based on selected template
+  const getRelevantVariablePresets = () => {
+    if (!selectedTemplateId) return [];
+    const template = templates.find(t => t.id === selectedTemplateId);
+    if (!template) return [];
+    
+    // Filter presets that match any of the template's variables
+    return variablePresets.filter(preset => 
+      template.variables.includes(preset.placeholder)
+    );
+  };
+
+  // Filter variable presets for search (only from relevant presets)
+  const filteredVariablePresets = getRelevantVariablePresets().filter(preset =>
     preset.name.toLowerCase().includes(variablePresetSearch.toLowerCase()) ||
     preset.description.toLowerCase().includes(variablePresetSearch.toLowerCase()) ||
     preset.placeholder.toLowerCase().includes(variablePresetSearch.toLowerCase())
   );
 
-  // Get selected variable presets for details display
-  const selectedVariablePresets = variablePresets.filter(preset => 
+  // Get selected variable presets for details display (only from relevant ones)
+  const selectedVariablePresets = getRelevantVariablePresets().filter(preset => 
     selectedVariablePresetIds.includes(preset.id)
   );
 
@@ -379,9 +410,9 @@ export default function GenerationPage() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Configuration */}
-          <div className="space-y-6">
+          <div className="space-y-6 lg:col-span-2">
             <div className="card">
               <div className="card-body">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
@@ -391,7 +422,7 @@ export default function GenerationPage() {
                 {/* Template Selection */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Templates auswählen *
+                    Template auswählen *
                   </label>
                   {templates.length === 0 ? (
                     <div className="text-center py-8">
@@ -402,31 +433,69 @@ export default function GenerationPage() {
                       </Link>
                     </div>
                   ) : (
-                    <div className="space-y-2 max-h-40 overflow-y-auto">
-                      {templates.map((template) => (
-                        <label key={template.id} className="flex items-start space-x-3">
-                          <input
-                            type="checkbox"
-                            className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                            checked={selectedTemplateIds.includes(template.id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedTemplateIds([...selectedTemplateIds, template.id]);
-                              } else {
-                                setSelectedTemplateIds(selectedTemplateIds.filter(id => id !== template.id));
-                              }
-                            }}
-                          />
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-gray-900">
-                              {template.name}
-                            </div>
-                            <div className="text-xs text-gray-600">
-                              {template.variables.length} Variablen: {template.variables.join(', ')}
+                    <div className="relative template-dropdown">
+                      <button
+                        type="button"
+                        onClick={() => setShowTemplateDropdown(!showTemplateDropdown)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-left focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">
+                            {selectedTemplate
+                              ? `${selectedTemplate.name} (${getTemplatePromptCount(selectedTemplate.id)})`
+                              : 'Template auswählen...'}
+                          </span>
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </button>
+
+                      {showTemplateDropdown && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                          {/* Search */}
+                          <div className="p-3 border-b border-gray-200">
+                            <div className="relative">
+                              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                              <input
+                                type="text"
+                                placeholder="Templates suchen..."
+                                className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                value={templateSearch}
+                                onChange={(e) => setTemplateSearch(e.target.value)}
+                                onClick={(e) => e.stopPropagation()}
+                              />
                             </div>
                           </div>
-                        </label>
-                      ))}
+                          {/* Template List */}
+                          <div className="max-h-60 overflow-y-auto">
+                            {filteredTemplates.length > 0 ? (
+                              filteredTemplates.map((t) => (
+                                <button
+                                  key={t.id}
+                                  type="button"
+                                  onClick={() => {
+                                    setSelectedTemplateId(t.id);
+                                    setSelectedVariablePresetIds([]);
+                                    setShowTemplateDropdown(false);
+                                    setTemplateSearch('');
+                                  }}
+                                  className="w-full px-3 py-3 text-left hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+                                >
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {t.name} ({getTemplatePromptCount(t.id)})
+                                  </div>
+                                  <div className="text-xs text-gray-600">
+                                    {t.variables.length} Variablen: {t.variables.join(', ')}
+                                  </div>
+                                </button>
+                              ))
+                            ) : (
+                              <div className="px-3 py-6 text-center text-gray-500">
+                                Keine passenden Templates gefunden
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -466,10 +535,15 @@ export default function GenerationPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Variable-Presets {selectedVariablePresetIds.length > 0 && `(${selectedVariablePresetIds.length} ausgewählt)`}
                     </label>
-                    {variablePresets.length === 0 ? (
+                    {!selectedTemplateId ? (
+                      <div className="text-center py-4">
+                        <FileText className="mx-auto w-8 h-8 text-gray-300" />
+                        <p className="mt-2 text-sm text-gray-600">Wähle zuerst ein Template aus</p>
+                      </div>
+                    ) : getRelevantVariablePresets().length === 0 ? (
                       <div className="text-center py-4">
                         <Package className="mx-auto w-8 h-8 text-gray-300" />
-                        <p className="mt-2 text-sm text-gray-600">Keine Variable-Presets verfügbar</p>
+                        <p className="mt-2 text-sm text-gray-600">Keine passenden Variable-Presets für dieses Template verfügbar</p>
                         <Link href="/variable-presets/create" className="mt-2 btn btn-primary btn-xs">
                           Variable-Preset erstellen
                         </Link>
@@ -623,7 +697,7 @@ export default function GenerationPage() {
                     </label>
                     {getAllRequiredVariables().length === 0 ? (
                       <p className="text-sm text-gray-600">
-                        Wähle zuerst Templates aus um die benötigten Variablen zu sehen.
+                        Wähle zuerst ein Template aus um die benötigten Variablen zu sehen.
                       </p>
                     ) : (
                       <div className="space-y-3">
@@ -646,10 +720,30 @@ export default function GenerationPage() {
                   </div>
                 )}
 
+                {/* Variable Value Wrapping Option */}
+                {(selectedTemplateId && ((!useCustomVariables && selectedVariablePresetIds.length > 0) || (useCustomVariables && getAllRequiredVariables().length > 0))) && (
+                  <div className="mb-6">
+                    <label className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                        checked={wrapVariableValues}
+                        onChange={(e) => setWrapVariableValues(e.target.checked)}
+                      />
+                      <span className="text-sm text-gray-900">
+                        Variablenwerte mit eckigen Klammern umschließen
+                      </span>
+                    </label>
+                    <p className="text-xs text-gray-500 mt-1 ml-6">
+                      Beispiel: "Wert" wird zu "[Wert]" im generierten Prompt
+                    </p>
+                  </div>
+                )}
+
                 {/* Generate Button */}
                 <button
                   onClick={generatePrompts}
-                  disabled={generating || selectedTemplateIds.length === 0 || (!useCustomVariables && selectedVariablePresetIds.length === 0)}
+                  disabled={generating || !selectedTemplateId || (!useCustomVariables && selectedVariablePresetIds.length === 0)}
                   className="w-full btn btn-primary btn-lg"
                 >
                   {generating ? (
@@ -669,12 +763,12 @@ export default function GenerationPage() {
           </div>
 
           {/* Generated Prompts */}
-          <div className="space-y-6">
+          <div className="space-y-6 lg:col-span-3">
             <div className="card">
               <div className="card-body">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-900">
-                    Generierte Prompts ({generatedPrompts.length})
+                    Generierte Prompts ({displayedPrompts.length})
                   </h2>
                   {generatedPrompts.length > 0 && (
                     <div className="flex space-x-2">
@@ -699,19 +793,19 @@ export default function GenerationPage() {
                   )}
                 </div>
 
-                {generatedPrompts.length === 0 ? (
+                {displayedPrompts.length === 0 ? (
                   <div className="text-center py-12">
                     <Zap className="mx-auto w-16 h-16 text-gray-300" />
                     <h3 className="mt-4 text-lg font-medium text-gray-900">
-                      Noch keine Prompts generiert
+                      {selectedTemplateId ? 'Keine Prompts für dieses Template' : 'Noch keine Prompts generiert'}
                     </h3>
                     <p className="mt-2 text-gray-600">
-                      Konfiguriere die Einstellungen links und starte die Generierung
+                      {selectedTemplateId ? 'Wähle andere Templates oder generiere neue Prompts' : 'Konfiguriere die Einstellungen links und starte die Generierung'}
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4 max-h-96 overflow-y-auto">
-                    {generatedPrompts.map((prompt) => (
+                  <div className="space-y-4 max-h-[80vh] overflow-y-auto">
+                    {displayedPrompts.map((prompt) => (
                       <div key={prompt.id} className="border border-gray-200 rounded-lg p-4">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex items-center space-x-2">

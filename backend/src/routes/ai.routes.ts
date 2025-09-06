@@ -10,7 +10,7 @@ const router = express.Router();
  */
 router.post('/generate-variable-values', async (req, res) => {
   try {
-    const { templateContent, variableName, direction, count, existingValues } = req.body;
+    const { templateContent, variableName, direction, count, existingValues, verbosity } = req.body;
 
     // Validate required fields
     if (!templateContent || typeof templateContent !== 'string') {
@@ -49,12 +49,29 @@ router.post('/generate-variable-values', async (req, res) => {
       });
     }
 
+    // Optional verbosity validation
+    if (verbosity && typeof verbosity !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Verbosity must be a string if provided'
+      });
+    }
+
+    const validVerbosityLevels = ['title_only', 'short_concise', 'one_sentence'];
+    if (verbosity && !validVerbosityLevels.includes(verbosity)) {
+      return res.status(400).json({
+        success: false,
+        error: `Verbosity must be one of: ${validVerbosityLevels.join(', ')}`
+      });
+    }
+
     const input = {
       templateContent,
       variableName,
       direction,
       count,
-      existingValues: existingValues || []
+      existingValues: existingValues || [],
+      verbosity: verbosity || 'short_concise' // Default verbosity
     };
 
     logger.info('Generating variable values', {

@@ -308,6 +308,10 @@ export const validateGenerationRequest = (data: any) => {
     errors.push('customVariables must be an object');
   }
 
+  if (data.wrapVariableValues !== undefined && typeof data.wrapVariableValues !== 'boolean') {
+    errors.push('wrapVariableValues must be a boolean');
+  }
+
   if (!data.variablePresetIds?.length && !data.customVariables) {
     errors.push('Either variablePresetIds or customVariables must be provided');
   }

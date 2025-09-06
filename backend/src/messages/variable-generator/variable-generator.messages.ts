@@ -9,6 +9,7 @@ export interface VariableGeneratorInput {
   direction: string;
   count: number;
   existingValues?: string[];
+  verbosity?: string;
 }
 
 /**
@@ -51,6 +52,22 @@ Die Anzahl der Werte entspricht der angeforderten Menge. Jeder Wert sollte kreat
       ? `\n\nVermeide diese bereits vorhandenen Werte: ${input.existingValues.join(', ')}`
       : '';
 
+    // Build verbosity instruction based on the selected level
+    const getVerbosityInstruction = (verbosity?: string): string => {
+      switch (verbosity) {
+        case 'title_only':
+          return 'Generiere nur kurze Titel oder Namen (maximal 1-3 Wörter).';
+        case 'short_concise':
+          return 'Generiere kurze, prägnante Begriffe oder Phrasen (maximal 5-7 Wörter).';
+        case 'one_sentence':
+          return 'Generiere vollständige, aber knappe Sätze (maximal 15-20 Wörter).';
+        default:
+          return 'Generiere kurze, prägnante Begriffe oder Phrasen (maximal 5-7 Wörter).';
+      }
+    };
+
+    const verbosityInstruction = getVerbosityInstruction(input.verbosity);
+
     return `Template-Kontext:
 """
 ${this.sanitizeText(input.templateContent)}
@@ -58,8 +75,9 @@ ${this.sanitizeText(input.templateContent)}
 
 Variable: {{${input.variableName}}}
 Stil-Richtung: "${input.direction}"
-Anzahl gewünschter Werte: ${input.count}${existingText}
+Anzahl gewünschter Werte: ${input.count}
+Ausführlichkeit: ${verbosityInstruction}${existingText}
 
-Generiere ${input.count} kreative Werte für die Variable "{{${input.variableName}}}" die dem Stil "${input.direction}" entsprechen und thematisch zum Template passen.`;
+Generiere ${input.count} kreative Werte für die Variable "{{${input.variableName}}}" die dem Stil "${input.direction}" entsprechen und thematisch zum Template passen. Beachte dabei die Ausführlichkeits-Vorgabe.`;
   }
 }

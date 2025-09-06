@@ -26,8 +26,8 @@ interface Template {
   category: string;
   tags: string[];
   variables: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
 
 export default function TemplatesPage() {
@@ -47,7 +47,7 @@ export default function TemplatesPage() {
   const fetchTemplates = async () => {
     try {
       const response = await templateApi.getAll();
-      if (response.success) {
+      if (response.success && response.data) {
         setTemplates(response.data);
       }
     } catch (error) {
@@ -60,7 +60,7 @@ export default function TemplatesPage() {
   const fetchCategories = async () => {
     try {
       const response = await templateApi.getCategories();
-      if (response.success) {
+      if (response.success && response.data) {
         setCategories(response.data);
       }
     } catch (error) {

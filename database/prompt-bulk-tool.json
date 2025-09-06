@@ -1,6 +1,19 @@
 {
   "templates": [
     {
+      "name": "Hero - square format",
+      "description": "Hero - square format",
+      "content": "Generate a unique hero {{hero description}}, waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "category": "general",
+      "tags": [],
+      "variables": [
+        "hero description"
+      ],
+      "id": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "created_at": "2025-09-06T23:05:18.108Z",
+      "updated_at": "2025-09-06T23:05:18.108Z"
+    },
+    {
       "name": "Adventure Image - vertical",
       "description": "an adventure image",
       "content": "Balanced stylized semi-3D fantasy RPG background art of {{adventure description}} with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
@@ -61,48 +74,180 @@
   ],
   "generatedPrompts": [
     {
+      "id": "e46d5027-4d72-497b-a119-95304d740b5d",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der tapfere Puppenspieler], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der tapfere Puppenspieler"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "55e340db-ec26-4c85-9c6f-79c33b5d96a2",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der verrückte Puppenspieler], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der verrückte Puppenspieler"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "d9e08184-1c14-490d-bae3-8bc43fdb702f",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der singende Biber], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der singende Biber"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "89da480e-758c-4c8f-b13a-6ac19a84ef20",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der wagemutige Buchhändler], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der wagemutige Buchhändler"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "ca81daf7-142e-4474-acc3-86ad862ae4fd",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der schneidige Schneider], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der schneidige Schneider"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "19291b3c-6d7f-4fcb-b972-bf2a23dad848",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Die kichernde Hexe], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Die kichernde Hexe"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "04a23473-f785-4de8-bd58-fe7a5032f526",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der verrückte Professor], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der verrückte Professor"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "4e4db3bd-138c-4763-853e-ad115ee0d4b0",
+      "templateId": "6c6cf7f2-b991-455f-9ddd-6409d833d735",
+      "templateName": "Hero - square format",
+      "content": "Generate a unique hero [Der lustige Leuchtturmwärter], waist-up, centered with generous padding, with transparent background, Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism, front-facing with balanced lighting and clear silhouettes.  no text, no numbers, square format for mobile game",
+      "variables": {
+        "hero description": "Der lustige Leuchtturmwärter"
+      },
+      "generatedAt": "2025-09-06T23:24:41.213Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T23:24:41.213Z"
+    },
+    {
+      "id": "c62ffa80-7eb0-4fd9-8964-1e24e8495545",
+      "templateId": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "templateName": "Adventure Image - vertical",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of [das Unternehmen, das mysteriöse Schloss des Schattenfürsten zu stürmen und seine finstere Macht zu brechen] with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "variables": {
+        "adventure description": "das Unternehmen, das mysteriöse Schloss des Schattenfürsten zu stürmen und seine finstere Macht zu brechen"
+      },
+      "generatedAt": "2025-09-06T15:11:28.021Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T15:11:28.021Z"
+    },
+    {
+      "id": "a607e6ef-3626-4c5d-9fd2-252511cc0841",
+      "templateId": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "templateName": "Adventure Image - vertical",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of [die Reise zum verborgene Insel der Sirenen, um ihr geheimes Lied der Unsterblichkeit zu erlernen] with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "variables": {
+        "adventure description": "die Reise zum verborgene Insel der Sirenen, um ihr geheimes Lied der Unsterblichkeit zu erlernen"
+      },
+      "generatedAt": "2025-09-06T15:11:28.021Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T15:11:28.021Z"
+    },
+    {
+      "id": "d5f815f9-925e-4c24-a7d3-451035f71a85",
+      "templateId": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "templateName": "Adventure Image - vertical",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of [das Wagnis, den gefährlichen Untergrundtunnel der Minotauren zu durchqueren, um das Herz des Labyrinths zu finden] with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "variables": {
+        "adventure description": "das Wagnis, den gefährlichen Untergrundtunnel der Minotauren zu durchqueren, um das Herz des Labyrinths zu finden"
+      },
+      "generatedAt": "2025-09-06T15:11:28.021Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T15:11:28.021Z"
+    },
+    {
+      "id": "a648de0d-a8a8-4cd0-a08e-df8920fa2b91",
+      "templateId": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "templateName": "Adventure Image - vertical",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of [die Expedition in das verborgene Tal der Einhörner, um das Geheimnis ihrer Magie zu lüften] with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "variables": {
+        "adventure description": "die Expedition in das verborgene Tal der Einhörner, um das Geheimnis ihrer Magie zu lüften"
+      },
+      "generatedAt": "2025-09-06T15:11:28.021Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T15:11:28.021Z"
+    },
+    {
+      "id": "92243c00-b4fb-4a69-8fdf-04a032602e93",
+      "templateId": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "templateName": "Adventure Image - vertical",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of [das Abenteuer, den vergessenen Tempel der Sterne zu betreten und die Prophezeiung des Himmels zu entschlüsseln] with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "variables": {
+        "adventure description": "das Abenteuer, den vergessenen Tempel der Sterne zu betreten und die Prophezeiung des Himmels zu entschlüsseln"
+      },
+      "generatedAt": "2025-09-06T15:11:28.021Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T15:11:28.021Z"
+    },
+    {
+      "id": "da4efd2d-17a8-4777-8089-25fd3178f8aa",
+      "templateId": "1c23bc60-c430-44e8-ae70-b6648e398a6e",
+      "templateName": "Adventure Image - vertical",
+      "content": "Balanced stylized semi-3D fantasy RPG background art of [die Reise durch die verbotene Wüste der Wüstengeister, um das vergrabenen Schatz der Pharaonen zu entdecken] with an adventurous atmosphere, Vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth, no photorealism, no gritty textures. Slightly stylized proportions with whimsical yet adventurous details, Pixar/Disney-meets-high-end-game-UI style, clean shapes with refined details, soft but precise edges, perfect readability. Professional, polished, slightly painterly CGI feel without hyperrealism, balanced lighting with clear silhouettes and well-defined foreground, midground, and background elements, no text, no numbers, vertical orientation for mobile game",
+      "variables": {
+        "adventure description": "die Reise durch die verbotene Wüste der Wüstengeister, um das vergrabenen Schatz der Pharaonen zu entdecken"
+      },
+      "generatedAt": "2025-09-06T15:11:28.021Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T15:11:28.021Z"
+    },
+    {
       "id": "36ef9b0f-55b8-46d4-b4b4-5e69b7efbbe0",
       "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
       "templateName": "Dragon Full Body Iso",
       "content": "Generate a unique fantasy Dämonischer Blut-Drache, der das Blut seiner Feinde trinkt und Macht gewinnt dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
         "dragon description": "Dämonischer Blut-Drache, der das Blut seiner Feinde trinkt und Macht gewinnt"
-      },
-      "generatedAt": "2025-09-06T11:08:07.929Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T11:08:07.929Z"
-    },
-    {
-      "id": "f638b2a3-aa01-4e01-a8d8-8e0225e8a44e",
-      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
-      "templateName": "Dragon Full Body Iso",
-      "content": "Generate a unique fantasy Mystischer Mond-Drache, der die Nacht kontrolliert und Albträume heraufbeschwört dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "Mystischer Mond-Drache, der die Nacht kontrolliert und Albträume heraufbeschwört"
-      },
-      "generatedAt": "2025-09-06T11:08:07.929Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T11:08:07.929Z"
-    },
-    {
-      "id": "ee4b85ac-7985-498e-8aa9-44816f1a7511",
-      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
-      "templateName": "Dragon Full Body Iso",
-      "content": "Generate a unique fantasy Göttlicher Stein-Drache, dessen Haut aus unzerstörbarem Gestein besteht und die Erde bebend macht dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "Göttlicher Stein-Drache, dessen Haut aus unzerstörbarem Gestein besteht und die Erde bebend macht"
-      },
-      "generatedAt": "2025-09-06T11:08:07.929Z",
-      "status": "pending",
-      "generated_at": "2025-09-06T11:08:07.929Z"
-    },
-    {
-      "id": "c5b7b9dd-a68c-4cbf-adfa-dd2bd8b67c61",
-      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
-      "templateName": "Dragon Full Body Iso",
-      "content": "Generate a unique fantasy Apokalyptischer Rauch-Drache, dessen giftiger Atem die Welt in Chaos stürzt dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
-      "variables": {
-        "dragon description": "Apokalyptischer Rauch-Drache, dessen giftiger Atem die Welt in Chaos stürzt"
       },
       "generatedAt": "2025-09-06T11:08:07.929Z",
       "status": "pending",
@@ -201,6 +346,16 @@
       "id": "c0d748ad-8bb8-4d56-bc19-4f56ea667ded",
       "created_at": "2025-09-06T14:43:30.786Z",
       "updated_at": "2025-09-06T14:44:18.044Z"
+    },
+    {
+      "name": "Fantasy Heros",
+      "description": "Fantasy Heros",
+      "placeholder": "hero description",
+      "values": "Der fliegende Pizzabäcker;Der verrückte Hutmacher;Der tapfere Puppenspieler;Der verrückte Puppenspieler;Der singende Biber;Der wagemutige Buchhändler;Der schneidige Schneider;Die kichernde Hexe;Der verrückte Professor;Der lustige Leuchtturmwärter",
+      "tags": [],
+      "id": "dbf13ecb-57c4-411b-9096-9f565d88870c",
+      "created_at": "2025-09-06T23:05:56.003Z",
+      "updated_at": "2025-09-06T23:24:22.128Z"
     }
   ]
 }

@@ -46,7 +46,56 @@
       "updated_at": "2025-09-02T17:39:44.079Z"
     }
   ],
-  "generatedPrompts": [],
+  "generatedPrompts": [
+    {
+      "id": "36ef9b0f-55b8-46d4-b4b4-5e69b7efbbe0",
+      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
+      "templateName": "Dragon Full Body Iso",
+      "content": "Generate a unique fantasy Dämonischer Blut-Drache, der das Blut seiner Feinde trinkt und Macht gewinnt dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "variables": {
+        "dragon description": "Dämonischer Blut-Drache, der das Blut seiner Feinde trinkt und Macht gewinnt"
+      },
+      "generatedAt": "2025-09-06T11:08:07.929Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T11:08:07.929Z"
+    },
+    {
+      "id": "f638b2a3-aa01-4e01-a8d8-8e0225e8a44e",
+      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
+      "templateName": "Dragon Full Body Iso",
+      "content": "Generate a unique fantasy Mystischer Mond-Drache, der die Nacht kontrolliert und Albträume heraufbeschwört dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "variables": {
+        "dragon description": "Mystischer Mond-Drache, der die Nacht kontrolliert und Albträume heraufbeschwört"
+      },
+      "generatedAt": "2025-09-06T11:08:07.929Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T11:08:07.929Z"
+    },
+    {
+      "id": "ee4b85ac-7985-498e-8aa9-44816f1a7511",
+      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
+      "templateName": "Dragon Full Body Iso",
+      "content": "Generate a unique fantasy Göttlicher Stein-Drache, dessen Haut aus unzerstörbarem Gestein besteht und die Erde bebend macht dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "variables": {
+        "dragon description": "Göttlicher Stein-Drache, dessen Haut aus unzerstörbarem Gestein besteht und die Erde bebend macht"
+      },
+      "generatedAt": "2025-09-06T11:08:07.929Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T11:08:07.929Z"
+    },
+    {
+      "id": "c5b7b9dd-a68c-4cbf-adfa-dd2bd8b67c61",
+      "templateId": "0e660f01-b82a-45ab-87fb-e8e658502639",
+      "templateName": "Dragon Full Body Iso",
+      "content": "Generate a unique fantasy Apokalyptischer Rauch-Drache, dessen giftiger Atem die Welt in Chaos stürzt dragon, full body in three-quarter view (slightly angled from the side), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Angled side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "variables": {
+        "dragon description": "Apokalyptischer Rauch-Drache, dessen giftiger Atem die Welt in Chaos stürzt"
+      },
+      "generatedAt": "2025-09-06T11:08:07.929Z",
+      "status": "pending",
+      "generated_at": "2025-09-06T11:08:07.929Z"
+    }
+  ],
   "automationTargets": [
     {
       "id": "chatgpt-default",
@@ -116,6 +165,19 @@
       ],
       "created_at": "2025-09-06T07:18:35.504Z",
       "updated_at": "2025-09-06T08:50:21.885Z"
+    },
+    {
+      "id": "80b8344f-419a-4c49-92fa-81f89316062d",
+      "name": "Dragon Types - feindlich Boss",
+      "description": "Different types of dragons for fantasy art",
+      "placeholder": "dragon description",
+      "values": "Gigantischer Kristall-Drache, der die Berge in seinem Atem erstarren lässt;Urzeitlicher Schatten-Drache, der die Seele seiner Gegner verdunkelt;Titanischer Sturm-Drache, der Blitze aus seinen Augen schleudert;Kosmischer Nebel-Drache, der Sterne verschlingt und Galaxien formt;Legendärer Frost-Drache, dessen Kälte selbst den Tod einfriert;Ewiger Flammendrache, dessen Feuer niemals erlischt und alles verzehrt;Dämonischer Blut-Drache, der das Blut seiner Feinde trinkt und Macht gewinnt;Mystischer Mond-Drache, der die Nacht kontrolliert und Albträume heraufbeschwört;Göttlicher Stein-Drache, dessen Haut aus unzerstörbarem Gestein besteht und die Erde bebend macht;Apokalyptischer Rauch-Drache, dessen giftiger Atem die Welt in Chaos stürzt",
+      "tags": [
+        "fantasy",
+        "dragons"
+      ],
+      "created_at": "2025-09-06T10:53:05.223Z",
+      "updated_at": "2025-09-06T10:55:46.962Z"
     }
   ]
 }

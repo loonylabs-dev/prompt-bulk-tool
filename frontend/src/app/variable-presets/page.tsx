@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Search, Tag, Edit2, Trash2, Filter, Copy } from 'lucide-react';
+import { Plus, Search, Tag, Edit2, Trash2, Filter, Copy, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
 import { variablePresetApi } from '../../lib/api';
@@ -180,74 +180,89 @@ export default function VariablePresetsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="sm:flex sm:items-center sm:justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Variable-Presets</h1>
-          <p className="mt-2 text-gray-600">
-            Verwalten Sie wiederverwendbare Variable-Presets für Ihre Templates
-          </p>
-        </div>
-        <div className="mt-4 sm:mt-0">
-          <Link
-            href="/variable-presets/create"
-            className="btn btn-primary btn-md"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Neues Preset
-          </Link>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="mb-8 space-y-4 bg-white p-6 rounded-lg shadow-sm border">
-        {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Nach Name, Beschreibung oder Platzhalter suchen..."
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        {/* Tag Filter */}
-        {allTags.length > 0 && (
-          <div>
-            <div className="flex items-center mb-3">
-              <Filter className="w-4 h-4 mr-2 text-gray-500" />
-              <span className="text-sm font-medium text-gray-700">Nach Tags filtern:</span>
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-4">
+              <Link href="/" className="btn btn-ghost btn-sm">
+                <ArrowLeft className="w-4 h-4" />
+                Zurück
+              </Link>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                  <Tag className="w-5 h-5 text-white" />
+                </div>
+                <h1 className="text-xl font-bold text-gray-900">Variable-Presets</h1>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {allTags.map((tag) => (
-                <button
-                  key={tag}
-                  onClick={() => toggleTag(tag)}
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                    selectedTags.includes(tag)
-                      ? 'bg-primary-100 text-primary-800 border border-primary-200'
-                      : 'bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200'
-                  }`}
-                >
-                  <Tag className="w-3 h-3 mr-1" />
-                  {tag}
-                </button>
-              ))}
-            </div>
-            {selectedTags.length > 0 && (
-              <button
-                onClick={() => setSelectedTags([])}
-                className="mt-2 text-sm text-gray-500 hover:text-gray-700"
-              >
-                Alle Filter entfernen
-              </button>
-            )}
+            <Link href="/variable-presets/create" className="btn btn-primary btn-md">
+              <Plus className="w-4 h-4 mr-2" />
+              Neues Preset
+            </Link>
           </div>
-        )}
-      </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title */}
+        <div className="sm:flex sm:items-center sm:justify-between mb-8">
+          <div>
+            <p className="text-gray-600">
+              Verwalten Sie wiederverwendbare Variable-Presets für Ihre Templates
+            </p>
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div className="mb-8 space-y-4 bg-white p-6 rounded-lg shadow-sm border">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Nach Name, Beschreibung oder Platzhalter suchen..."
+              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          {/* Tag Filter */}
+          {allTags.length > 0 && (
+            <div>
+              <div className="flex items-center mb-3">
+                <Filter className="w-4 h-4 mr-2 text-gray-500" />
+                <span className="text-sm font-medium text-gray-700">Nach Tags filtern:</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {allTags.map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                      selectedTags.includes(tag)
+                        ? 'bg-primary-100 text-primary-800 border border-primary-200'
+                        : 'bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Tag className="w-3 h-3 mr-1" />
+                    {tag}
+                  </button>
+                ))}
+              </div>
+              {selectedTags.length > 0 && (
+                <button
+                  onClick={() => setSelectedTags([])}
+                  className="mt-2 text-sm text-gray-500 hover:text-gray-700"
+                >
+                  Alle Filter entfernen
+                </button>
+              )}
+            </div>
+          )}
+        </div>
 
       {/* Error State */}
       {error && (
@@ -434,15 +449,16 @@ export default function VariablePresetsPage() {
         cancelText="Abbrechen"
       />
 
-      {/* Alert Dialog */}
-      <AlertDialog
-        show={alertDialog.show}
-        onClose={() => setAlertDialog({ show: false, title: '', message: '', type: 'info' })}
-        title={alertDialog.title}
-        message={alertDialog.message}
-        type={alertDialog.type}
-        buttonText="OK"
-      />
+        {/* Alert Dialog */}
+        <AlertDialog
+          show={alertDialog.show}
+          onClose={() => setAlertDialog({ show: false, title: '', message: '', type: 'info' })}
+          title={alertDialog.title}
+          message={alertDialog.message}
+          type={alertDialog.type}
+          buttonText="OK"
+        />
+      </div>
     </div>
   );
 }

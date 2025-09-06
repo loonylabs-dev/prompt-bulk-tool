@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import { 
   Zap, 
   ArrowLeft,
@@ -17,6 +18,7 @@ import {
   Clock,
   Copy
 } from 'lucide-react';
+import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
 
 interface Template {
   id: string;
@@ -56,6 +58,10 @@ export default function GenerationPage() {
   const [selectedVariablePresetIds, setSelectedVariablePresetIds] = useState<string[]>([]);
   const [customVariables, setCustomVariables] = useState<Record<string, string>>({});
   const [useCustomVariables, setUseCustomVariables] = useState(false);
+  
+  // Dialog state
+  const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
+  const [confirmDialog, setConfirmDialog] = useState<{ show: boolean; title: string; message: string; onConfirm: () => void }>({ show: false, title: '', message: '', onConfirm: () => {} });
   
   // Load data
   useEffect(() => {
@@ -104,12 +110,22 @@ export default function GenerationPage() {
 
   const generatePrompts = async () => {
     if (selectedTemplateIds.length === 0) {
-      alert('Bitte wähle mindestens ein Template aus');
+      setAlertDialog({
+        show: true,
+        title: 'Template erforderlich',
+        message: 'Bitte wähle mindestens ein Template aus',
+        type: 'info'
+      });
       return;
     }
     
     if (!useCustomVariables && selectedVariablePresetIds.length === 0) {
-      alert('Bitte wähle mindestens ein Variable-Preset aus oder verwende benutzerdefinierte Variablen');
+      setAlertDialog({
+        show: true,
+        title: 'Variablen erforderlich',
+        message: 'Bitte wähle mindestens ein Variable-Preset aus oder verwende benutzerdefinierte Variablen',
+        type: 'info'
+      });
       return;
     }
 
@@ -141,25 +157,45 @@ export default function GenerationPage() {
 
       if (response.ok) {
         const data = await response.json();
-        alert(`${data.data.totalCount} Prompts erfolgreich generiert!`);
+        setAlertDialog({
+          show: true,
+          title: 'Erfolgreich generiert',
+          message: `${data.data.totalCount} Prompts erfolgreich generiert!`,
+          type: 'success'
+        });
         fetchGeneratedPrompts();
       } else {
         const error = await response.json();
-        alert(`Fehler bei der Generierung: ${error.error}`);
+        setAlertDialog({
+          show: true,
+          title: 'Generierungsfehler',
+          message: `Fehler bei der Generierung: ${error.error}`,
+          type: 'error'
+        });
       }
     } catch (error) {
       console.error('Error generating prompts:', error);
-      alert('Fehler bei der Generierung');
+      setAlertDialog({
+        show: true,
+        title: 'Generierungsfehler',
+        message: 'Fehler bei der Generierung',
+        type: 'error'
+      });
     } finally {
       setGenerating(false);
     }
   };
 
-  const deleteAllPrompts = async () => {
-    if (!confirm('Alle generierten Prompts löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-      return;
-    }
+  const handleDeleteAllClick = () => {
+    setConfirmDialog({
+      show: true,
+      title: 'Alle Prompts löschen',
+      message: 'Alle generierten Prompts löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
+      onConfirm: deleteAllPrompts
+    });
+  };
 
+  const deleteAllPrompts = async () => {
     try {
       const response = await fetch('/api/generation/prompts/all', {
         method: 'DELETE',
@@ -167,11 +203,16 @@ export default function GenerationPage() {
 
       if (response.ok) {
         setGeneratedPrompts([]);
-        alert('Alle Prompts gelöscht');
+        toast.success('Alle Prompts gelöscht!');
       }
     } catch (error) {
       console.error('Error deleting prompts:', error);
-      alert('Fehler beim Löschen');
+      setAlertDialog({
+        show: true,
+        title: 'Löschfehler',
+        message: 'Fehler beim Löschen',
+        type: 'error'
+      });
     }
   };
 
@@ -192,7 +233,12 @@ export default function GenerationPage() {
       }
     } catch (error) {
       console.error('Error exporting prompts:', error);
-      alert('Fehler beim Export');
+      setAlertDialog({
+        show: true,
+        title: 'Exportfehler',
+        message: 'Fehler beim Export',
+        type: 'error'
+      });
     }
   };
 
@@ -227,8 +273,47 @@ export default function GenerationPage() {
 
   const copyPromptToClipboard = (content: string) => {
     navigator.clipboard.writeText(content).then(() => {
-      // Could add toast notification here
+      toast.success('Prompt kopiert!');
+    }).catch(() => {
+      toast.error('Fehler beim Kopieren');
     });
+  };
+
+  const deletePrompt = async (promptId: string) => {
+    try {
+      const response = await fetch(`/api/generation/prompts/${promptId}`, {
+        method: 'DELETE'
+      });
+      
+      if (response.ok) {
+        setGeneratedPrompts(prev => prev.filter(p => p.id !== promptId));
+        toast.success('Prompt gelöscht!', {
+          icon: '🗑️',
+        });
+      } else {
+        toast.error('Fehler beim Löschen');
+      }
+    } catch (error) {
+      console.error('Error deleting prompt:', error);
+      toast.error('Fehler beim Löschen');
+    }
+  };
+
+  const renderHighlightedPrompt = (content: string, variables: Record<string, string>) => {
+    let highlightedContent = content;
+    
+    // Sortiere Variablen nach Länge (längste zuerst), um Überschneidungen zu vermeiden
+    const sortedVariables = Object.entries(variables).sort((a, b) => b[1].length - a[1].length);
+    
+    // Ersetze jede Variable mit einer markierten Version
+    sortedVariables.forEach(([key, value]) => {
+      // Escape special characters for regex
+      const escapedValue = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escapedValue, 'g');
+      highlightedContent = highlightedContent.replace(regex, `<mark class="bg-blue-200 text-blue-900 px-1 rounded font-semibold">${value}</mark>`);
+    });
+    
+    return <div dangerouslySetInnerHTML={{ __html: highlightedContent }} />;
   };
 
   if (loading) {
@@ -485,7 +570,7 @@ export default function GenerationPage() {
                         </ul>
                       </div>
                       <button
-                        onClick={deleteAllPrompts}
+                        onClick={handleDeleteAllClick}
                         className="btn btn-outline btn-sm text-red-600 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -518,10 +603,17 @@ export default function GenerationPage() {
                           <div className="flex space-x-2">
                             <button
                               onClick={() => copyPromptToClipboard(prompt.content)}
-                              className="btn btn-ghost btn-xs"
+                              className="btn btn-ghost btn-xs hover:bg-blue-100"
                               title="In Zwischenablage kopieren"
                             >
                               <Copy className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => deletePrompt(prompt.id)}
+                              className="btn btn-ghost btn-xs hover:bg-red-100"
+                              title="Prompt löschen"
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600" />
                             </button>
                           </div>
                         </div>
@@ -532,7 +624,7 @@ export default function GenerationPage() {
                         
                         <div className="bg-gray-50 rounded p-3 text-sm text-gray-700">
                           <div className="line-clamp-3">
-                            {prompt.content}
+                            {renderHighlightedPrompt(prompt.content, prompt.variables)}
                           </div>
                         </div>
                         
@@ -548,6 +640,31 @@ export default function GenerationPage() {
           </div>
         </div>
       </div>
+
+      {/* Alert Dialog */}
+      <AlertDialog
+        show={alertDialog.show}
+        onClose={() => setAlertDialog({ show: false, title: '', message: '', type: 'info' })}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText="OK"
+      />
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        show={confirmDialog.show}
+        onClose={() => setConfirmDialog({ show: false, title: '', message: '', onConfirm: () => {} })}
+        onConfirm={() => {
+          confirmDialog.onConfirm();
+          setConfirmDialog({ show: false, title: '', message: '', onConfirm: () => {} });
+        }}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        confirmText="Löschen"
+        confirmVariant="danger"
+        cancelText="Abbrechen"
+      />
     </div>
   );
 }

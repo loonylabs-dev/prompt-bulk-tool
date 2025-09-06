@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Search, Tag, Edit2, Trash2, Filter } from 'lucide-react';
+import { Plus, Search, Tag, Edit2, Trash2, Filter, Copy } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
 
 interface VariablePreset {
   id: string;
@@ -33,6 +35,9 @@ export default function VariablePresetsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<string[]>([]);
+  const [duplicateDialog, setDuplicateDialog] = useState<{ show: boolean; presetId: string | null }>({ show: false, presetId: null });
+  const [deleteDialog, setDeleteDialog] = useState<{ show: boolean; presetId: string | null; presetName: string }>({ show: false, presetId: null, presetName: '' });
+  const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
 
   // Fetch presets
   useEffect(() => {
@@ -71,23 +76,70 @@ export default function VariablePresetsPage() {
     }
   };
 
-  const deletePreset = async (id: string) => {
-    if (!confirm('Sind Sie sicher, dass Sie dieses Variable-Preset löschen möchten?')) {
-      return;
-    }
+  const handleDeleteClick = (id: string, name: string) => {
+    setDeleteDialog({ show: true, presetId: id, presetName: name });
+  };
+
+  const deletePreset = async () => {
+    if (!deleteDialog.presetId) return;
 
     try {
-      const response = await fetch(`/api/variable-presets/${id}`, {
+      const response = await fetch(`/api/variable-presets/${deleteDialog.presetId}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
         await fetchPresets();
+        toast.success('Variable-Preset gelöscht!');
       } else {
-        alert('Fehler beim Löschen des Variable-Presets');
+        setAlertDialog({
+          show: true,
+          title: 'Fehler',
+          message: 'Fehler beim Löschen des Variable-Presets',
+          type: 'error'
+        });
       }
     } catch (err) {
-      alert('Fehler beim Löschen des Variable-Presets');
+      setAlertDialog({
+        show: true,
+        title: 'Fehler',
+        message: 'Fehler beim Löschen des Variable-Presets',
+        type: 'error'
+      });
+    } finally {
+      setDeleteDialog({ show: false, presetId: null, presetName: '' });
+    }
+  };
+
+  const handleDuplicateClick = (id: string) => {
+    setDuplicateDialog({ show: true, presetId: id });
+  };
+
+  const duplicatePreset = async (includeValues: boolean) => {
+    if (!duplicateDialog.presetId) return;
+
+    try {
+      const response = await fetch(`/api/variable-presets/${duplicateDialog.presetId}/duplicate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ includeValues }),
+      });
+
+      if (response.ok) {
+        await fetchPresets(); // Refresh the list
+        toast.success('Variable-Preset dupliziert!', {
+          icon: '📋',
+        });
+      } else {
+        toast.error('Fehler beim Duplizieren');
+      }
+    } catch (err) {
+      toast.error('Fehler beim Duplizieren');
+      console.error('Error duplicating preset:', err);
+    } finally {
+      setDuplicateDialog({ show: false, presetId: null });
     }
   };
 
@@ -149,7 +201,7 @@ export default function VariablePresetsPage() {
         <div className="mt-4 sm:mt-0">
           <Link
             href="/variable-presets/create"
-            className="btn btn-primary"
+            className="btn btn-primary btn-md"
           >
             <Plus className="w-4 h-4 mr-2" />
             Neues Preset
@@ -243,7 +295,7 @@ export default function VariablePresetsPage() {
           {presets.length === 0 && (
             <Link
               href="/variable-presets/create"
-              className="btn btn-primary"
+              className="btn btn-primary btn-lg"
             >
               <Plus className="w-4 h-4 mr-2" />
               Erstes Preset erstellen
@@ -275,7 +327,14 @@ export default function VariablePresetsPage() {
                       <Edit2 className="w-4 h-4" />
                     </Link>
                     <button
-                      onClick={() => deletePreset(preset.id)}
+                      onClick={() => handleDuplicateClick(preset.id)}
+                      className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      title="Duplizieren"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClick(preset.id, preset.name)}
                       className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -335,6 +394,64 @@ export default function VariablePresetsPage() {
           ))}
         </div>
       )}
+
+      {/* Duplicate Dialog */}
+      {duplicateDialog.show && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Variable-Preset duplizieren
+            </h3>
+            
+            <p className="text-gray-600 mb-6">
+              Sollen die aktuellen Werte in das duplizierte Preset übernommen werden?
+            </p>
+            
+            <div className="flex space-x-3">
+              <button
+                onClick={() => duplicatePreset(true)}
+                className="flex-1 btn btn-primary btn-md"
+              >
+                Mit Werten duplizieren
+              </button>
+              <button
+                onClick={() => duplicatePreset(false)}
+                className="flex-1 btn btn-secondary btn-md"
+              >
+                Nur Struktur duplizieren
+              </button>
+              <button
+                onClick={() => setDuplicateDialog({ show: false, presetId: null })}
+                className="btn btn-ghost btn-md"
+              >
+                Abbrechen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        show={deleteDialog.show}
+        onClose={() => setDeleteDialog({ show: false, presetId: null, presetName: '' })}
+        onConfirm={deletePreset}
+        title="Variable-Preset löschen"
+        message={`Sind Sie sicher, dass Sie das Variable-Preset "${deleteDialog.presetName}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`}
+        confirmText="Löschen"
+        confirmVariant="danger"
+        cancelText="Abbrechen"
+      />
+
+      {/* Alert Dialog */}
+      <AlertDialog
+        show={alertDialog.show}
+        onClose={() => setAlertDialog({ show: false, title: '', message: '', type: 'info' })}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText="OK"
+      />
     </div>
   );
 }

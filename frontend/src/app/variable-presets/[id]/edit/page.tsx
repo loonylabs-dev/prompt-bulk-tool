@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X, Trash2 } from 'lucide-react';
+import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X, Trash2, Wand2 } from 'lucide-react';
+import { ConfirmDialog } from '../../../../components/Dialog';
+import toast from 'react-hot-toast';
 
 interface VariablePreset {
   id: string;
@@ -45,6 +47,8 @@ export default function EditVariablePresetPage() {
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [newTag, setNewTag] = useState('');
+  const [showGenerationDialog, setShowGenerationDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState<{ show: boolean; presetName: string }>({ show: false, presetName: '' });
 
   // Fetch preset data and placeholders
   useEffect(() => {
@@ -147,6 +151,7 @@ export default function EditVariablePresetPage() {
       });
 
       if (response.ok) {
+        toast.success('Variable-Preset erfolgreich gespeichert!');
         router.push('/variable-presets');
       } else {
         const errorData = await response.json();
@@ -159,17 +164,18 @@ export default function EditVariablePresetPage() {
     }
   };
 
-  const handleDelete = async () => {
-    if (!confirm('Sind Sie sicher, dass Sie dieses Variable-Preset löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-      return;
-    }
+  const handleDeleteClick = () => {
+    setDeleteDialog({ show: true, presetName: formData.name || 'Variable-Preset' });
+  };
 
+  const handleDelete = async () => {
     try {
       const response = await fetch(`/api/variable-presets/${presetId}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
+        toast.success('Variable-Preset gelöscht!');
         router.push('/variable-presets');
       } else {
         setErrors({ general: 'Fehler beim Löschen des Variable-Presets' });
@@ -258,8 +264,8 @@ export default function EditVariablePresetPage() {
           
           {/* Delete Button */}
           <button
-            onClick={handleDelete}
-            className="btn btn-outline text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400"
+            onClick={handleDeleteClick}
+            className="btn btn-danger btn-md"
           >
             <Trash2 className="w-4 h-4 mr-2" />
             Löschen
@@ -406,9 +412,20 @@ export default function EditVariablePresetPage() {
 
             {/* Values */}
             <div>
-              <label htmlFor="values" className="block text-sm font-medium text-gray-700 mb-2">
-                Werte * (durch Semikolon getrennt)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="values" className="text-sm font-medium text-gray-700">
+                  Werte * (durch Semikolon getrennt)
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowGenerationDialog(true)}
+                  className="flex items-center gap-2 px-3 py-1 text-sm text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-md transition-colors"
+                  title="AI-gestützte Werte-Generierung"
+                >
+                  <Wand2 className="w-4 h-4" />
+                  Generieren
+                </button>
+              </div>
               <textarea
                 id="values"
                 rows={4}
@@ -469,7 +486,7 @@ export default function EditVariablePresetPage() {
               <button
                 type="button"
                 onClick={addTag}
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500"
+                className="btn btn-primary btn-md"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -510,14 +527,14 @@ export default function EditVariablePresetPage() {
         <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
           <Link
             href="/variable-presets"
-            className="btn btn-outline"
+            className="btn btn-outline btn-md"
           >
             Abbrechen
           </Link>
           <button
             type="submit"
             disabled={loading}
-            className="btn btn-primary"
+            className="btn btn-primary btn-md"
           >
             {loading ? (
               <>
@@ -533,6 +550,198 @@ export default function EditVariablePresetPage() {
           </button>
         </div>
       </form>
+
+      {/* Generation Dialog */}
+      {showGenerationDialog && (
+        <GenerationDialog
+          templateContent="" // Will be fetched based on placeholder
+          variableName={formData.placeholder}
+          onGenerate={(values) => {
+            const existingValues = formData.values ? formData.values.split(';').map(v => v.trim()).filter(v => v) : [];
+            const newValues = [...existingValues, ...values];
+            handleInputChange('values', newValues.join(';'));
+            setShowGenerationDialog(false);
+          }}
+          onClose={() => setShowGenerationDialog(false)}
+        />
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        show={deleteDialog.show}
+        onClose={() => setDeleteDialog({ show: false, presetName: '' })}
+        onConfirm={() => {
+          handleDelete();
+          setDeleteDialog({ show: false, presetName: '' });
+        }}
+        title="Variable-Preset löschen"
+        message={`Sind Sie sicher, dass Sie das Variable-Preset "${deleteDialog.presetName}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`}
+        confirmText="Löschen"
+        confirmVariant="danger"
+        cancelText="Abbrechen"
+      />
+    </div>
+  );
+}
+
+interface GenerationDialogProps {
+  templateContent: string;
+  variableName: string;
+  onGenerate: (values: string[]) => void;
+  onClose: () => void;
+}
+
+function GenerationDialog({ templateContent, variableName, onGenerate, onClose }: GenerationDialogProps) {
+  const [direction, setDirection] = useState('');
+  const [count, setCount] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleGenerate = async () => {
+    if (!direction.trim()) {
+      setError('Bitte geben Sie eine Richtung/Stil an');
+      return;
+    }
+
+    if (!variableName.trim()) {
+      setError('Kein Platzhalter ausgewählt');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError('');
+
+      // For now, use a dummy template - in real implementation, 
+      // we'd fetch the actual template content that uses this variable
+      const dummyTemplate = `Generate a {{${variableName}}} for the story.`;
+
+      const response = await fetch('/api/ai/generate-variable-values', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          templateContent: dummyTemplate,
+          variableName,
+          direction,
+          count
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Fehler bei der Generierung');
+      }
+
+      if (data.success && data.data?.values) {
+        onGenerate(data.data.values);
+      } else {
+        throw new Error('Keine Werte generiert');
+      }
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unbekannter Fehler');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-medium text-gray-900">
+              Werte generieren
+            </h3>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Platzhalter
+              </label>
+              <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-600">
+                {variableName ? `{{${variableName}}}` : 'Kein Platzhalter ausgewählt'}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="direction" className="block text-sm font-medium text-gray-700 mb-1">
+                Richtung/Stil *
+              </label>
+              <input
+                type="text"
+                id="direction"
+                value={direction}
+                onChange={(e) => setDirection(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                placeholder='z.B. "klein und witzig", "episch und heroisch"'
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Beschreiben Sie den gewünschten Stil oder die Richtung für die generierten Werte
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="count" className="block text-sm font-medium text-gray-700 mb-1">
+                Anzahl Ergebnisse
+              </label>
+              <select
+                id="count"
+                value={count}
+                onChange={(e) => setCount(parseInt(e.target.value))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              >
+                <option value={5}>5 Werte</option>
+                <option value={10}>10 Werte</option>
+                <option value={15}>15 Werte</option>
+                <option value={20}>20 Werte</option>
+              </select>
+            </div>
+
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded text-sm text-red-600">
+                {error}
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-200">
+            <button
+              onClick={onClose}
+              className="btn btn-outline btn-md"
+            >
+              Abbrechen
+            </button>
+            <button
+              onClick={handleGenerate}
+              disabled={loading || !direction.trim() || !variableName}
+              className="btn btn-primary btn-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Generiere...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-4 h-4" />
+                  Generieren
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

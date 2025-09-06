@@ -223,6 +223,16 @@ export class JsonDatabase {
     await this.save();
   }
 
+  public async deleteGeneratedPrompt(id: string): Promise<boolean> {
+    const index = this.data.generatedPrompts.findIndex(p => p.id === id);
+    if (index === -1) {
+      return false;
+    }
+    this.data.generatedPrompts.splice(index, 1);
+    await this.save();
+    return true;
+  }
+
   public async deleteAllGeneratedPrompts(): Promise<number> {
     const count = this.data.generatedPrompts.length;
     this.data.generatedPrompts = [];
@@ -276,6 +286,29 @@ export class JsonDatabase {
 
     this.data.variablePresets.splice(index, 1);
     await this.save();
+  }
+
+  public async duplicateVariablePreset(id: string, includeValues: boolean = true): Promise<any> {
+    const originalPreset = this.data.variablePresets.find(vp => vp.id === id);
+    if (!originalPreset) {
+      throw new Error('Variable preset not found');
+    }
+
+    const duplicatedPreset = {
+      id: uuidv4(),
+      name: `${originalPreset.name} COPY`,
+      description: originalPreset.description,
+      placeholder: originalPreset.placeholder,
+      values: includeValues ? originalPreset.values : '',
+      tags: originalPreset.tags ? [...originalPreset.tags] : [],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    this.data.variablePresets.push(duplicatedPreset);
+    await this.save();
+    
+    return duplicatedPreset;
   }
 
   // Automation targets

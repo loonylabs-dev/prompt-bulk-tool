@@ -13,6 +13,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { createJsonTemplateRoutes } from './routes/jsonTemplates';
 import { createJsonGenerationRoutes } from './routes/jsonGeneration';
 import { createVariablePresetRoutes } from './routes/variablePresets';
+import aiRoutes from './routes/ai.routes';
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ async function startServer() {
     app.use('/api/templates', createJsonTemplateRoutes(jsonDb));
     app.use('/api/variable-presets', createVariablePresetRoutes(jsonDb));
     app.use('/api/generation', createJsonGenerationRoutes(jsonDb));
+    app.use('/api/ai', aiRoutes);
     
     // Simple automation placeholder
     app.get('/api/automation/targets', (req, res) => {

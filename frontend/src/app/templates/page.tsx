@@ -14,6 +14,8 @@ import {
   ArrowLeft,
   Sparkles
 } from 'lucide-react';
+import { ConfirmDialog } from '../../components/Dialog';
+import toast from 'react-hot-toast';
 
 interface Template {
   id: string;
@@ -33,6 +35,7 @@ export default function TemplatesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState<Record<string, number>>({});
+  const [deleteDialog, setDeleteDialog] = useState<{ show: boolean; templateId: string | null; templateName: string }>({ show: false, templateId: null, templateName: '' });
 
   // Fetch templates
   useEffect(() => {
@@ -66,19 +69,27 @@ export default function TemplatesPage() {
     }
   };
 
-  const deleteTemplate = async (id: string) => {
-    if (!confirm('Template wirklich löschen?')) return;
+  const handleDeleteClick = (id: string, name: string) => {
+    setDeleteDialog({ show: true, templateId: id, templateName: name });
+  };
+
+  const deleteTemplate = async () => {
+    if (!deleteDialog.templateId) return;
     
     try {
-      const response = await fetch(`/api/templates/${id}`, {
+      const response = await fetch(`/api/templates/${deleteDialog.templateId}`, {
         method: 'DELETE'
       });
       if (response.ok) {
-        setTemplates(templates.filter(t => t.id !== id));
+        setTemplates(templates.filter(t => t.id !== deleteDialog.templateId));
         fetchCategories();
+        toast.success('Template gelöscht!');
       }
     } catch (error) {
       console.error('Error deleting template:', error);
+      toast.error('Fehler beim Löschen des Templates');
+    } finally {
+      setDeleteDialog({ show: false, templateId: null, templateName: '' });
     }
   };
 
@@ -274,7 +285,7 @@ export default function TemplatesPage() {
                         <Edit className="w-4 h-4" />
                       </Link>
                       <button
-                        onClick={() => deleteTemplate(template.id)}
+                        onClick={() => handleDeleteClick(template.id, template.name)}
                         className="btn btn-ghost btn-xs text-red-600 hover:bg-red-50"
                         title="Löschen"
                       >
@@ -319,6 +330,18 @@ export default function TemplatesPage() {
             </div>
           </div>
         )}
+
+        {/* Delete Confirmation Dialog */}
+        <ConfirmDialog
+          show={deleteDialog.show}
+          onClose={() => setDeleteDialog({ show: false, templateId: null, templateName: '' })}
+          onConfirm={deleteTemplate}
+          title="Template löschen"
+          message={`Sind Sie sicher, dass Sie das Template "${deleteDialog.templateName}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`}
+          confirmText="Löschen"
+          confirmVariant="danger"
+          cancelText="Abbrechen"
+        />
       </div>
     </div>
   );

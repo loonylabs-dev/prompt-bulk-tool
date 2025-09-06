@@ -187,12 +187,34 @@ export function createJsonGenerationRoutes(db: JsonDatabase): Router {
   }));
 
   // DELETE /api/generation/prompts/all - Delete all generated prompts
+  // IMPORTANT: This route must come BEFORE /prompts/:id
   router.delete('/prompts/all', asyncHandler(async (req: Request, res: Response) => {
     const deletedCount = await db.deleteAllGeneratedPrompts();
     
     const response: ApiResponse = {
       success: true,
       message: `Deleted ${deletedCount} prompts successfully`
+    };
+    
+    res.json(response);
+  }));
+
+  // DELETE /api/generation/prompts/:id - Delete a single generated prompt
+  router.delete('/prompts/:id', asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    
+    const deleted = await db.deleteGeneratedPrompt(id);
+    
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        error: 'Prompt not found'
+      });
+    }
+    
+    const response: ApiResponse = {
+      success: true,
+      message: 'Prompt deleted successfully'
     };
     
     res.json(response);

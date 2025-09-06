@@ -1,6 +1,21 @@
 {
   "templates": [
     {
+      "name": "Dragon Full Body Side",
+      "description": "a dragon full body side perspective",
+      "content": "Generate a unique fantasy {{dragon description}} dragon, full body in profile (side view), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Side-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "category": "general",
+      "tags": [
+        "dragon"
+      ],
+      "variables": [
+        "dragon description"
+      ],
+      "id": "ce53c8c4-4ecc-4e1b-a191-559574639168",
+      "created_at": "2025-09-06T06:49:28.484Z",
+      "updated_at": "2025-09-06T06:50:55.308Z"
+    },
+    {
       "name": "Dragon Waist up",
       "description": "Dragon Waist up",
       "content": "Generate a unique fantasy {{dragon description}} dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
@@ -18,52 +33,52 @@
   ],
   "generatedPrompts": [
     {
-      "id": "de9d7ad8-a30f-47cf-a19d-75cadc8d68be",
+      "id": "0a3d0fe6-5bc1-4d1d-acc1-ea22d295667c",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy boss stark mega böse ganzkörper sixpack dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy ein Drachenbaby mit weichem Fell und kleinen Hörnern dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "boss stark mega böse ganzkörper sixpack"
+        "dragon description": "ein Drachenbaby mit weichem Fell und kleinen Hörnern"
       },
-      "generatedAt": "2025-09-04T15:28:41.133Z",
+      "generatedAt": "2025-09-06T06:39:24.332Z",
       "status": "pending",
-      "generated_at": "2025-09-04T15:28:41.133Z"
+      "generated_at": "2025-09-06T06:39:24.332Z"
     },
     {
-      "id": "21f3d140-5774-4903-a9a7-5459b72a9f29",
+      "id": "8d5d546e-901c-4e41-9691-dabe53a388c8",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy super boss stark mega böse ganzkörper sixpack dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy ein Drache mit einem pelzigen Bauch und zarten Flügeln dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "super boss stark mega böse ganzkörper sixpack"
+        "dragon description": "ein Drache mit einem pelzigen Bauch und zarten Flügeln"
       },
-      "generatedAt": "2025-09-04T15:28:41.133Z",
+      "generatedAt": "2025-09-06T06:39:24.332Z",
       "status": "pending",
-      "generated_at": "2025-09-04T15:28:41.133Z"
+      "generated_at": "2025-09-06T06:39:24.332Z"
     },
     {
-      "id": "c7df402a-ddcb-498c-a7a5-b2b7d8191c54",
+      "id": "857255dd-5bbe-4ec4-a326-abcbf9eb08b7",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy stark mega böse ganzkörper sixpack dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy ein Drachenkind mit großen, neugierigen Augen und einem zarten Schnabel dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "stark mega böse ganzkörper sixpack"
+        "dragon description": "ein Drachenkind mit großen, neugierigen Augen und einem zarten Schnabel"
       },
-      "generatedAt": "2025-09-04T15:28:41.133Z",
+      "generatedAt": "2025-09-06T06:39:24.332Z",
       "status": "pending",
-      "generated_at": "2025-09-04T15:28:41.133Z"
+      "generated_at": "2025-09-06T06:39:24.332Z"
     },
     {
-      "id": "03f3d3ea-c4dd-48cd-9f27-a33cf35f1787",
+      "id": "bf59b07e-b05b-4811-a3db-e69ce743c145",
       "templateId": "03d7c4a5-306e-406b-91cb-4cc07497681f",
       "templateName": "Dragon Waist up",
-      "content": "Generate a unique fantasy super mega böse ganzkörper dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
+      "content": "Generate a unique fantasy ein kleiner Drache mit bunten Schuppen und einem flauschigen Schwanz dragon, waist-up (torso and head visible), centered with generous padding, with transparent background. Balanced stylized semi-3D fantasy RPG UI art, whimsical but adventurous, vibrant but harmonious colors, smooth gradients, soft highlights and subtle shading for gentle depth. No photorealism, no gritty textures. Clean shapes with refined details, soft but precise edges, perfect readability. Pixar/Disney-meets-high-end-game-UI style, slightly painterly CGI feel without hyperrealism. Front-facing with balanced lighting and clear silhouette. No text, no numbers, square format for mobile game.",
       "variables": {
-        "dragon description": "super mega böse ganzkörper"
+        "dragon description": "ein kleiner Drache mit bunten Schuppen und einem flauschigen Schwanz"
       },
-      "generatedAt": "2025-09-04T15:28:41.133Z",
+      "generatedAt": "2025-09-06T06:39:24.332Z",
       "status": "pending",
-      "generated_at": "2025-09-04T15:28:41.133Z"
+      "generated_at": "2025-09-06T06:39:24.332Z"
     }
   ],
   "automationTargets": [
@@ -111,17 +126,30 @@
   "automationSessions": [],
   "variablePresets": [
     {
-      "name": "Dragon Types",
+      "name": "Dragon Types - niedlich",
       "description": "Different types of dragons for fantasy art",
       "placeholder": "dragon description",
-      "values": "boss stark mega böse ganzkörper sixpack; super boss stark mega böse ganzkörper sixpack; stark mega böse ganzkörper sixpack; super mega böse ganzkörper",
+      "values": "ein kleiner Drache mit flauschigen Flügeln und großen Knopfaugen;ein niedlicher Feuerdrache mit einem knuddeligen Schwanz;ein winziger Drache mit pastellfarbenen Schuppen und einem süßen Lächeln;ein Drachenbaby mit weichem Fell und kleinen Hörnern;ein Drache mit einem pelzigen Bauch und zarten Flügeln;ein Drachenkind mit großen, neugierigen Augen und einem zarten Schnabel;ein kleiner Drache mit bunten Schuppen und einem flauschigen Schwanz;ein Drachenjunges mit weichem Fell und großen, runden Augen;ein Drache mit einem pelzigen Körper und zarten, farbigen Flügeln;ein niedlicher Drachen mit einem knuffigen Kopf und einem flauschigen Schwanz",
       "tags": [
         "fantasy",
         "dragons"
       ],
       "id": "d11f496d-903a-4036-8467-617a03b1bcea",
       "created_at": "2025-09-02T20:47:09.713Z",
-      "updated_at": "2025-09-04T15:28:18.026Z"
+      "updated_at": "2025-09-06T06:43:16.785Z"
+    },
+    {
+      "id": "3086e9bb-9479-420a-98fb-eda776f4dbab",
+      "name": "Dragon Types - niedlich COPY",
+      "description": "Different types of dragons for fantasy art",
+      "placeholder": "dragon description",
+      "values": "",
+      "tags": [
+        "fantasy",
+        "dragons"
+      ],
+      "created_at": "2025-09-06T07:18:35.504Z",
+      "updated_at": "2025-09-06T07:18:35.504Z"
     }
   ]
 }

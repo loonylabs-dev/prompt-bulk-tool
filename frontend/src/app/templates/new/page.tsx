@@ -11,6 +11,8 @@ import {
   Tag as TagIcon,
   Info
 } from 'lucide-react';
+import { AlertDialog } from '../../../components/Dialog';
+import toast from 'react-hot-toast';
 
 export default function NewTemplatePage() {
   const router = useRouter();
@@ -25,6 +27,7 @@ export default function NewTemplatePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
   const [extractedVariables, setExtractedVariables] = useState<string[]>([]);
+  const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
 
   // Extract variables from content
   const extractVariables = (content: string): string[] => {
@@ -81,14 +84,25 @@ export default function NewTemplatePage() {
       });
 
       if (response.ok) {
+        toast.success('Template erfolgreich erstellt!');
         router.push('/templates');
       } else {
         const error = await response.json();
-        alert(`Fehler beim Erstellen des Templates: ${error.error}`);
+        setAlertDialog({
+          show: true,
+          title: 'Erstellungsfehler',
+          message: `Fehler beim Erstellen des Templates: ${error.error}`,
+          type: 'error'
+        });
       }
     } catch (error) {
       console.error('Error creating template:', error);
-      alert('Fehler beim Erstellen des Templates');
+      setAlertDialog({
+        show: true,
+        title: 'Erstellungsfehler',
+        message: 'Fehler beim Erstellen des Templates',
+        type: 'error'
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -284,13 +298,13 @@ export default function NewTemplatePage() {
 
           {/* Submit */}
           <div className="flex justify-end space-x-4">
-            <Link href="/templates" className="btn btn-outline btn-lg">
+            <Link href="/templates" className="btn btn-outline btn-md">
               Abbrechen
             </Link>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-md"
             >
               {isSubmitting ? (
                 <>
@@ -307,6 +321,16 @@ export default function NewTemplatePage() {
           </div>
         </form>
       </div>
+
+      {/* Alert Dialog */}
+      <AlertDialog
+        show={alertDialog.show}
+        onClose={() => setAlertDialog({ show: false, title: '', message: '', type: 'info' })}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText="OK"
+      />
     </div>
   );
 }

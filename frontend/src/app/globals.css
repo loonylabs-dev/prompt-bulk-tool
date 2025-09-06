@@ -84,8 +84,28 @@ body {
     @apply bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500;
   }
 
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-gray-600 hover:bg-gray-100 focus-visible:ring-gray-500;
+  }
+
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-500;
+  }
+
+  .btn-warning {
+    @apply bg-yellow-500 text-white hover:bg-yellow-600 focus-visible:ring-yellow-500;
+  }
+
+  .btn-xs {
+    @apply h-7 px-2 text-xs;
+  }
+
   .btn-sm {
-    @apply h-8 px-3 text-xs;
+    @apply h-8 px-3 text-sm;
   }
 
   .btn-md {
@@ -93,7 +113,11 @@ body {
   }
 
   .btn-lg {
-    @apply h-12 px-8 text-base;
+    @apply h-12 px-6 text-base;
+  }
+
+  .btn-xl {
+    @apply h-14 px-8 text-lg;
   }
 
   .card {

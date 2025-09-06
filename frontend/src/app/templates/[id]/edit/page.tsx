@@ -12,6 +12,8 @@ import {
   Info,
   Loader2
 } from 'lucide-react';
+import { AlertDialog } from '../../../../components/Dialog';
+import toast from 'react-hot-toast';
 
 interface Template {
   id: string;
@@ -43,6 +45,7 @@ export default function EditTemplatePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
   const [extractedVariables, setExtractedVariables] = useState<string[]>([]);
+  const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
 
   // Fetch template data
   useEffect(() => {
@@ -132,14 +135,25 @@ export default function EditTemplatePage() {
       });
 
       if (response.ok) {
+        toast.success('Template erfolgreich gespeichert!');
         router.push('/templates');
       } else {
         const error = await response.json();
-        alert(`Fehler beim Speichern des Templates: ${error.error}`);
+        setAlertDialog({
+          show: true,
+          title: 'Speicherfehler',
+          message: `Fehler beim Speichern des Templates: ${error.error}`,
+          type: 'error'
+        });
       }
     } catch (error) {
       console.error('Error updating template:', error);
-      alert('Fehler beim Speichern des Templates');
+      setAlertDialog({
+        show: true,
+        title: 'Speicherfehler',
+        message: 'Fehler beim Speichern des Templates',
+        type: 'error'
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -362,13 +376,13 @@ export default function EditTemplatePage() {
 
           {/* Submit */}
           <div className="flex justify-end space-x-4">
-            <Link href="/templates" className="btn btn-outline btn-lg">
+            <Link href="/templates" className="btn btn-outline btn-md">
               Abbrechen
             </Link>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-md"
             >
               {isSubmitting ? (
                 <>
@@ -385,6 +399,16 @@ export default function EditTemplatePage() {
           </div>
         </form>
       </div>
+
+      {/* Alert Dialog */}
+      <AlertDialog
+        show={alertDialog.show}
+        onClose={() => setAlertDialog({ show: false, title: '', message: '', type: 'info' })}
+        title={alertDialog.title}
+        message={alertDialog.message}
+        type={alertDialog.type}
+        buttonText="OK"
+      />
     </div>
   );
 }

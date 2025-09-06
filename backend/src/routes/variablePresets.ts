@@ -188,5 +188,35 @@ export function createVariablePresetRoutes(db: JsonDatabase): Router {
     }
   }));
 
+  // POST /api/variable-presets/:id/duplicate - Duplicate variable preset
+  router.post('/:id/duplicate', asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { includeValues = true } = req.body;
+    
+    try {
+      const duplicatedPreset = await db.duplicateVariablePreset(id, includeValues);
+      
+      const response: ApiResponse = {
+        success: true,
+        data: {
+          ...duplicatedPreset,
+          createdAt: new Date(duplicatedPreset.created_at),
+          updatedAt: new Date(duplicatedPreset.updated_at)
+        },
+        message: 'Variable preset duplicated successfully'
+      };
+      
+      res.status(201).json(response);
+    } catch (error: any) {
+      if (error.message === 'Variable preset not found') {
+        return res.status(404).json({
+          success: false,
+          error: 'Variable preset not found'
+        });
+      }
+      throw error;
+    }
+  }));
+
   return router;
 }

@@ -374,7 +374,7 @@ export default function CreateVariablePresetPage() {
               <button
                 type="button"
                 onClick={addTag}
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500"
+                className="btn btn-primary btn-md"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -415,14 +415,14 @@ export default function CreateVariablePresetPage() {
         <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
           <Link
             href="/variable-presets"
-            className="btn btn-outline"
+            className="btn btn-outline btn-md"
           >
             Abbrechen
           </Link>
           <button
             type="submit"
             disabled={loading}
-            className="btn btn-primary"
+            className="btn btn-primary btn-md"
           >
             {loading ? (
               <>

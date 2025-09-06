@@ -76,9 +76,8 @@ export default function GenerationPage() {
   const fetchTemplates = async () => {
     try {
       const response = await templateApi.getAll();
-      if (response.ok) {
-        const data = await response.json();
-        setTemplates(data.data);
+      if (response.success) {
+        setTemplates(response.data);
       }
     } catch (error) {
       console.error('Error fetching templates:', error);
@@ -88,9 +87,8 @@ export default function GenerationPage() {
   const fetchVariablePresets = async () => {
     try {
       const response = await variablePresetApi.getAll();
-      if (response.ok) {
-        const data = await response.json();
-        setVariablePresets(data.data);
+      if (response.success) {
+        setVariablePresets(response.data);
       }
     } catch (error) {
       console.error('Error fetching variable presets:', error);
@@ -100,9 +98,8 @@ export default function GenerationPage() {
   const fetchGeneratedPrompts = async () => {
     try {
       const response = await generationApi.getPrompts();
-      if (response.ok) {
-        const data = await response.json();
-        setGeneratedPrompts(data.data.prompts);
+      if (response.success) {
+        setGeneratedPrompts(response.data.prompts);
       }
     } catch (error) {
       console.error('Error fetching generated prompts:', error);
@@ -148,29 +145,21 @@ export default function GenerationPage() {
         requestBody.variablePresetIds = selectedVariablePresetIds;
       }
 
-      const response = await fetch('/api/generation/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await generationApi.generate(requestBody);
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.success) {
         setAlertDialog({
           show: true,
           title: 'Erfolgreich generiert',
-          message: `${data.data.totalCount} Prompts erfolgreich generiert!`,
+          message: `${response.data.totalCount} Prompts erfolgreich generiert!`,
           type: 'success'
         });
         fetchGeneratedPrompts();
       } else {
-        const error = await response.json();
         setAlertDialog({
           show: true,
           title: 'Generierungsfehler',
-          message: `Fehler bei der Generierung: ${error.error}`,
+          message: `Fehler bei der Generierung: ${response.error}`,
           type: 'error'
         });
       }
@@ -198,11 +187,9 @@ export default function GenerationPage() {
 
   const deleteAllPrompts = async () => {
     try {
-      const response = await fetch('/api/generation/prompts/all', {
-        method: 'DELETE',
-      });
+      const response = await generationApi.deleteAllPrompts();
 
-      if (response.ok) {
+      if (response.success) {
         setGeneratedPrompts([]);
         toast.success('Alle Prompts gelöscht!');
       }
@@ -219,19 +206,16 @@ export default function GenerationPage() {
 
   const exportPrompts = async (format: 'json' | 'csv' | 'txt') => {
     try {
-      const response = await fetch(`/api/generation/export?format=${format}`);
+      const blob = await generationApi.exportPrompts(format);
       
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `generated-prompts.${format}`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      }
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `generated-prompts.${format}`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error exporting prompts:', error);
       setAlertDialog({
@@ -282,11 +266,9 @@ export default function GenerationPage() {
 
   const deletePrompt = async (promptId: string) => {
     try {
-      const response = await fetch(`/api/generation/prompts/${promptId}`, {
-        method: 'DELETE'
-      });
+      const response = await generationApi.deletePrompts([promptId]);
       
-      if (response.ok) {
+      if (response.success) {
         setGeneratedPrompts(prev => prev.filter(p => p.id !== promptId));
         toast.success('Prompt gelöscht!', {
           icon: '🗑️',

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { appConfig } from '../config/app.config';
 import { logger } from '../utils/logger';
-import { OllamaLogger } from '../utils/ollama-logger';
+import { OllamaMarkdownLogger, OllamaLogSession } from '../utils/ollama-logger';
 
 export interface OllamaResponse {
   message: {
@@ -92,15 +92,16 @@ export class OllamaService {
       });
     }
 
-    // Detailed file logging
-    OllamaLogger.logRequest({
-      sessionId: sessionId ?? 'unknown',
-      debugContext: debugContext ?? 'unknown',
-      model: model ?? 'unknown',
-      baseUrl: baseUrl ?? 'unknown',
-      requestData: data,
-      estimatedInputTokens: estimatedTokens
-    });
+    // Create new logging session
+    const logSession = OllamaMarkdownLogger.createSession(
+      debugContext ?? 'Unknown-Use-Case',
+      model ?? 'unknown',
+      baseUrl ?? 'unknown',
+      sessionId
+    );
+    
+    // Log request with detailed data
+    logSession.logRequest(data, systemMessage, userPrompt);
 
     const requestStartTime = Date.now();
 
@@ -133,19 +134,11 @@ export class OllamaService {
           });
         }
 
-        // Detailed response logging
-        OllamaLogger.logResponse({
-          sessionId: sessionId ?? 'unknown',
-          debugContext: debugContext ?? 'unknown',
-          model: model ?? 'unknown',
-          baseUrl: baseUrl ?? 'unknown',
-          responseData: aiResponse,
-          duration: `${requestDuration}ms`,
-          tokensUsed: {
-            input: estimatedTokens,
-            output: responseTokens,
-            total: totalTokens
-          }
+        // Log successful response
+        logSession.logResponse(aiResponse, {
+          input: estimatedTokens,
+          output: responseTokens,
+          total: totalTokens
         });
 
         return {
@@ -219,19 +212,18 @@ export class OllamaService {
                   metadata: { sessionId, debugContext, responseTime: `${retryDuration}ms` },
                 });
 
-                // Log successful retry response
-                OllamaLogger.logResponse({
-                  sessionId: sessionId ?? 'unknown',
-                  debugContext: `${debugContext ?? 'unknown'}-Retry`,
-                  model: model ?? 'unknown',
-                  baseUrl: baseUrl ?? 'unknown',
-                  responseData: aiResponse,
-                  duration: `${retryDuration}ms`,
-                  tokensUsed: {
-                    input: estimatedTokens,
-                    output: responseTokens,
-                    total: totalTokens
-                  }
+                // Log successful retry response (update use case to indicate retry)
+                const retryLogSession = OllamaMarkdownLogger.createSession(
+                  `${debugContext ?? 'Unknown-Use-Case'}-Retry`,
+                  model ?? 'unknown',
+                  baseUrl ?? 'unknown',
+                  sessionId
+                );
+                retryLogSession.logRequest(retryData, systemMessage, userPrompt);
+                retryLogSession.logResponse(aiResponse, {
+                  input: estimatedTokens,
+                  output: responseTokens,
+                  total: totalTokens
                 });
 
                 return {
@@ -267,16 +259,8 @@ export class OllamaService {
         },
       });
 
-      // Detailed error logging
-      OllamaLogger.logError({
-        sessionId: sessionId ?? 'unknown',
-        debugContext: debugContext ?? 'unknown',
-        model: model ?? 'unknown',
-        baseUrl: baseUrl ?? 'unknown',
-        error: error,
-        duration: `${requestDuration}ms`,
-        requestData: data
-      });
+      // Log error
+      logSession.logError(error);
 
       return null;
     }

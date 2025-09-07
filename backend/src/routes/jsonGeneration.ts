@@ -29,6 +29,24 @@ function generateVariableCombinations(variableNames: string[], variableData: Rec
   return result;
 }
 
+function expandValuesWithGenderSuffixes(variableData: Record<string, string[]>): Record<string, string[]> {
+  const expandedVariableData: Record<string, string[]> = {};
+  
+  for (const [varName, values] of Object.entries(variableData)) {
+    const expandedValues: string[] = [];
+    
+    for (const value of values) {
+      // Add gendered variants only (no original value)
+      expandedValues.push(`${value}, female`);
+      expandedValues.push(`${value}, male`);
+    }
+    
+    expandedVariableData[varName] = expandedValues;
+  }
+  
+  return expandedVariableData;
+}
+
 function substituteVariables(template: string, variables: Record<string, string>, wrapValues: boolean = false): string {
   let result = template;
   
@@ -101,6 +119,11 @@ export function createJsonGenerationRoutes(db: JsonDatabase): Router {
         success: false,
         error: 'Either variablePresetIds or customVariables must be provided'
       });
+    }
+
+    // Apply gender suffixes if requested
+    if (validatedRequest.addGenderSuffixes) {
+      variableData = expandValuesWithGenderSuffixes(variableData);
     }
 
     // Generate all combinations

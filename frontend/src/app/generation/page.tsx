@@ -20,7 +20,7 @@ import {
   ChevronDown,
   Search
 } from 'lucide-react';
-import { ConfirmDialog, AlertDialog } from '../../components/Dialog';
+import { ConfirmDialog, AlertDialog, MultiChoiceDialog, MultiChoiceDialogButton } from '../../components/Dialog';
 import { templateApi, variablePresetApi, generationApi } from '../../lib/api';
 
 interface Template {
@@ -62,6 +62,7 @@ export default function GenerationPage() {
   const [customVariables, setCustomVariables] = useState<Record<string, string>>({});
   const [useCustomVariables, setUseCustomVariables] = useState(false);
   const [wrapVariableValues, setWrapVariableValues] = useState(false); // New option for wrapping values
+  const [addGenderSuffixes, setAddGenderSuffixes] = useState(false); // New option for gender suffixes
   
   // Variable Preset Dropdown state
   const [showVariablePresetDropdown, setShowVariablePresetDropdown] = useState(false);
@@ -74,6 +75,7 @@ export default function GenerationPage() {
   // Dialog state
   const [alertDialog, setAlertDialog] = useState<{ show: boolean; title: string; message: string; type: 'success' | 'error' | 'info' }>({ show: false, title: '', message: '', type: 'info' });
   const [confirmDialog, setConfirmDialog] = useState<{ show: boolean; title: string; message: string; onConfirm: () => void }>({ show: false, title: '', message: '', onConfirm: () => {} });
+  const [multiChoiceDialog, setMultiChoiceDialog] = useState<{ show: boolean; title: string; message: string; buttons: MultiChoiceDialogButton[] }>({ show: false, title: '', message: '', buttons: [] });
   
   // Load data
   useEffect(() => {
@@ -164,6 +166,7 @@ export default function GenerationPage() {
       const requestBody: any = {
         templateIds: [selectedTemplateId], // Single template as array
         wrapVariableValues, // Add the wrapping option
+        addGenderSuffixes, // Add the gender suffixes option
       };
 
       if (useCustomVariables) {
@@ -208,13 +211,55 @@ export default function GenerationPage() {
     }
   };
 
-  const handleDeleteAllClick = () => {
-    setConfirmDialog({
-      show: true,
-      title: 'Alle Prompts löschen',
-      message: 'Alle generierten Prompts löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
-      onConfirm: deleteAllPrompts
-    });
+  const handleDeleteClick = () => {
+    const totalPromptCount = generatedPrompts.length;
+    const templatePromptCount = displayedPrompts.length;
+    const templateName = selectedTemplate?.name || 'Template';
+
+    if (selectedTemplateId) {
+      // Template ausgewählt - 3 Button Dialog
+      setMultiChoiceDialog({
+        show: true,
+        title: 'Prompts löschen',
+        message: 'Welche Prompts möchten Sie löschen?',
+        buttons: [
+          {
+            text: `Nur ${templateName} (${templatePromptCount})`,
+            onClick: deleteTemplatePrompts,
+            variant: 'primary'
+          },
+          {
+            text: `Alle Prompts (${totalPromptCount})`,
+            onClick: deleteAllPrompts,
+            variant: 'danger'
+          },
+          {
+            text: 'Abbrechen',
+            onClick: () => {},
+            variant: 'ghost'
+          }
+        ]
+      });
+    } else {
+      // Kein Template - 2 Button Dialog  
+      setMultiChoiceDialog({
+        show: true,
+        title: 'Prompts löschen',
+        message: 'Alle generierten Prompts löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
+        buttons: [
+          {
+            text: `Alle Prompts (${totalPromptCount})`,
+            onClick: deleteAllPrompts,
+            variant: 'danger'
+          },
+          {
+            text: 'Abbrechen',
+            onClick: () => {},
+            variant: 'ghost'
+          }
+        ]
+      });
+    }
   };
 
   const deleteAllPrompts = async () => {
@@ -231,6 +276,30 @@ export default function GenerationPage() {
         show: true,
         title: 'Löschfehler',
         message: 'Fehler beim Löschen',
+        type: 'error'
+      });
+    }
+  };
+
+  const deleteTemplatePrompts = async () => {
+    if (!selectedTemplateId) return;
+    
+    try {
+      const templatePromptIds = displayedPrompts.map(p => p.id);
+      const response = await generationApi.deletePrompts(templatePromptIds);
+
+      if (response.success) {
+        // Remove deleted prompts from state
+        setGeneratedPrompts(prev => prev.filter(p => p.templateId !== selectedTemplateId));
+        const templateName = selectedTemplate?.name || 'Template';
+        toast.success(`${templateName}-Prompts gelöscht!`);
+      }
+    } catch (error) {
+      console.error('Error deleting template prompts:', error);
+      setAlertDialog({
+        show: true,
+        title: 'Löschfehler',
+        message: 'Fehler beim Löschen der Template-Prompts',
         type: 'error'
       });
     }
@@ -720,23 +789,44 @@ export default function GenerationPage() {
                   </div>
                 )}
 
-                {/* Variable Value Wrapping Option */}
+                {/* Variable Value Options */}
                 {(selectedTemplateId && ((!useCustomVariables && selectedVariablePresetIds.length > 0) || (useCustomVariables && getAllRequiredVariables().length > 0))) && (
-                  <div className="mb-6">
-                    <label className="flex items-center space-x-3">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                        checked={wrapVariableValues}
-                        onChange={(e) => setWrapVariableValues(e.target.checked)}
-                      />
-                      <span className="text-sm text-gray-900">
-                        Variablenwerte mit eckigen Klammern umschließen
-                      </span>
-                    </label>
-                    <p className="text-xs text-gray-500 mt-1 ml-6">
-                      Beispiel: "Wert" wird zu "[Wert]" im generierten Prompt
-                    </p>
+                  <div className="mb-6 space-y-4">
+                    {/* Wrap Variable Values Option */}
+                    <div>
+                      <label className="flex items-center space-x-3">
+                        <input
+                          type="checkbox"
+                          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                          checked={wrapVariableValues}
+                          onChange={(e) => setWrapVariableValues(e.target.checked)}
+                        />
+                        <span className="text-sm text-gray-900">
+                          Variablenwerte mit eckigen Klammern umschließen
+                        </span>
+                      </label>
+                      <p className="text-xs text-gray-500 mt-1 ml-6">
+                        Beispiel: "Wert" wird zu "[Wert]" im generierten Prompt
+                      </p>
+                    </div>
+
+                    {/* Gender Suffixes Option */}
+                    <div>
+                      <label className="flex items-center space-x-3">
+                        <input
+                          type="checkbox"
+                          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                          checked={addGenderSuffixes}
+                          onChange={(e) => setAddGenderSuffixes(e.target.checked)}
+                        />
+                        <span className="text-sm text-gray-900">
+                          Gender-Suffixe hinzufügen (, female / , male)
+                        </span>
+                      </label>
+                      <p className="text-xs text-gray-500 mt-1 ml-6">
+                        Generiert für jeden Wert zusätzlich Varianten mit ", female" und ", male"
+                      </p>
+                    </div>
                   </div>
                 )}
 
@@ -784,7 +874,7 @@ export default function GenerationPage() {
                         </ul>
                       </div>
                       <button
-                        onClick={handleDeleteAllClick}
+                        onClick={handleDeleteClick}
                         className="btn btn-outline btn-sm text-red-600 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -878,6 +968,15 @@ export default function GenerationPage() {
         confirmText="Löschen"
         confirmVariant="danger"
         cancelText="Abbrechen"
+      />
+
+      {/* Multi Choice Dialog */}
+      <MultiChoiceDialog
+        show={multiChoiceDialog.show}
+        onClose={() => setMultiChoiceDialog({ show: false, title: '', message: '', buttons: [] })}
+        title={multiChoiceDialog.title}
+        message={multiChoiceDialog.message}
+        buttons={multiChoiceDialog.buttons}
       />
     </div>
   );

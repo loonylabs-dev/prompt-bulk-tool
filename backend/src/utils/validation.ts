@@ -312,6 +312,10 @@ export const validateGenerationRequest = (data: any) => {
     errors.push('wrapVariableValues must be a boolean');
   }
 
+  if (data.addGenderSuffixes !== undefined && typeof data.addGenderSuffixes !== 'boolean') {
+    errors.push('addGenderSuffixes must be a boolean');
+  }
+
   if (!data.variablePresetIds?.length && !data.customVariables) {
     errors.push('Either variablePresetIds or customVariables must be provided');
   }

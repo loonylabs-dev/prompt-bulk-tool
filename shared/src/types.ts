@@ -116,6 +116,7 @@ export interface GenerationRequest {
   variablePresetIds?: string[];
   customVariables?: Record<string, string[]>;
   wrapVariableValues?: boolean;
+  addGenderSuffixes?: boolean;
 }
 
 export interface GenerationResponse {

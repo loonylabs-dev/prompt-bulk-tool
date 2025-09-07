@@ -79,7 +79,7 @@ export default function EditVariablePresetPage() {
           tags: preset.tags
         });
     } catch (err) {
-      setErrors({ general: 'Fehler beim Laden des Variable-Presets' });
+      setErrors({ general: 'Error loading Variable Preset' });
     } finally {
       setInitialLoading(false);
     }
@@ -108,23 +108,23 @@ export default function EditVariablePresetPage() {
     const newErrors: Record<string, string> = {};
     
     if (!formData.name.trim()) {
-      newErrors.name = 'Name ist erforderlich';
+      newErrors.name = 'Name is required';
     }
     
     if (!formData.description.trim()) {
-      newErrors.description = 'Beschreibung ist erforderlich';
+      newErrors.description = 'Description is required';
     }
     
     if (!formData.placeholder.trim()) {
-      newErrors.placeholder = 'Platzhalter ist erforderlich';
+      newErrors.placeholder = 'Placeholder is required';
     }
     
     if (!formData.values.trim()) {
-      newErrors.values = 'Werte sind erforderlich';
+      newErrors.values = 'Values are required';
     } else {
       const valueList = formData.values.split(';').map(v => v.trim()).filter(v => v.length > 0);
       if (valueList.length === 0) {
-        newErrors.values = 'Mindestens ein Wert ist erforderlich';
+        newErrors.values = 'At least one value is required';
       }
     }
 
@@ -139,20 +139,20 @@ export default function EditVariablePresetPage() {
       const response = await variablePresetApi.update(presetId, formData);
 
       if (response.success) {
-        toast.success('Variable-Preset erfolgreich gespeichert!');
+        toast.success('Variable Preset saved successfully!');
         router.push('/variable-presets');
       } else {
-        setErrors({ general: response.error || 'Fehler beim Aktualisieren des Variable-Presets' });
+        setErrors({ general: response.error || 'Error updating Variable Preset' });
       }
     } catch (err) {
-      setErrors({ general: 'Fehler beim Verbinden mit dem Server' });
+      setErrors({ general: 'Error connecting to server' });
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteClick = () => {
-    setDeleteDialog({ show: true, presetName: formData.name || 'Variable-Preset' });
+    setDeleteDialog({ show: true, presetName: formData.name || 'Variable Preset' });
   };
 
   const handleDelete = async () => {
@@ -160,10 +160,10 @@ export default function EditVariablePresetPage() {
       const response = await variablePresetApi.delete(presetId);
 
       if (response.success) {
-        toast.success('Variable-Preset gelöscht!');
+        toast.success('Variable Preset deleted!');
         router.push('/variable-presets');
       } else {
-        setErrors({ general: 'Fehler beim Löschen des Variable-Presets' });
+        setErrors({ general: 'Error deleting Variable Preset' });
       }
     } catch (err) {
       setErrors({ general: 'Fehler beim Löschen des Variable-Presets' });
@@ -240,9 +240,9 @@ export default function EditVariablePresetPage() {
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Variable-Preset bearbeiten</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Edit Variable Preset</h1>
               <p className="mt-1 text-gray-600">
-                Ändern Sie die Einstellungen für dieses Variable-Preset
+                Modify the settings for this Variable Preset
               </p>
             </div>
           </div>
@@ -253,7 +253,7 @@ export default function EditVariablePresetPage() {
             className="btn btn-danger btn-md"
           >
             <Trash2 className="w-4 h-4 mr-2" />
-            Löschen
+            Delete
           </button>
         </div>
       </div>
@@ -261,7 +261,7 @@ export default function EditVariablePresetPage() {
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-white shadow-sm border rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-6">Grundinformationen</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-6">Basic Information</h2>
           
           <div className="grid grid-cols-1 gap-6">
             {/* Name */}
@@ -277,7 +277,7 @@ export default function EditVariablePresetPage() {
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
                   errors.name ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="z.B. Dragon Types, Product Styles..."
+                placeholder="e.g. Dragon Types, Product Styles..."
               />
               {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
             </div>
@@ -285,7 +285,7 @@ export default function EditVariablePresetPage() {
             {/* Description */}
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                Beschreibung *
+                Description *
               </label>
               <textarea
                 id="description"
@@ -295,7 +295,7 @@ export default function EditVariablePresetPage() {
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
                   errors.description ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Beschreiben Sie, wofür dieses Variable-Preset verwendet wird..."
+                placeholder="Describe what this Variable Preset is used for..."
               />
               {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
             </div>
@@ -303,13 +303,13 @@ export default function EditVariablePresetPage() {
         </div>
 
         <div className="bg-white shadow-sm border rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-6">Platzhalter & Werte</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-6">Placeholder & Values</h2>
           
           <div className="grid grid-cols-1 gap-6">
             {/* Placeholder Selector */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Template-Platzhalter * {placeholders.length > 0 && `(${placeholders.length} verfügbar)`}
+                Template Placeholder * {placeholders.length > 0 && `(${placeholders.length} available)`}
               </label>
               <div className="relative">
                 <button
@@ -321,7 +321,7 @@ export default function EditVariablePresetPage() {
                 >
                   <div className="flex items-center justify-between">
                     <span className={formData.placeholder ? 'text-gray-900' : 'text-gray-500'}>
-                      {formData.placeholder ? `{{${formData.placeholder}}}` : 'Platzhalter aus Templates auswählen...'}
+                      {formData.placeholder ? `{{${formData.placeholder}}}` : 'Select placeholder from templates...'}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-400" />
                   </div>
@@ -334,7 +334,7 @@ export default function EditVariablePresetPage() {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                         <input
                           type="text"
-                          placeholder="Platzhalter suchen..."
+                          placeholder="Search placeholders..."
                           className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                           value={placeholderSearch}
                           onChange={(e) => setPlaceholderSearch(e.target.value)}
@@ -356,7 +356,7 @@ export default function EditVariablePresetPage() {
                                   {'{{'}{placeholder.name}{'}}'}
                                 </div>
                                 <div className="text-sm text-gray-600">
-                                  Verwendet in {placeholder.usedInTemplates} Template{placeholder.usedInTemplates !== 1 ? 's' : ''}
+                                  Used in {placeholder.usedInTemplates} Template{placeholder.usedInTemplates !== 1 ? 's' : ''}
                                 </div>
                               </div>
                             </div>
@@ -365,8 +365,8 @@ export default function EditVariablePresetPage() {
                       ) : (
                         <div className="px-3 py-6 text-center text-gray-500">
                           {placeholders.length === 0 
-                            ? 'Keine Templates mit Platzhaltern gefunden'
-                            : 'Keine passenden Platzhalter gefunden'
+                            ? 'No templates with placeholders found'
+                            : 'No matching placeholders found'
                           }
                         </div>
                       )}
@@ -383,14 +383,14 @@ export default function EditVariablePresetPage() {
                   onClick={() => setShowPlaceholderDropdown(false)}
                   className="text-sm text-gray-600 hover:text-gray-800"
                 >
-                  Oder manuell bearbeiten:
+                  Or edit manually:
                 </button>
                 <input
                   type="text"
                   value={formData.placeholder}
                   onChange={(e) => handleInputChange('placeholder', e.target.value)}
                   className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Platzhalter-Name ohne {{}}"
+                  placeholder="Placeholder name without {{}}"
                 />
               </div>
             </div>
@@ -399,16 +399,16 @@ export default function EditVariablePresetPage() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label htmlFor="values" className="text-sm font-medium text-gray-700">
-                  Werte * (durch Semikolon getrennt)
+                  Values * (semicolon separated)
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowGenerationDialog(true)}
                   className="flex items-center gap-2 px-3 py-1 text-sm text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-md transition-colors"
-                  title="AI-gestützte Werte-Generierung"
+                  title="AI-assisted value generation"
                 >
                   <Wand2 className="w-4 h-4" />
-                  Generieren
+                  Generate
                 </button>
               </div>
               <textarea
@@ -419,19 +419,19 @@ export default function EditVariablePresetPage() {
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
                   errors.values ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Wert1;Wert2;Wert mit Komma, hier;Noch ein Wert"
+                placeholder="Value1;Value2;Value with comma, here;Another value"
               />
               {errors.values && <p className="mt-1 text-sm text-red-600">{errors.values}</p>}
               
               <p className="mt-1 text-sm text-gray-500">
-                Verwenden Sie Semikolons (;) zur Trennung von Werten. Kommas innerhalb der Werte sind erlaubt.
+                Use semicolons (;) to separate values. Commas within values are allowed.
               </p>
 
               {/* Values Preview */}
               {formData.values.trim() && (
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                   <h4 className="text-sm font-medium text-gray-700 mb-2">
-                    Vorschau ({getValuesPreview().length} Werte):
+                    Preview ({getValuesPreview().length} values):
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {getValuesPreview().map((value, index) => (
@@ -450,7 +450,7 @@ export default function EditVariablePresetPage() {
         </div>
 
         <div className="bg-white shadow-sm border rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-6">Organisation</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-6">Organization</h2>
           
           {/* Tags */}
           <div>
@@ -466,7 +466,7 @@ export default function EditVariablePresetPage() {
                 onChange={(e) => setNewTag(e.target.value)}
                 onKeyPress={(e) => handleKeyPress(e, addTag)}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Neuen Tag hinzufügen..."
+                placeholder="Add new tag..."
               />
               <button
                 type="button"
@@ -514,7 +514,7 @@ export default function EditVariablePresetPage() {
             href="/variable-presets"
             className="btn btn-outline btn-md"
           >
-            Abbrechen
+            Cancel
           </Link>
           <button
             type="submit"
@@ -524,12 +524,12 @@ export default function EditVariablePresetPage() {
             {loading ? (
               <>
                 <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Wird gespeichert...
+                Saving...
               </>
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                Änderungen speichern
+                Save Changes
               </>
             )}
           </button>
@@ -559,11 +559,11 @@ export default function EditVariablePresetPage() {
           handleDelete();
           setDeleteDialog({ show: false, presetName: '' });
         }}
-        title="Variable-Preset löschen"
-        message={`Sind Sie sicher, dass Sie das Variable-Preset "${deleteDialog.presetName}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`}
-        confirmText="Löschen"
+        title="Delete Variable Preset"
+        message={`Are you sure you want to delete the Variable Preset "${deleteDialog.presetName}"? This action cannot be undone.`}
+        confirmText="Delete"
         confirmVariant="danger"
-        cancelText="Abbrechen"
+        cancelText="Cancel"
       />
     </div>
   );
@@ -585,12 +585,12 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
 
   const handleGenerate = async () => {
     if (!direction.trim()) {
-      setError('Bitte geben Sie eine Richtung/Stil an');
+      setError('Please specify a direction/style');
       return;
     }
 
     if (!variableName.trim()) {
-      setError('Kein Platzhalter ausgewählt');
+      setError('No placeholder selected');
       return;
     }
 
@@ -613,11 +613,11 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
       if (response.success && response.data?.values) {
         onGenerate(response.data.values);
       } else {
-        throw new Error(response.error || 'Keine Werte generiert');
+        throw new Error(response.error || 'No values generated');
       }
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unbekannter Fehler');
+      setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
@@ -629,7 +629,7 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-900">
-              Werte generieren
+              Generate Values
             </h3>
             <button
               onClick={onClose}
@@ -642,16 +642,16 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Platzhalter
+                Placeholder
               </label>
               <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-600">
-                {variableName ? `{{${variableName}}}` : 'Kein Platzhalter ausgewählt'}
+                {variableName ? `{{${variableName}}}` : 'No placeholder selected'}
               </div>
             </div>
 
             <div>
               <label htmlFor="direction" className="block text-sm font-medium text-gray-700 mb-1">
-                Richtung/Stil *
+                Direction/Style *
               </label>
               <input
                 type="text"
@@ -659,16 +659,16 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
                 value={direction}
                 onChange={(e) => setDirection(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder='z.B. "klein und witzig", "episch und heroisch"'
+                placeholder='e.g. "small and funny", "epic and heroic"'
               />
               <p className="mt-1 text-xs text-gray-500">
-                Beschreiben Sie den gewünschten Stil oder die Richtung für die generierten Werte
+                Describe the desired style or direction for the generated values
               </p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ausführlichkeit
+                Verbosity
               </label>
               <div className="flex gap-2">
                 <button
@@ -680,7 +680,7 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                   }`}
                 >
-                  Nur Titel
+                  Title Only
                 </button>
                 <button
                   type="button"
@@ -691,7 +691,7 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                   }`}
                 >
-                  Kurz & prägnant
+                  Short & Concise
                 </button>
                 <button
                   type="button"
@@ -702,17 +702,17 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                   }`}
                 >
-                  1 Satz
+                  1 Sentence
                 </button>
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                Bestimmt wie ausführlich die generierten Werte sein sollen
+                Determines how verbose the generated values should be
               </p>
             </div>
 
             <div>
               <label htmlFor="count" className="block text-sm font-medium text-gray-700 mb-1">
-                Anzahl Ergebnisse
+                Number of Results
               </label>
               <select
                 id="count"
@@ -720,10 +720,10 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
                 onChange={(e) => setCount(parseInt(e.target.value))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               >
-                <option value={5}>5 Werte</option>
-                <option value={10}>10 Werte</option>
-                <option value={15}>15 Werte</option>
-                <option value={20}>20 Werte</option>
+                <option value={5}>5 Values</option>
+                <option value={10}>10 Values</option>
+                <option value={15}>15 Values</option>
+                <option value={20}>20 Values</option>
               </select>
             </div>
 
@@ -739,7 +739,7 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
               onClick={onClose}
               className="btn btn-outline btn-md"
             >
-              Abbrechen
+              Cancel
             </button>
             <button
               onClick={handleGenerate}
@@ -749,12 +749,12 @@ function GenerationDialog({ templateContent, variableName, onGenerate, onClose }
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Generiere...
+                  Generating...
                 </>
               ) : (
                 <>
                   <Wand2 className="w-4 h-4" />
-                  Generieren
+                  Generate
                 </>
               )}
             </button>

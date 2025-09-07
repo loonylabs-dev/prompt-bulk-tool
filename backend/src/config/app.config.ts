@@ -63,12 +63,12 @@ export function validateConfig(): void {
   
   for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {
-      throw new Error(`Erforderliche Umgebungsvariable ${envVar} ist nicht gesetzt`);
+      throw new Error(`Required environment variable ${envVar} is not set`);
     }
   }
   
   if (appConfig.server.port < 1 || appConfig.server.port > 65535) {
-    throw new Error('Port muss zwischen 1 und 65535 liegen');
+    throw new Error('Port must be between 1 and 65535');
   }
 }
 

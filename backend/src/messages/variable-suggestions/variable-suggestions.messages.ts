@@ -17,59 +17,59 @@ export class VariableSuggestionsMessage extends BaseAIMessage {
   public readonly category = MESSAGE_CATEGORIES.VARIABLE_GENERATION;
   public readonly description = 'Generates variable preset suggestions for prompt templates';
 
-  public readonly systemMessage = `Du bist ein Experte für Prompt-Template-Analyse und Variable-Erstellung. Deine Aufgabe ist es, für gegebene Prompt-Templates sinnvolle Variable-Presets zu erstellen.
+  public readonly systemMessage = `You are an expert in prompt template analysis and variable creation. Your task is to create meaningful variable presets for given prompt templates.
 
-Analysiere den Template-Inhalt und erstelle Variable-Presets, die:
-1. Die Platzhalter im Template ({{variable_name}}) berücksichtigen
-2. Vielfältige und kreative Werte für jede Variable vorschlagen
-3. Thematisch passend und kontextuell sinnvoll sind
-4. Eine gute Mischung aus verschiedenen Optionen bieten
+Analyze the template content and create variable presets that:
+1. Consider the placeholders in the template ({{variable_name}})
+2. Suggest diverse and creative values for each variable
+3. Are thematically appropriate and contextually meaningful
+4. Provide a good mix of different options
 
-Antwort-Format:
-Gib deine Antwort als JSON zurück mit folgendem Schema:
+Response Format:
+Return your response as JSON with the following schema:
 {
   "variablePresets": {
     "variable_name": [
-      "wert1",
-      "wert2", 
-      "wert3"
+      "value1",
+      "value2", 
+      "value3"
     ]
   },
   "analysis": {
     "detectedVariables": ["variable1", "variable2"],
-    "templateTheme": "Beschreibung des Template-Themas",
-    "suggestions": "Begründung für die Auswahl der Werte"
+    "templateTheme": "Description of the template theme",
+    "suggestions": "Rationale for the selection of values"
   }
 }
 
-Wichtig:
-- Erstelle für jede erkannte Variable mindestens 5-10 verschiedene Werte
-- Die Werte sollen vielfältig, kreativ und praktisch nutzbar sein
-- Berücksichtige den Kontext und das Thema des Templates
-- Verwende nur deutsche oder englische Werte, je nach Template-Sprache`;
+Important:
+- Create at least 5-10 different values for each detected variable
+- The values should be diverse, creative, and practically usable
+- Consider the context and theme of the template
+- Use only German or English values, depending on the template language`;
 
   public buildUserMessage(input: VariableSuggestionsInput): string {
     this.validateRequiredParams(input, ['templateContent']);
 
     const existingVarsText = input.existingVariables && input.existingVariables.length > 0
-      ? `\n\nBereits vorhandene Variablen: ${input.existingVariables.join(', ')}`
+      ? `\n\nExisting variables: ${input.existingVariables.join(', ')}`
       : '';
 
     const maxSuggestionsText = input.maxSuggestions
-      ? `\n\nMaximale Anzahl Vorschläge pro Variable: ${input.maxSuggestions}`
+      ? `\n\nMaximum number of suggestions per variable: ${input.maxSuggestions}`
       : '';
 
     const templateNameText = input.templateName
-      ? `Template-Name: "${input.templateName}"\n\n`
+      ? `Template Name: "${input.templateName}"\n\n`
       : '';
 
-    return `${templateNameText}Analysiere diesen Prompt-Template und erstelle Variable-Presets:
+    return `${templateNameText}Analyze this prompt template and create variable presets:
 
-Template-Inhalt:
+Template Content:
 """
 ${this.sanitizeText(input.templateContent)}
 """${existingVarsText}${maxSuggestionsText}
 
-Analysiere die Platzhalter {{variable_name}} im Template und erstelle für jede Variable eine Liste sinnvoller, vielfältiger Werte. Berücksichtige dabei das Thema und den Kontext des Templates.`;
+Analyze the placeholders {{variable_name}} in the template and create a list of meaningful, diverse values for each variable. Consider the theme and context of the template.`;
   }
 }

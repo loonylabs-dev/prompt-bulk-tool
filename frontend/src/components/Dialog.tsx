@@ -41,7 +41,7 @@ export function Dialog({ show, onClose, title, children, actions, maxWidth = 'md
   );
 }
 
-// Spezielle Dialog-Typen
+// Specialized Dialog Types
 export interface ConfirmDialogProps {
   show: boolean;
   onClose: () => void;
@@ -59,9 +59,9 @@ export function ConfirmDialog({
   onConfirm,
   title,
   message,
-  confirmText = 'Bestätigen',
+  confirmText = 'Confirm',
   confirmVariant = 'danger',
-  cancelText = 'Abbrechen'
+  cancelText = 'Cancel'
 }: ConfirmDialogProps) {
   const handleConfirm = () => {
     onConfirm();

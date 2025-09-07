@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X } from 'lucide-react';
-import { variablePresetApi } from '../../../lib/api';
+import { ArrowLeft, Save, Search, ChevronDown, Tag, Plus, X, Wand2 } from 'lucide-react';
+import { aiApi, variablePresetApi } from '../../../lib/api';
+import { VerbosityLevel } from '@prompt-bulk-tool/shared/dist/types';
 
 interface TemplatePlaceholder {
   name: string;
@@ -31,6 +32,7 @@ export default function CreateVariablePresetPage() {
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [newTag, setNewTag] = useState('');
+  const [showGenerationDialog, setShowGenerationDialog] = useState(false);
 
   // Fetch available placeholders
   useEffect(() => {
@@ -41,7 +43,7 @@ export default function CreateVariablePresetPage() {
     try {
       const response = await variablePresetApi.getPlaceholders();
       
-      if (response.success) {
+      if (response.success && response.data) {
         setPlaceholders(response.data);
       }
     } catch (err) {
@@ -304,9 +306,20 @@ export default function CreateVariablePresetPage() {
 
             {/* Values */}
             <div>
-              <label htmlFor="values" className="block text-sm font-medium text-gray-700 mb-2">
-                Werte * (durch Semikolon getrennt)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="values" className="text-sm font-medium text-gray-700">
+                  Werte * (durch Semikolon getrennt)
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowGenerationDialog(true)}
+                  className="flex items-center gap-2 px-3 py-1 text-sm text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-md transition-colors"
+                  title="AI-gestützte Werte-Generierung"
+                >
+                  <Wand2 className="w-4 h-4" />
+                  Generieren
+                </button>
+              </div>
               <textarea
                 id="values"
                 rows={4}
@@ -431,6 +444,217 @@ export default function CreateVariablePresetPage() {
           </button>
         </div>
       </form>
+
+      {/* Generation Dialog */}
+      {showGenerationDialog && (
+        <GenerationDialog
+          templateContent="" // Will be fetched based on placeholder
+          variableName={formData.placeholder}
+          onGenerate={(values) => {
+            const existingValues = formData.values ? formData.values.split(';').map(v => v.trim()).filter(v => v) : [];
+            const newValues = [...existingValues, ...values];
+            handleInputChange('values', newValues.join(';'));
+            setShowGenerationDialog(false);
+          }}
+          onClose={() => setShowGenerationDialog(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+interface GenerationDialogProps {
+  templateContent: string;
+  variableName: string;
+  onGenerate: (values: string[]) => void;
+  onClose: () => void;
+}
+
+function GenerationDialog({ templateContent, variableName, onGenerate, onClose }: GenerationDialogProps) {
+  const [direction, setDirection] = useState('');
+  const [count, setCount] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [verbosity, setVerbosity] = useState<VerbosityLevel>(VerbosityLevel.SHORT_CONCISE);
+
+  const handleGenerate = async () => {
+    if (!direction.trim()) {
+      setError('Bitte geben Sie eine Richtung/Stil an');
+      return;
+    }
+
+    if (!variableName.trim()) {
+      setError('Kein Platzhalter ausgewählt');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError('');
+
+      // For now, use a dummy template - in real implementation, 
+      // we'd fetch the actual template content that uses this variable
+      const dummyTemplate = `Generate a {{${variableName}}} for the story.`;
+
+      const response = await aiApi.generateVariableValues({
+        templateContent: dummyTemplate,
+        variableName,
+        direction,
+        count,
+        verbosity
+      });
+
+      if (response.success && response.data?.values) {
+        onGenerate(response.data.values);
+      } else {
+        throw new Error(response.error || 'Keine Werte generiert');
+      }
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unbekannter Fehler');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-medium text-gray-900">
+              Werte generieren
+            </h3>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Platzhalter
+              </label>
+              <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-600">
+                {variableName ? `{{${variableName}}}` : 'Kein Platzhalter ausgewählt'}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="direction" className="block text-sm font-medium text-gray-700 mb-1">
+                Richtung/Stil *
+              </label>
+              <input
+                type="text"
+                id="direction"
+                value={direction}
+                onChange={(e) => setDirection(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                placeholder='z.B. "klein und witzig", "episch und heroisch"'
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Beschreiben Sie den gewünschten Stil oder die Richtung für die generierten Werte
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ausführlichkeit
+              </label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setVerbosity(VerbosityLevel.TITLE_ONLY)}
+                  className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    verbosity === VerbosityLevel.TITLE_ONLY
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  Nur Titel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVerbosity(VerbosityLevel.SHORT_CONCISE)}
+                  className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    verbosity === VerbosityLevel.SHORT_CONCISE
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  Kurz & prägnant
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVerbosity(VerbosityLevel.ONE_SENTENCE)}
+                  className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    verbosity === VerbosityLevel.ONE_SENTENCE
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  1 Satz
+                </button>
+              </div>
+              <p className="mt-1 text-xs text-gray-500">
+                Bestimmt wie ausführlich die generierten Werte sein sollen
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="count" className="block text-sm font-medium text-gray-700 mb-1">
+                Anzahl Ergebnisse
+              </label>
+              <select
+                id="count"
+                value={count}
+                onChange={(e) => setCount(parseInt(e.target.value))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              >
+                <option value={5}>5 Werte</option>
+                <option value={10}>10 Werte</option>
+                <option value={15}>15 Werte</option>
+                <option value={20}>20 Werte</option>
+              </select>
+            </div>
+
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded text-sm text-red-600">
+                {error}
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-200">
+            <button
+              onClick={onClose}
+              className="btn btn-outline btn-md"
+            >
+              Abbrechen
+            </button>
+            <button
+              onClick={handleGenerate}
+              disabled={loading || !direction.trim() || !variableName}
+              className="btn btn-primary btn-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Generiere...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-4 h-4" />
+                  Generieren
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

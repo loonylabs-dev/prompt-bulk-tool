@@ -14,8 +14,8 @@ interface VariablePreset {
   placeholder: string;
   values: string;
   tags: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
 
 interface ApiResponse {
@@ -51,7 +51,7 @@ export default function VariablePresetsPage() {
       setLoading(true);
       const response = await variablePresetApi.getAll();
       
-      if (response.success) {
+      if (response.success && response.data) {
         setPresets(response.data);
       } else {
         setError('Failed to load variable presets');

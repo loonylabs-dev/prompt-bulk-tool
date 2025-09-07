@@ -185,7 +185,7 @@ export const variablePresetApi = {
     return data;
   },
 
-  getPlaceholders: async (): Promise<ApiResponse<string[]>> => {
+  getPlaceholders: async (): Promise<ApiResponse<any[]>> => {
     const { data } = await api.get('/variable-presets/placeholders/all');
     return data;
   },

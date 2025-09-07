@@ -156,3 +156,66 @@ export function AlertDialog({
     </Dialog>
   );
 }
+
+export interface MultiChoiceDialogButton {
+  text: string;
+  onClick: () => void;
+  variant?: 'primary' | 'danger' | 'ghost';
+  className?: string;
+}
+
+export interface MultiChoiceDialogProps {
+  show: boolean;
+  onClose: () => void;
+  title: string;
+  message: string;
+  buttons: MultiChoiceDialogButton[];
+}
+
+export function MultiChoiceDialog({
+  show,
+  onClose,
+  title,
+  message,
+  buttons
+}: MultiChoiceDialogProps) {
+  const getButtonClass = (variant: string = 'primary') => {
+    switch (variant) {
+      case 'danger':
+        return 'btn btn-danger btn-md flex-1';
+      case 'ghost':
+        return 'btn btn-ghost btn-md flex-1';
+      default:
+        return 'btn btn-primary btn-md flex-1';
+    }
+  };
+
+  const handleButtonClick = (button: MultiChoiceDialogButton) => {
+    button.onClick();
+    onClose();
+  };
+
+  return (
+    <Dialog
+      show={show}
+      onClose={onClose}
+      title={title}
+      maxWidth="lg"
+      actions={
+        <>
+          {buttons.map((button, index) => (
+            <button
+              key={index}
+              onClick={() => handleButtonClick(button)}
+              className={button.className || getButtonClass(button.variant)}
+            >
+              {button.text}
+            </button>
+          ))}
+        </>
+      }
+    >
+      <p>{message}</p>
+    </Dialog>
+  );
+}

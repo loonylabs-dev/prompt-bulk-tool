@@ -115,6 +115,8 @@ export interface GenerationRequest {
   templateIds: string[];
   variablePresetIds?: string[];
   customVariables?: Record<string, string[]>;
+  wrapVariableValues?: boolean;
+  addGenderSuffixes?: boolean;
 }
 
 export interface GenerationResponse {
@@ -222,12 +224,19 @@ export interface ImportResult {
 }
 
 // AI Types
+export enum VerbosityLevel {
+  TITLE_ONLY = 'title_only',
+  SHORT_CONCISE = 'short_concise',
+  ONE_SENTENCE = 'one_sentence'
+}
+
 export interface AIGenerateVariableValuesRequest {
   templateContent: string;
   variableName: string;
   direction: string;
   count: number;
   existingValues?: string[];
+  verbosity?: VerbosityLevel;
 }
 
 export interface AIGenerateVariableValuesResponse {

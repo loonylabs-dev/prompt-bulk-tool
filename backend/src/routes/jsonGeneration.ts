@@ -29,12 +29,31 @@ function generateVariableCombinations(variableNames: string[], variableData: Rec
   return result;
 }
 
-function substituteVariables(template: string, variables: Record<string, string>): string {
+function expandValuesWithGenderSuffixes(variableData: Record<string, string[]>): Record<string, string[]> {
+  const expandedVariableData: Record<string, string[]> = {};
+  
+  for (const [varName, values] of Object.entries(variableData)) {
+    const expandedValues: string[] = [];
+    
+    for (const value of values) {
+      // Add gendered variants only (no original value)
+      expandedValues.push(`${value}, female`);
+      expandedValues.push(`${value}, male`);
+    }
+    
+    expandedVariableData[varName] = expandedValues;
+  }
+  
+  return expandedVariableData;
+}
+
+function substituteVariables(template: string, variables: Record<string, string>, wrapValues: boolean = false): string {
   let result = template;
   
   for (const [varName, value] of Object.entries(variables)) {
     const regex = new RegExp(`\\{\\{\\s*${varName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\}\\}`, 'g');
-    result = result.replace(regex, value);
+    const wrappedValue = wrapValues ? `[${value}]` : value;
+    result = result.replace(regex, wrappedValue);
   }
 
   return result;
@@ -102,6 +121,11 @@ export function createJsonGenerationRoutes(db: JsonDatabase): Router {
       });
     }
 
+    // Apply gender suffixes if requested
+    if (validatedRequest.addGenderSuffixes) {
+      variableData = expandValuesWithGenderSuffixes(variableData);
+    }
+
     // Generate all combinations
     const generatedPrompts = [];
     
@@ -123,7 +147,7 @@ export function createJsonGenerationRoutes(db: JsonDatabase): Router {
       const combinations = generateVariableCombinations(templateVariables, variableData);
       
       for (const variableAssignment of combinations) {
-        const promptContent = substituteVariables(template.content, variableAssignment);
+        const promptContent = substituteVariables(template.content, variableAssignment, validatedRequest.wrapVariableValues);
         
         const generatedPrompt = {
           id: uuidv4(),

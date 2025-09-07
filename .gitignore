@@ -23,6 +23,10 @@ logs/
 .env.test.local
 .env.production.local
 
+# Claude Code configuration (development-specific)
+CLAUDE.md
+.claude/
+
 # IDE files
 .vscode/
 .idea/

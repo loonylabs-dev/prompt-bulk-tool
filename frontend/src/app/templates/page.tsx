@@ -80,11 +80,11 @@ export default function TemplatesPage() {
       if (response.success) {
         setTemplates(templates.filter(t => t.id !== deleteDialog.templateId));
         fetchCategories();
-        toast.success('Template gelöscht!');
+        toast.success('Template deleted!');
       }
     } catch (error) {
       console.error('Error deleting template:', error);
-      toast.error('Fehler beim Löschen des Templates');
+      toast.error('Error deleting template');
     } finally {
       setDeleteDialog({ show: false, templateId: null, templateName: '' });
     }
@@ -92,7 +92,7 @@ export default function TemplatesPage() {
 
   const duplicateTemplate = async (template: Template) => {
     try {
-      const response = await templateApi.duplicate(template.id, `${template.name} (Kopie)`);
+      const response = await templateApi.duplicate(template.id, `${template.name} (Copy)`);
       if (response.success) {
         fetchTemplates();
         fetchCategories();
@@ -120,7 +120,7 @@ export default function TemplatesPage() {
             <div className="flex items-center space-x-4">
               <Link href="/" className="btn btn-ghost btn-sm">
                 <ArrowLeft className="w-4 h-4" />
-                Zurück
+                Back
               </Link>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
@@ -131,7 +131,7 @@ export default function TemplatesPage() {
             </div>
             <Link href="/templates/new" className="btn btn-primary btn-md">
               <Plus className="w-4 h-4 mr-2" />
-              Neues Template
+              New Template
             </Link>
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function TemplatesPage() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Templates durchsuchen..."
+              placeholder="Search templates..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -158,7 +158,7 @@ export default function TemplatesPage() {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
-              <option value="">Alle Kategorien</option>
+              <option value="">All Categories</option>
               {Object.entries(categories).map(([category, count]) => (
                 <option key={category} value={category}>
                   {category} ({count})
@@ -172,24 +172,24 @@ export default function TemplatesPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-            <p className="mt-4 text-gray-600">Templates werden geladen...</p>
+            <p className="mt-4 text-gray-600">Loading templates...</p>
           </div>
         ) : filteredTemplates.length === 0 ? (
           <div className="text-center py-12">
             <FileText className="mx-auto w-16 h-16 text-gray-300" />
             <h3 className="mt-4 text-lg font-medium text-gray-900">
-              {searchTerm || selectedCategory ? 'Keine Templates gefunden' : 'Noch keine Templates'}
+              {searchTerm || selectedCategory ? 'No templates found' : 'No templates yet'}
             </h3>
             <p className="mt-2 text-gray-600">
               {searchTerm || selectedCategory 
-                ? 'Versuche andere Suchbegriffe oder Filter'
-                : 'Erstelle dein erstes Template um anzufangen'
+                ? 'Try different search terms or filters'
+                : 'Create your first template to get started'
               }
             </p>
             {!searchTerm && !selectedCategory && (
               <Link href="/templates/new" className="mt-4 btn btn-primary btn-md">
                 <Plus className="w-4 h-4 mr-2" />
-                Erstes Template erstellen
+                Create First Template
               </Link>
             )}
           </div>
@@ -215,7 +215,7 @@ export default function TemplatesPage() {
                   {/* Variables */}
                   {template.variables.length > 0 && (
                     <div className="mb-4">
-                      <div className="text-xs text-gray-500 mb-2">Variablen:</div>
+                      <div className="text-xs text-gray-500 mb-2">Variables:</div>
                       <div className="flex flex-wrap gap-1">
                         {template.variables.slice(0, 3).map((variable) => (
                           <span key={variable} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
@@ -224,7 +224,7 @@ export default function TemplatesPage() {
                         ))}
                         {template.variables.length > 3 && (
                           <span className="text-xs text-gray-500">
-                            +{template.variables.length - 3} weitere
+                            +{template.variables.length - 3} more
                           </span>
                         )}
                       </div>
@@ -260,27 +260,27 @@ export default function TemplatesPage() {
                   {/* Actions */}
                   <div className="flex items-center justify-between text-sm">
                     <div className="text-gray-500">
-                      {new Date(template.createdAt).toLocaleDateString('de-DE')}
+                      {new Date(template.createdAt).toLocaleDateString('en-US')}
                     </div>
                     <div className="flex space-x-2">
                       <button
                         onClick={() => duplicateTemplate(template)}
                         className="btn btn-ghost btn-xs"
-                        title="Duplizieren"
+                        title="Duplicate"
                       >
                         <Copy className="w-4 h-4" />
                       </button>
                       <Link
                         href={`/templates/${template.id}/edit`}
                         className="btn btn-ghost btn-xs"
-                        title="Bearbeiten"
+                        title="Edit"
                       >
                         <Edit className="w-4 h-4" />
                       </Link>
                       <button
                         onClick={() => handleDeleteClick(template.id, template.name)}
                         className="btn btn-ghost btn-xs text-red-600 hover:bg-red-50"
-                        title="Löschen"
+                        title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -306,13 +306,13 @@ export default function TemplatesPage() {
                 <div className="text-2xl font-bold text-green-600">
                   {Object.keys(categories).length}
                 </div>
-                <div className="text-sm text-gray-600">Kategorien</div>
+                <div className="text-sm text-gray-600">Categories</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-purple-600">
                   {templates.reduce((sum, t) => sum + t.variables.length, 0)}
                 </div>
-                <div className="text-sm text-gray-600">Variablen</div>
+                <div className="text-sm text-gray-600">Variables</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-orange-600">
@@ -329,11 +329,11 @@ export default function TemplatesPage() {
           show={deleteDialog.show}
           onClose={() => setDeleteDialog({ show: false, templateId: null, templateName: '' })}
           onConfirm={deleteTemplate}
-          title="Template löschen"
-          message={`Sind Sie sicher, dass Sie das Template "${deleteDialog.templateName}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`}
-          confirmText="Löschen"
+          title="Delete Template"
+          message={`Are you sure you want to delete the template "${deleteDialog.templateName}"? This action cannot be undone.`}
+          confirmText="Delete"
           confirmVariant="danger"
-          cancelText="Abbrechen"
+          cancelText="Cancel"
         />
       </div>
     </div>

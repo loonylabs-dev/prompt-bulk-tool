@@ -79,13 +79,13 @@ export default function NewTemplatePage() {
       const response = await templateApi.create(formData);
 
       if (response.success) {
-        toast.success('Template erfolgreich erstellt!');
+        toast.success('Template created successfully!');
         router.push('/templates');
       } else {
         setAlertDialog({
           show: true,
-          title: 'Erstellungsfehler',
-          message: `Fehler beim Erstellen des Templates: ${response.error}`,
+          title: 'Creation Error',
+          message: `Error creating template: ${response.error}`,
           type: 'error'
         });
       }
@@ -93,8 +93,8 @@ export default function NewTemplatePage() {
       console.error('Error creating template:', error);
       setAlertDialog({
         show: true,
-        title: 'Erstellungsfehler',
-        message: 'Fehler beim Erstellen des Templates',
+        title: 'Creation Error',
+        message: 'Error creating template',
         type: 'error'
       });
     } finally {
@@ -111,9 +111,9 @@ export default function NewTemplatePage() {
             <div className="flex items-center space-x-4">
               <Link href="/templates" className="btn btn-ghost btn-sm">
                 <ArrowLeft className="w-4 h-4" />
-                Zurück zu Templates
+                Back to Templates
               </Link>
-              <h1 className="text-xl font-bold text-gray-900">Neues Template</h1>
+              <h1 className="text-xl font-bold text-gray-900">New Template</h1>
             </div>
             <div className="flex space-x-3">
               <button
@@ -122,7 +122,7 @@ export default function NewTemplatePage() {
                 className={`btn btn-outline btn-md ${previewMode ? 'btn-active' : ''}`}
               >
                 <Eye className="w-4 h-4 mr-2" />
-                Vorschau
+                Preview
               </button>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function NewTemplatePage() {
           <div className="card">
             <div className="card-body">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Grundinformationen
+                Basic Information
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -147,7 +147,7 @@ export default function NewTemplatePage() {
                     type="text"
                     required
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                    placeholder="z.B. Produktbeschreibung erstellen"
+                    placeholder="e.g. Create product description"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
@@ -155,14 +155,14 @@ export default function NewTemplatePage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Kategorie
+                    Category
                   </label>
                   <select
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   >
-                    <option value="general">Allgemein</option>
+                    <option value="general">General</option>
                     <option value="marketing">Marketing</option>
                     <option value="content">Content</option>
                     <option value="development">Development</option>
@@ -174,13 +174,13 @@ export default function NewTemplatePage() {
 
               <div className="mt-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Beschreibung *
+                  Description *
                 </label>
                 <textarea
                   required
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Kurze Beschreibung was dieses Template macht..."
+                  placeholder="Brief description of what this template does..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 />
@@ -193,19 +193,19 @@ export default function NewTemplatePage() {
             <div className="card-body">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  Template Inhalt
+                  Template Content
                 </h2>
                 <div className="flex items-center text-sm text-gray-600">
                   <Info className="w-4 h-4 mr-1" />
-                  Verwende {'{{variable_name}}'} für Platzhalter
+                  Use {'{{variable_name}}'} for placeholders
                 </div>
               </div>
 
               {previewMode ? (
                 <div className="border border-gray-300 rounded-lg p-4 bg-gray-50 min-h-[200px]">
-                  <h3 className="text-sm font-medium text-gray-700 mb-2">Vorschau:</h3>
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">Preview:</h3>
                   <div className="whitespace-pre-wrap text-sm text-gray-900">
-                    {formData.content || 'Template-Inhalt wird hier angezeigt...'}
+                    {formData.content || 'Template content will be displayed here...'}
                   </div>
                 </div>
               ) : (
@@ -213,7 +213,7 @@ export default function NewTemplatePage() {
                   required
                   rows={10}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-mono text-sm"
-                  placeholder={`Beispiel:\n\nErstelle eine {{style}} Produktbeschreibung für {{product}}.\n\nDie Beschreibung soll {{tone}} sein und {{features}} hervorheben.\n\nZielgruppe: {{audience}}`}
+                  placeholder={`Example:\n\nCreate a {{style}} product description for {{product}}.\n\nThe description should be {{tone}} and highlight {{features}}.\n\nTarget audience: {{audience}}`}
                   value={formData.content}
                   onChange={(e) => handleContentChange(e.target.value)}
                 />
@@ -225,7 +225,7 @@ export default function NewTemplatePage() {
                   <div className="flex items-center mb-2">
                     <Variable className="w-4 h-4 text-blue-600 mr-2" />
                     <h3 className="text-sm font-medium text-blue-900">
-                      Erkannte Variablen ({extractedVariables.length})
+                      Detected Variables ({extractedVariables.length})
                     </h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -254,7 +254,7 @@ export default function NewTemplatePage() {
                 <input
                   type="text"
                   className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Tag hinzufügen..."
+                  placeholder="Add tag..."
                   value={currentTag}
                   onChange={(e) => setCurrentTag(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
@@ -293,7 +293,7 @@ export default function NewTemplatePage() {
           {/* Submit */}
           <div className="flex justify-end space-x-4">
             <Link href="/templates" className="btn btn-outline btn-md">
-              Abbrechen
+              Cancel
             </Link>
             <button
               type="submit"
@@ -303,12 +303,12 @@ export default function NewTemplatePage() {
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                  Erstelle...
+                  Creating...
                 </>
               ) : (
                 <>
                   <Save className="w-4 h-4 mr-2" />
-                  Template erstellen
+                  Create Template
                 </>
               )}
             </button>

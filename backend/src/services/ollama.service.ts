@@ -33,11 +33,11 @@ export class OllamaService {
   };
 
   /**
-   * Sendet eine Anfrage an die Ollama-API mit System-Message
-   * @param userPrompt Benutzer-Eingabe
-   * @param systemMessage System-Nachricht für AI-Verhalten
-   * @param options Optionale Konfiguration
-   * @returns API-Antwort oder null bei Fehler
+   * Sends a request to the Ollama API with System Message
+   * @param userPrompt User input
+   * @param systemMessage System message for AI behavior
+   * @param options Optional configuration
+   * @returns API response or null on error
    */
   public async callOllamaApiWithSystemMessage(
     userPrompt: string,
@@ -108,7 +108,7 @@ export class OllamaService {
     try {
       const response = await axios.post(`${baseUrl}/api/chat`, data, {
         headers,
-        timeout: 90000, // 90 Sekunden Timeout
+        timeout: 90000, // 90 second timeout
       });
 
       const requestDuration = Date.now() - requestStartTime;
@@ -117,7 +117,7 @@ export class OllamaService {
         const aiResponse = response.data as OllamaResponse;
         aiResponse.sessionId = sessionId;
 
-        // Token-Verbrauch schätzen
+        // Estimate token usage
         const responseTokens = Math.ceil(aiResponse.message.content.length / 4);
         const totalTokens = estimatedTokens + responseTokens;
 
@@ -164,14 +164,14 @@ export class OllamaService {
       }
     } catch (error: unknown) {
       const requestDuration = Date.now() - requestStartTime;
-      let errorMessage = 'Unbekannter Fehler';
+      let errorMessage = 'Unknown error';
       let errorDetails: Record<string, any> = {};
 
       if (error instanceof Error) {
         errorMessage = error.message;
       }
 
-      // Axios-Fehler behandeln
+      // Handle Axios errors
       if (error && typeof error === 'object' && 'isAxiosError' in error && error.isAxiosError === true) {
         const axiosError = error as any;
 
@@ -182,12 +182,12 @@ export class OllamaService {
             data: axiosError.response.data,
           };
 
-          // Session-ID-Fehler behandeln (Fallback ohne session_id)
+          // Handle Session ID error (fallback without session_id)
           if (axiosError.response.status === 400 && 
               typeof axiosError.response.data === 'object' &&
               axiosError.response.data?.error?.includes('session_id')) {
             
-            logger.warn('Session ID nicht unterstützt - Retry ohne session_id', {
+            logger.warn('Session ID not supported - Retry without session_id', {
               context: 'OllamaService',
               metadata: { sessionId, debugContext },
             });
@@ -207,7 +207,7 @@ export class OllamaService {
 
                 const retryDuration = Date.now() - requestStartTime;
                 
-                logger.info('Retry erfolgreich', {
+                logger.info('Retry successful', {
                   context: 'OllamaService',
                   metadata: { sessionId, debugContext, responseTime: `${retryDuration}ms` },
                 });
@@ -235,12 +235,12 @@ export class OllamaService {
                 };
               }
             } catch (retryError) {
-              logger.error('Retry fehlgeschlagen', {
+              logger.error('Retry failed', {
                 context: 'OllamaService',
                 metadata: { 
                   sessionId, 
                   debugContext,
-                  retryError: retryError instanceof Error ? retryError.message : 'Unbekannter Retry-Fehler',
+                  retryError: retryError instanceof Error ? retryError.message : 'Unknown retry error',
                 },
               });
             }
@@ -248,7 +248,7 @@ export class OllamaService {
         }
       }
 
-      logger.error('Ollama API Request fehlgeschlagen', {
+      logger.error('Ollama API Request failed', {
         context: 'OllamaService',
         metadata: {
           error: errorMessage,
@@ -267,61 +267,61 @@ export class OllamaService {
   }
 
   /**
-   * Sendet eine Anfrage an die Ollama-API mit Standard-System-Message
-   * @param prompt Benutzer-Eingabe
-   * @param options Optionale Konfiguration
-   * @returns API-Antwort oder null bei Fehler
+   * Sends a request to the Ollama API with default system message
+   * @param prompt User input
+   * @param options Optional configuration
+   * @returns API response or null on error
    */
   public async callOllamaApi(
     prompt: string,
     options: OllamaRequestOptions = {}
   ): Promise<{ response: OllamaResponse; tokensUsed: TokenUsage } | null> {
-    const defaultSystemMessage = 'Du bist ein hilfreicher Assistent, der klare und präzise Antworten gibt.';
+    const defaultSystemMessage = 'You are a helpful assistant that provides clear and precise answers.';
     return this.callOllamaApiWithSystemMessage(prompt, defaultSystemMessage, options);
   }
 
   /**
-   * Schätzt die Anzahl der Token für einen gegebenen Text
-   * @param text Der zu schätzende Text
-   * @returns Geschätzte Anzahl der Token
+   * Estimates the number of tokens for a given text
+   * @param text The text to estimate
+   * @returns Estimated number of tokens
    */
   public estimateTokens(text: string): number {
     return Math.ceil(text.length / 4);
   }
 
   /**
-   * Prüft, ob das Token-Limit erreicht wird
-   * @param currentTokens Aktuelle Token-Anzahl
-   * @param additionalTokens Zusätzliche Token
-   * @returns Warnung oder null
+   * Checks if the token limit is reached
+   * @param currentTokens Current token count
+   * @param additionalTokens Additional tokens
+   * @returns Warning or null
    */
   public checkTokenLimit(currentTokens: number, additionalTokens: number): string | null {
     const totalTokens = currentTokens + additionalTokens;
-    const maxTokens = 20000; // Standard-Limit für MODEL3
+    const maxTokens = 20000; // Default limit for MODEL3
     const warningThreshold = 16000;
     
     if (totalTokens > maxTokens) {
-      return `Token-Limit überschritten: ${totalTokens}/${maxTokens}`;
+      return `Token limit exceeded: ${totalTokens}/${maxTokens}`;
     }
     
     if (totalTokens > warningThreshold) {
-      return `Token-Warnung: ${totalTokens}/${maxTokens} (${Math.round((totalTokens / maxTokens) * 100)}%)`;
+      return `Token warning: ${totalTokens}/${maxTokens} (${Math.round((totalTokens / maxTokens) * 100)}%)`;
     }
     
     return null;
   }
 
   /**
-   * Generiert eine Session-ID
-   * @returns UUID-ähnliche Session-ID
+   * Generates a session ID
+   * @returns UUID-like session ID
    */
   private generateSessionId(): string {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
   /**
-   * Testet die Verbindung zur Ollama-API
-   * @returns Promise<boolean> - true wenn erfolgreich
+   * Tests the connection to the Ollama API
+   * @returns Promise<boolean> - true if successful
    */
   public async testConnection(): Promise<boolean> {
     try {
@@ -343,9 +343,9 @@ export class OllamaService {
       
       return success;
     } catch (error) {
-      logger.error('Ollama-Verbindungstest fehlgeschlagen', {
+      logger.error('Ollama connection test failed', {
         context: 'OllamaService',
-        metadata: { error: error instanceof Error ? error.message : 'Unbekannter Fehler' },
+        metadata: { error: error instanceof Error ? error.message : 'Unknown error' },
       });
       return false;
     }

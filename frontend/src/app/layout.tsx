@@ -7,8 +7,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Prompt Bulk Tool',
-  description: 'Webapp für Bulk-Prompt-Erstellung und automatisierte Ausführung',
-  keywords: ['AI', 'Prompts', 'Automation', 'ChatGPT', 'Claude', 'Gemini'],
+  description: 'Web application for bulk prompt creation and automated execution across AI platforms',
+  keywords: ['AI', 'Prompts', 'Automation', 'ChatGPT', 'Claude', 'Gemini', 'Bulk Processing', 'Template'],
   authors: [{ name: 'Prompt Bulk Tool Team' }],
   viewport: 'width=device-width, initial-scale=1',
   themeColor: '#3b82f6',
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="noindex, nofollow" />

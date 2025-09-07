@@ -143,8 +143,8 @@ export default function GenerationPage() {
     if (!selectedTemplateId) {
       setAlertDialog({
         show: true,
-        title: 'Template erforderlich',
-        message: 'Bitte wähle ein Template aus',
+        title: 'Template Required',
+        message: 'Please select a template',
         type: 'info'
       });
       return;
@@ -153,8 +153,8 @@ export default function GenerationPage() {
     if (!useCustomVariables && selectedVariablePresetIds.length === 0) {
       setAlertDialog({
         show: true,
-        title: 'Variablen erforderlich',
-        message: 'Bitte wähle mindestens ein Variable-Preset aus oder verwende benutzerdefinierte Variablen',
+        title: 'Variables Required',
+        message: 'Please select at least one variable preset or use custom variables',
         type: 'info'
       });
       return;
@@ -185,16 +185,16 @@ export default function GenerationPage() {
       if (response.success) {
         setAlertDialog({
           show: true,
-          title: 'Erfolgreich generiert',
-          message: `${response.data?.totalCount || 0} Prompts erfolgreich generiert!`,
+          title: 'Successfully Generated',
+          message: `${response.data?.totalCount || 0} prompts successfully generated!`,
           type: 'success'
         });
         fetchGeneratedPrompts();
       } else {
         setAlertDialog({
           show: true,
-          title: 'Generierungsfehler',
-          message: `Fehler bei der Generierung: ${response.error}`,
+          title: 'Generation Error',
+          message: `Error during generation: ${response.error}`,
           type: 'error'
         });
       }
@@ -202,8 +202,8 @@ export default function GenerationPage() {
       console.error('Error generating prompts:', error);
       setAlertDialog({
         show: true,
-        title: 'Generierungsfehler',
-        message: 'Fehler bei der Generierung',
+        title: 'Generation Error',
+        message: 'Error during generation',
         type: 'error'
       });
     } finally {
@@ -217,43 +217,43 @@ export default function GenerationPage() {
     const templateName = selectedTemplate?.name || 'Template';
 
     if (selectedTemplateId) {
-      // Template ausgewählt - 3 Button Dialog
+      // Template selected - 3 Button Dialog
       setMultiChoiceDialog({
         show: true,
-        title: 'Prompts löschen',
-        message: 'Welche Prompts möchten Sie löschen?',
+        title: 'Delete Prompts',
+        message: 'Which prompts would you like to delete?',
         buttons: [
           {
-            text: `Nur ${templateName} (${templatePromptCount})`,
+            text: `Only ${templateName} (${templatePromptCount})`,
             onClick: deleteTemplatePrompts,
             variant: 'primary'
           },
           {
-            text: `Alle Prompts (${totalPromptCount})`,
+            text: `All Prompts (${totalPromptCount})`,
             onClick: deleteAllPrompts,
             variant: 'danger'
           },
           {
-            text: 'Abbrechen',
+            text: 'Cancel',
             onClick: () => {},
             variant: 'ghost'
           }
         ]
       });
     } else {
-      // Kein Template - 2 Button Dialog  
+      // No template - 2 Button Dialog  
       setMultiChoiceDialog({
         show: true,
-        title: 'Prompts löschen',
-        message: 'Alle generierten Prompts löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
+        title: 'Delete Prompts',
+        message: 'Delete all generated prompts? This action cannot be undone.',
         buttons: [
           {
-            text: `Alle Prompts (${totalPromptCount})`,
+            text: `All Prompts (${totalPromptCount})`,
             onClick: deleteAllPrompts,
             variant: 'danger'
           },
           {
-            text: 'Abbrechen',
+            text: 'Cancel',
             onClick: () => {},
             variant: 'ghost'
           }
@@ -268,14 +268,14 @@ export default function GenerationPage() {
 
       if (response.success) {
         setGeneratedPrompts([]);
-        toast.success('Alle Prompts gelöscht!');
+        toast.success('All prompts deleted!');
       }
     } catch (error) {
       console.error('Error deleting prompts:', error);
       setAlertDialog({
         show: true,
-        title: 'Löschfehler',
-        message: 'Fehler beim Löschen',
+        title: 'Deletion Error',
+        message: 'Error during deletion',
         type: 'error'
       });
     }
@@ -292,14 +292,14 @@ export default function GenerationPage() {
         // Remove deleted prompts from state
         setGeneratedPrompts(prev => prev.filter(p => p.templateId !== selectedTemplateId));
         const templateName = selectedTemplate?.name || 'Template';
-        toast.success(`${templateName}-Prompts gelöscht!`);
+        toast.success(`${templateName} prompts deleted!`);
       }
     } catch (error) {
       console.error('Error deleting template prompts:', error);
       setAlertDialog({
         show: true,
-        title: 'Löschfehler',
-        message: 'Fehler beim Löschen der Template-Prompts',
+        title: 'Deletion Error',
+        message: 'Error deleting template prompts',
         type: 'error'
       });
     }
@@ -321,8 +321,8 @@ export default function GenerationPage() {
       console.error('Error exporting prompts:', error);
       setAlertDialog({
         show: true,
-        title: 'Exportfehler',
-        message: 'Fehler beim Export',
+        title: 'Export Error',
+        message: 'Error during export',
         type: 'error'
       });
     }
@@ -404,9 +404,9 @@ export default function GenerationPage() {
 
   const copyPromptToClipboard = (content: string) => {
     navigator.clipboard.writeText(content).then(() => {
-      toast.success('Prompt kopiert!');
+      toast.success('Prompt copied!');
     }).catch(() => {
-      toast.error('Fehler beim Kopieren');
+      toast.error('Error copying');
     });
   };
 
@@ -416,25 +416,25 @@ export default function GenerationPage() {
       
       if (response.success) {
         setGeneratedPrompts(prev => prev.filter(p => p.id !== promptId));
-        toast.success('Prompt gelöscht!', {
+        toast.success('Prompt deleted!', {
           icon: '🗑️',
         });
       } else {
-        toast.error('Fehler beim Löschen');
+        toast.error('Error deleting');
       }
     } catch (error) {
       console.error('Error deleting prompt:', error);
-      toast.error('Fehler beim Löschen');
+      toast.error('Error deleting');
     }
   };
 
   const renderHighlightedPrompt = (content: string, variables: Record<string, string>) => {
     let highlightedContent = content;
     
-    // Sortiere Variablen nach Länge (längste zuerst), um Überschneidungen zu vermeiden
+    // Sort variables by length (longest first) to avoid overlaps
     const sortedVariables = Object.entries(variables).sort((a, b) => b[1].length - a[1].length);
     
-    // Ersetze jede Variable mit einer markierten Version
+    // Replace each variable with a highlighted version
     sortedVariables.forEach(([key, value]) => {
       // Escape special characters for regex
       const escapedValue = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -450,7 +450,7 @@ export default function GenerationPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-          <p className="mt-4 text-gray-600">Lade Daten...</p>
+          <p className="mt-4 text-gray-600">Loading data...</p>
         </div>
       </div>
     );
@@ -465,13 +465,13 @@ export default function GenerationPage() {
             <div className="flex items-center space-x-4">
               <Link href="/" className="btn btn-ghost btn-sm">
                 <ArrowLeft className="w-4 h-4" />
-                Zurück
+                Back
               </Link>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                   <Zap className="w-5 h-5 text-white" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-900">Prompt-Generierung</h1>
+                <h1 className="text-xl font-bold text-gray-900">Prompt Generation</h1>
               </div>
             </div>
           </div>
@@ -485,20 +485,20 @@ export default function GenerationPage() {
             <div className="card">
               <div className="card-body">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                  Konfiguration
+                  Configuration
                 </h2>
 
                 {/* Template Selection */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Template auswählen *
+                    Select Template *
                   </label>
                   {templates.length === 0 ? (
                     <div className="text-center py-8">
                       <FileText className="mx-auto w-12 h-12 text-gray-300" />
-                      <p className="mt-4 text-gray-600">Keine Templates verfügbar</p>
+                      <p className="mt-4 text-gray-600">No templates available</p>
                       <Link href="/templates/new" className="mt-2 btn btn-primary btn-sm">
-                        Template erstellen
+                        Create Template
                       </Link>
                     </div>
                   ) : (
@@ -512,7 +512,7 @@ export default function GenerationPage() {
                           <span className="text-gray-600">
                             {selectedTemplate
                               ? `${selectedTemplate.name} (${getTemplatePromptCount(selectedTemplate.id)})`
-                              : 'Template auswählen...'}
+                              : 'Select template...'}
                           </span>
                           <ChevronDown className="w-5 h-5 text-gray-400" />
                         </div>
@@ -526,7 +526,7 @@ export default function GenerationPage() {
                               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                               <input
                                 type="text"
-                                placeholder="Templates suchen..."
+                                placeholder="Search templates..."
                                 className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 value={templateSearch}
                                 onChange={(e) => setTemplateSearch(e.target.value)}
@@ -553,13 +553,13 @@ export default function GenerationPage() {
                                     {t.name} ({getTemplatePromptCount(t.id)})
                                   </div>
                                   <div className="text-xs text-gray-600">
-                                    {t.variables.length} Variablen: {t.variables.join(', ')}
+                                    {t.variables.length} variables: {t.variables.join(', ')}
                                   </div>
                                 </button>
                               ))
                             ) : (
                               <div className="px-3 py-6 text-center text-gray-500">
-                                Keine passenden Templates gefunden
+                                No matching templates found
                               </div>
                             )}
                           </div>
@@ -572,7 +572,7 @@ export default function GenerationPage() {
                 {/* Variable Source Selection */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Variablen-Quelle *
+                    Variable Source *
                   </label>
                   <div className="space-y-3">
                     <label className="flex items-center space-x-3">
@@ -583,7 +583,7 @@ export default function GenerationPage() {
                         checked={!useCustomVariables}
                         onChange={() => setUseCustomVariables(false)}
                       />
-                      <span className="text-sm text-gray-900">Variable-Presets verwenden</span>
+                      <span className="text-sm text-gray-900">Use Variable Presets</span>
                     </label>
                     <label className="flex items-center space-x-3">
                       <input
@@ -593,7 +593,7 @@ export default function GenerationPage() {
                         checked={useCustomVariables}
                         onChange={() => setUseCustomVariables(true)}
                       />
-                      <span className="text-sm text-gray-900">Benutzerdefinierte Variablen</span>
+                      <span className="text-sm text-gray-900">Custom Variables</span>
                     </label>
                   </div>
                 </div>
@@ -602,19 +602,19 @@ export default function GenerationPage() {
                 {!useCustomVariables && (
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Variable-Presets {selectedVariablePresetIds.length > 0 && `(${selectedVariablePresetIds.length} ausgewählt)`}
+                      Variable Presets {selectedVariablePresetIds.length > 0 && `(${selectedVariablePresetIds.length} selected)`}
                     </label>
                     {!selectedTemplateId ? (
                       <div className="text-center py-4">
                         <FileText className="mx-auto w-8 h-8 text-gray-300" />
-                        <p className="mt-2 text-sm text-gray-600">Wähle zuerst ein Template aus</p>
+                        <p className="mt-2 text-sm text-gray-600">Select a template first</p>
                       </div>
                     ) : getRelevantVariablePresets().length === 0 ? (
                       <div className="text-center py-4">
                         <Package className="mx-auto w-8 h-8 text-gray-300" />
-                        <p className="mt-2 text-sm text-gray-600">Keine passenden Variable-Presets für dieses Template verfügbar</p>
+                        <p className="mt-2 text-sm text-gray-600">No matching Variable Presets available for this template</p>
                         <Link href="/variable-presets/create" className="mt-2 btn btn-primary btn-xs">
-                          Variable-Preset erstellen
+                          Create Variable Preset
                         </Link>
                       </div>
                     ) : (
@@ -629,8 +629,8 @@ export default function GenerationPage() {
                             <div className="flex items-center justify-between">
                               <span className="text-gray-600">
                                 {selectedVariablePresetIds.length === 0 
-                                  ? 'Variable-Presets auswählen...' 
-                                  : `${selectedVariablePresetIds.length} Preset${selectedVariablePresetIds.length > 1 ? 's' : ''} ausgewählt`}
+                                  ? 'Select Variable Presets...' 
+                                  : `${selectedVariablePresetIds.length} preset${selectedVariablePresetIds.length > 1 ? 's' : ''} selected`}
                               </span>
                               <ChevronDown className="w-5 h-5 text-gray-400" />
                             </div>
@@ -644,7 +644,7 @@ export default function GenerationPage() {
                                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                                   <input
                                     type="text"
-                                    placeholder="Variable-Presets suchen..."
+                                    placeholder="Search Variable Presets..."
                                     className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     value={variablePresetSearch}
                                     onChange={(e) => setVariablePresetSearch(e.target.value)}
@@ -676,7 +676,7 @@ export default function GenerationPage() {
                                           </div>
                                           <div className="text-xs text-gray-500">
                                             <code className="bg-gray-100 px-1 rounded">{'{{' + preset.placeholder + '}}'}</code>
-                                            {' • '}{preset.values.split(';').length} Werte
+                                            {' • '}{preset.values.split(';').length} values
                                           </div>
                                         </div>
                                       </div>
@@ -684,7 +684,7 @@ export default function GenerationPage() {
                                   ))
                                 ) : (
                                   <div className="px-3 py-6 text-center text-gray-500">
-                                    Keine passenden Variable-Presets gefunden
+                                    No matching Variable Presets found
                                   </div>
                                 )}
                               </div>
@@ -695,7 +695,7 @@ export default function GenerationPage() {
                         {/* Selected Presets Details */}
                         {selectedVariablePresets.length > 0 && (
                           <div className="mt-4 space-y-3">
-                            <h4 className="text-sm font-medium text-gray-700">Ausgewählte Variable-Presets:</h4>
+                            <h4 className="text-sm font-medium text-gray-700">Selected Variable Presets:</h4>
                             {selectedVariablePresets.map((preset) => (
                               <div key={preset.id} className="p-3 border border-gray-200 rounded-lg bg-gray-50">
                                 <div className="flex items-start justify-between">
@@ -707,10 +707,10 @@ export default function GenerationPage() {
                                       {preset.description}
                                     </div>
                                     <div className="text-xs text-gray-500 mb-2">
-                                      Platzhalter: <code className="bg-white px-1 rounded border">{'{{' + preset.placeholder + '}}'}</code>
+                                      Placeholder: <code className="bg-white px-1 rounded border">{'{{' + preset.placeholder + '}}'}</code>
                                     </div>
                                     <div className="text-xs text-gray-700">
-                                      <strong>Werte ({preset.values.split(';').length}):</strong>
+                                      <strong>Values ({preset.values.split(';').length}):</strong>
                                       <div className="mt-1 flex flex-wrap gap-1">
                                         {preset.values.split(';').slice(0, 6).map((value, index) => (
                                           <span
@@ -722,7 +722,7 @@ export default function GenerationPage() {
                                         ))}
                                         {preset.values.split(';').length > 6 && (
                                           <span className="inline-block px-2 py-1 bg-gray-200 border border-gray-300 rounded text-xs text-gray-600">
-                                            +{preset.values.split(';').length - 6} weitere
+                                            +{preset.values.split(';').length - 6} more
                                           </span>
                                         )}
                                       </div>
@@ -744,7 +744,7 @@ export default function GenerationPage() {
                                     type="button"
                                     onClick={() => toggleVariablePreset(preset.id)}
                                     className="ml-2 text-gray-400 hover:text-red-600"
-                                    title="Entfernen"
+                                    title="Remove"
                                   >
                                     ×
                                   </button>
@@ -762,11 +762,11 @@ export default function GenerationPage() {
                 {useCustomVariables && (
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Benutzerdefinierte Variablen
+                      Custom Variables
                     </label>
                     {getAllRequiredVariables().length === 0 ? (
                       <p className="text-sm text-gray-600">
-                        Wähle zuerst ein Template aus um die benötigten Variablen zu sehen.
+                        Select a template first to see the required variables.
                       </p>
                     ) : (
                       <div className="space-y-3">
@@ -778,7 +778,7 @@ export default function GenerationPage() {
                             <input
                               type="text"
                               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                              placeholder="Werte kommagetrennt eingeben: Wert1, Wert2, Wert3"
+                              placeholder="Enter comma-separated values: Value1, Value2, Value3"
                               value={customVariables[variable] || ''}
                               onChange={(e) => handleCustomVariableChange(variable, e.target.value)}
                             />
@@ -802,11 +802,11 @@ export default function GenerationPage() {
                           onChange={(e) => setWrapVariableValues(e.target.checked)}
                         />
                         <span className="text-sm text-gray-900">
-                          Variablenwerte mit eckigen Klammern umschließen
+                          Wrap variable values with square brackets
                         </span>
                       </label>
                       <p className="text-xs text-gray-500 mt-1 ml-6">
-                        Beispiel: "Wert" wird zu "[Wert]" im generierten Prompt
+                        Example: "Value" becomes "[Value]" in the generated prompt
                       </p>
                     </div>
 
@@ -820,11 +820,11 @@ export default function GenerationPage() {
                           onChange={(e) => setAddGenderSuffixes(e.target.checked)}
                         />
                         <span className="text-sm text-gray-900">
-                          Gender-Suffixe hinzufügen (, female / , male)
+                          Add gender suffixes (, female / , male)
                         </span>
                       </label>
                       <p className="text-xs text-gray-500 mt-1 ml-6">
-                        Generiert für jeden Wert zusätzlich Varianten mit ", female" und ", male"
+                        Generates additional variants with ", female" and ", male" for each value
                       </p>
                     </div>
                   </div>
@@ -839,12 +839,12 @@ export default function GenerationPage() {
                   {generating ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                      Generiere Prompts...
+                      Generating Prompts...
                     </>
                   ) : (
                     <>
                       <Play className="w-5 h-5 mr-2" />
-                      Prompts generieren
+                      Generate Prompts
                     </>
                   )}
                 </button>
@@ -858,7 +858,7 @@ export default function GenerationPage() {
               <div className="card-body">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-900">
-                    Generierte Prompts ({displayedPrompts.length})
+                    Generated Prompts ({displayedPrompts.length})
                   </h2>
                   {generatedPrompts.length > 0 && (
                     <div className="flex space-x-2">
@@ -887,10 +887,10 @@ export default function GenerationPage() {
                   <div className="text-center py-12">
                     <Zap className="mx-auto w-16 h-16 text-gray-300" />
                     <h3 className="mt-4 text-lg font-medium text-gray-900">
-                      {selectedTemplateId ? 'Keine Prompts für dieses Template' : 'Noch keine Prompts generiert'}
+                      {selectedTemplateId ? 'No prompts for this template' : 'No prompts generated yet'}
                     </h3>
                     <p className="mt-2 text-gray-600">
-                      {selectedTemplateId ? 'Wähle andere Templates oder generiere neue Prompts' : 'Konfiguriere die Einstellungen links und starte die Generierung'}
+                      {selectedTemplateId ? 'Select other templates or generate new prompts' : 'Configure the settings on the left and start generation'}
                     </p>
                   </div>
                 ) : (
@@ -908,14 +908,14 @@ export default function GenerationPage() {
                             <button
                               onClick={() => copyPromptToClipboard(prompt.content)}
                               className="btn btn-ghost btn-xs hover:bg-blue-100"
-                              title="In Zwischenablage kopieren"
+                              title="Copy to clipboard"
                             >
                               <Copy className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => deletePrompt(prompt.id)}
                               className="btn btn-ghost btn-xs hover:bg-red-100"
-                              title="Prompt löschen"
+                              title="Delete prompt"
                             >
                               <Trash2 className="w-4 h-4 text-red-600" />
                             </button>
@@ -923,7 +923,7 @@ export default function GenerationPage() {
                         </div>
                         
                         <div className="text-xs text-gray-600 mb-2">
-                          Variablen: {Object.entries(prompt.variables).map(([k, v]) => `${k}=${v}`).join(', ')}
+                          Variables: {Object.entries(prompt.variables).map(([k, v]) => `${k}=${v}`).join(', ')}
                         </div>
                         
                         <div className="bg-gray-50 rounded p-3 text-sm text-gray-700">
@@ -965,9 +965,9 @@ export default function GenerationPage() {
         }}
         title={confirmDialog.title}
         message={confirmDialog.message}
-        confirmText="Löschen"
+        confirmText="Delete"
         confirmVariant="danger"
-        cancelText="Abbrechen"
+        cancelText="Cancel"
       />
 
       {/* Multi Choice Dialog */}

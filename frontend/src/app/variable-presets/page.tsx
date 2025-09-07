@@ -87,20 +87,20 @@ export default function VariablePresetsPage() {
 
       if (response.success) {
         await fetchPresets();
-        toast.success('Variable-Preset gelöscht!');
+        toast.success('Variable Preset deleted!');
       } else {
         setAlertDialog({
           show: true,
-          title: 'Fehler',
-          message: 'Fehler beim Löschen des Variable-Presets',
+          title: 'Error',
+          message: 'Error deleting Variable Preset',
           type: 'error'
         });
       }
     } catch (err) {
       setAlertDialog({
         show: true,
-        title: 'Fehler',
-        message: 'Fehler beim Löschen des Variable-Presets',
+        title: 'Error',
+        message: 'Error deleting Variable Preset',
         type: 'error'
       });
     } finally {
@@ -120,14 +120,14 @@ export default function VariablePresetsPage() {
 
       if (response.success) {
         await fetchPresets(); // Refresh the list
-        toast.success('Variable-Preset dupliziert!', {
+        toast.success('Variable Preset duplicated!', {
           icon: '📋',
         });
       } else {
-        toast.error('Fehler beim Duplizieren');
+        toast.error('Error duplicating');
       }
     } catch (err) {
-      toast.error('Fehler beim Duplizieren');
+      toast.error('Error duplicating');
       console.error('Error duplicating preset:', err);
     } finally {
       setDuplicateDialog({ show: false, presetId: null });
@@ -188,18 +188,18 @@ export default function VariablePresetsPage() {
             <div className="flex items-center space-x-4">
               <Link href="/" className="btn btn-ghost btn-sm">
                 <ArrowLeft className="w-4 h-4" />
-                Zurück
+                Back
               </Link>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                   <Tag className="w-5 h-5 text-white" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-900">Variable-Presets</h1>
+                <h1 className="text-xl font-bold text-gray-900">Variable Presets</h1>
               </div>
             </div>
             <Link href="/variable-presets/create" className="btn btn-primary btn-md">
               <Plus className="w-4 h-4 mr-2" />
-              Neues Preset
+              New Preset
             </Link>
           </div>
         </div>
@@ -210,7 +210,7 @@ export default function VariablePresetsPage() {
         <div className="sm:flex sm:items-center sm:justify-between mb-8">
           <div>
             <p className="text-gray-600">
-              Verwalten Sie wiederverwendbare Variable-Presets für Ihre Templates
+              Manage reusable Variable Presets for your Templates
             </p>
           </div>
         </div>
@@ -222,7 +222,7 @@ export default function VariablePresetsPage() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Nach Name, Beschreibung oder Platzhalter suchen..."
+              placeholder="Search by name, description, or placeholder..."
               className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -234,7 +234,7 @@ export default function VariablePresetsPage() {
             <div>
               <div className="flex items-center mb-3">
                 <Filter className="w-4 h-4 mr-2 text-gray-500" />
-                <span className="text-sm font-medium text-gray-700">Nach Tags filtern:</span>
+                <span className="text-sm font-medium text-gray-700">Filter by tags:</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {allTags.map((tag) => (
@@ -257,7 +257,7 @@ export default function VariablePresetsPage() {
                   onClick={() => setSelectedTags([])}
                   className="mt-2 text-sm text-gray-500 hover:text-gray-700"
                 >
-                  Alle Filter entfernen
+                  Remove all filters
                 </button>
               )}
             </div>
@@ -272,15 +272,15 @@ export default function VariablePresetsPage() {
             onClick={fetchPresets}
             className="mt-2 text-sm text-red-700 hover:text-red-900 underline"
           >
-            Erneut versuchen
+            Try again
           </button>
         </div>
       )}
 
       {/* Results Summary */}
       <div className="mb-6 text-sm text-gray-600">
-        {filteredPresets.length} von {presets.length} Variable-Presets
-        {(searchTerm || selectedTags.length > 0) && ' (gefiltert)'}
+        {filteredPresets.length} of {presets.length} Variable Presets
+        {(searchTerm || selectedTags.length > 0) && ' (filtered)'}
       </div>
 
       {/* Empty State */}
@@ -290,12 +290,12 @@ export default function VariablePresetsPage() {
             <Tag className="w-12 h-12 text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {presets.length === 0 ? 'Keine Variable-Presets vorhanden' : 'Keine Ergebnisse gefunden'}
+            {presets.length === 0 ? 'No Variable Presets available' : 'No results found'}
           </h3>
           <p className="text-gray-600 mb-6">
             {presets.length === 0 
-              ? 'Erstellen Sie Ihr erstes Variable-Preset, um loszulegen.'
-              : 'Versuchen Sie, Ihre Suchkriterien zu ändern.'
+              ? 'Create your first Variable Preset to get started.'
+              : 'Try changing your search criteria.'
             }
           </p>
           {presets.length === 0 && (
@@ -304,7 +304,7 @@ export default function VariablePresetsPage() {
               className="btn btn-primary btn-lg"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Erstes Preset erstellen
+              Create First Preset
             </Link>
           )}
         </div>
@@ -335,7 +335,7 @@ export default function VariablePresetsPage() {
                     <button
                       onClick={() => handleDuplicateClick(preset.id)}
                       className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                      title="Duplizieren"
+                      title="Duplicate"
                     >
                       <Copy className="w-4 h-4" />
                     </button>
@@ -352,7 +352,7 @@ export default function VariablePresetsPage() {
                   {/* Placeholder */}
                   <div>
                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Platzhalter
+                      Placeholder
                     </span>
                     <div className="mt-1 px-2 py-1 bg-gray-100 rounded text-sm font-mono text-gray-700">
                       {'{{'}{preset.placeholder}{'}}'}
@@ -362,7 +362,7 @@ export default function VariablePresetsPage() {
                   {/* Values Preview */}
                   <div>
                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Werte ({getValueCount(preset.values)})
+                      Values ({getValueCount(preset.values)})
                     </span>
                     <p className="mt-1 text-sm text-gray-700">
                       {getValuePreview(preset.values)}
@@ -392,7 +392,7 @@ export default function VariablePresetsPage() {
 
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <p className="text-xs text-gray-500">
-                    Erstellt: {new Date(preset.createdAt).toLocaleDateString('de-DE')}
+                    Created: {new Date(preset.createdAt).toLocaleDateString('en-US')}
                   </p>
                 </div>
               </div>
@@ -406,11 +406,11 @@ export default function VariablePresetsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-md w-full p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Variable-Preset duplizieren
+              Duplicate Variable Preset
             </h3>
             
             <p className="text-gray-600 mb-6">
-              Sollen die aktuellen Werte in das duplizierte Preset übernommen werden?
+              Should the current values be included in the duplicated preset?
             </p>
             
             <div className="flex space-x-3">
@@ -418,19 +418,19 @@ export default function VariablePresetsPage() {
                 onClick={() => duplicatePreset(true)}
                 className="flex-1 btn btn-primary btn-md"
               >
-                Mit Werten duplizieren
+                Duplicate with values
               </button>
               <button
                 onClick={() => duplicatePreset(false)}
                 className="flex-1 btn btn-secondary btn-md"
               >
-                Nur Struktur duplizieren
+                Duplicate structure only
               </button>
               <button
                 onClick={() => setDuplicateDialog({ show: false, presetId: null })}
                 className="btn btn-ghost btn-md"
               >
-                Abbrechen
+                Cancel
               </button>
             </div>
           </div>
@@ -442,11 +442,11 @@ export default function VariablePresetsPage() {
         show={deleteDialog.show}
         onClose={() => setDeleteDialog({ show: false, presetId: null, presetName: '' })}
         onConfirm={deletePreset}
-        title="Variable-Preset löschen"
-        message={`Sind Sie sicher, dass Sie das Variable-Preset "${deleteDialog.presetName}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.`}
-        confirmText="Löschen"
+        title="Delete Variable Preset"
+        message={`Are you sure you want to delete the Variable Preset "${deleteDialog.presetName}"? This action cannot be undone.`}
+        confirmText="Delete"
         confirmVariant="danger"
-        cancelText="Abbrechen"
+        cancelText="Cancel"
       />
 
         {/* Alert Dialog */}

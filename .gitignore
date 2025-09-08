@@ -65,9 +65,9 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# Runtime data - KEEP DATABASE FOR BACKUP/SYNC
-# database/ - INTENTIONALLY NOT IGNORED
-# database/prompt-bulk-tool.json - INTENTIONALLY NOT IGNORED
+# Database files (created on first run)
+database/prompt-bulk-tool.json
+database/prompt-bulk-tool.db
 
 # But ignore potential backup files
 database/*.bak

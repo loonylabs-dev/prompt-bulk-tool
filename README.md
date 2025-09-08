@@ -1,33 +1,53 @@
 # Prompt Bulk Tool
 
-A comprehensive web application for creating and automating bulk prompt execution across AI platforms. Create templates with variables, manage reusable variable sets, generate prompts in bulk, and automate their execution through browser automation on platforms like ChatGPT, Claude, and Gemini.
+A comprehensive web application for creating and managing bulk prompt generation. Create templates with variables, manage reusable variable sets, and generate hundreds of prompts efficiently with AI-powered suggestions and multiple export formats.
 
-## Table of Contents
+---
 
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Quick Start](#quick-start)
-- [Usage Guide](#usage-guide)
-- [API Documentation](#api-documentation)
-- [Development](#development)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+## 🏷️ Tech Stack & Features
 
-## Overview
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](#-quick-start)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](#️-architecture)
+[![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=next.js&logoColor=white)](#️-architecture)
+[![Express.js](https://img.shields.io/badge/Express.js-4.18+-000000?style=for-the-badge&logo=express&logoColor=white)](#️-architecture)
+[![Ollama Ready](https://img.shields.io/badge/Ollama-Ready-FF6B35?style=for-the-badge&logo=llama&logoColor=white)](#-features)
+[![REST API](https://img.shields.io/badge/REST-API-FF6B35?style=for-the-badge&logo=fastapi&logoColor=white)](#-api-documentation)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-9F40FF?style=for-the-badge&logo=openai&logoColor=white)](#-features)
+
+---
+
+<details>
+<summary>📋 Table of Contents</summary>
+
+- [🎯 Overview](#-overview)
+- [✨ Features](#-features)
+- [🏗️ Architecture](#️-architecture)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Usage Guide](#-usage-guide)
+- [🔄 Detailed Workflows](#-detailed-workflows)
+- [🔧 API Documentation](#-api-documentation)
+- [⚙️ Development](#️-development)
+- [🔧 Configuration](#-configuration)
+- [🚨 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+
+</details>
+
+---
+
+## 🎯 Overview
 
 The Prompt Bulk Tool streamlines AI prompt workflows by allowing users to:
 
 - **Create Templates**: Design prompt templates with `{{variable_name}}` placeholders
 - **Manage Variables**: Define reusable variable collections with AI-powered generation
 - **Generate Bulk Prompts**: Automatically create all combinations of templates and variables
-- **Automate Execution**: Run browser automation to execute prompts on AI platforms
+- **AI-Powered Generation**: Generate variable values using Ollama integration
 - **Export Results**: Export prompts and results in multiple formats (JSON, CSV, TXT)
 
 Perfect for content creators, researchers, marketers, and developers who need to process large amounts of prompts systematically.
 
-## Features
+## ✨ Features
 
 ### 🎯 Core Functionality
 - **Template Management**: Create, edit, and organize prompt templates
@@ -44,54 +64,76 @@ Perfect for content creators, researchers, marketers, and developers who need to
 ### 🔧 Automation
 - **Browser Automation**: Execute prompts on ChatGPT, Claude, Gemini, and custom platforms
 - **Session Management**: Track execution progress and results
-- **Platform Configuration**: Predefined and customizable automation targets
+- **Export & Integration**: Multiple export formats for seamless workflow integration
 
-### 💡 Advanced Features
+<details>
+<summary>💡 Advanced Features</summary>
+
 - **Variable Value Wrapping**: Optional bracket wrapping for generated values
 - **Gender Suffixes**: Automatic generation of gendered variants
 - **Batch Processing**: Efficient handling of large prompt sets
 - **Real-time Progress**: Live updates during generation and automation
 
-## Architecture
+</details>
 
-### Monorepo Structure
+## 🏗️ Architecture
+
+<details>
+<summary>📦 Monorepo Structure</summary>
+
 ```
 prompt-bulk-tool/
 ├── shared/          # TypeScript types and utilities shared across packages
 ├── backend/         # Express.js API server with JSON database
 ├── frontend/        # Next.js React application
-└── automation/      # Playwright browser automation scripts
+└── automation/      # Browser automation scripts (experimental)
 ```
 
-### Technology Stack
+</details>
+
+<details>
+<summary>🛠️ Technology Stack</summary>
+
 - **Backend**: Node.js, Express.js, TypeScript
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
 - **Database**: JSON-based with automatic migrations (SQLite legacy support)
-- **Automation**: Playwright for cross-browser automation
+- **AI Integration**: Ollama middleware for robust AI backends
 - **AI Integration**: Ollama API for variable generation
 
-### Core Concepts
+</details>
+
+<details>
+<summary>🧠 Core Concepts</summary>
 
 1. **Templates**: Text templates containing `{{variable_name}}` placeholders
 2. **Variable Presets**: Reusable collections of variable values with metadata
 3. **Generated Prompts**: Final prompts created by combining templates with variables
-4. **Automation Sessions**: Browser automation runs executing prompts on platforms
+4. **Export Options**: Multiple formats for integration and processing
 5. **Automation Targets**: Platform-specific configurations (ChatGPT, Claude, etc.)
 
-## Quick Start
+</details>
 
-### Prerequisites
+## 🚀 Quick Start
+
+<details>
+<summary>📋 Prerequisites</summary>
+
 - Node.js 18+ and npm
 - (Optional) Ollama server for AI features
+
+</details>
 
 ### Installation
 
 1. **Clone and Setup**
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/planichttm/prompt-bulk-tool.git
 cd prompt-bulk-tool
 npm run setup  # Installs dependencies and builds shared package
 ```
+
+<details>
+<summary>⚙️ Environment Configuration</summary>
 
 2. **Environment Configuration**
 ```bash
@@ -103,6 +145,8 @@ cp frontend/.env.example frontend/.env
 # Edit backend/.env with your settings
 ```
 
+</details>
+
 3. **Start Development Server**
 ```bash
 npm run dev  # Starts both backend and frontend in watch mode
@@ -113,7 +157,7 @@ npm run dev  # Starts both backend and frontend in watch mode
 - Backend API: http://localhost:3001
 - Health Check: http://localhost:3001/api/health
 
-## Usage Guide
+## 📖 Usage Guide
 
 ### 1. Create Templates
 
@@ -167,13 +211,14 @@ with a {{tone}} tone. Focus on {{key_features}} and include {{call_to_action}}.
    - **CSV**: Spreadsheet-compatible format
    - **TXT**: Plain text prompts
 
-### 5. Browser Automation (Coming Soon)
+### 5. Export and Integration
 
-Execute generated prompts automatically on AI platforms with progress tracking and result collection.
+Export your generated prompts in multiple formats (JSON, CSV, TXT) for integration with other tools and workflows. Future versions will include browser automation capabilities.
 
-## Detailed Usage Workflows
+## 🔄 Detailed Workflows
 
-### Workflow 1: Content Marketing Campaign
+<details>
+<summary>📈 Workflow 1: Content Marketing Campaign</summary>
 
 **Scenario**: Create product descriptions for an e-commerce store
 
@@ -198,7 +243,10 @@ Execute generated prompts automatically on AI platforms with progress tracking a
 
 3. **Generate and Export**: Creates 5×4×4×4×4×4 = 5,120 unique product descriptions
 
-### Workflow 2: Educational Content Creation
+</details>
+
+<details>
+<summary>🎓 Workflow 2: Educational Content Creation</summary>
 
 **Scenario**: Generate lesson plans for different subjects and grade levels
 
@@ -224,7 +272,10 @@ Execute generated prompts automatically on AI platforms with progress tracking a
    - **assessment_method**: "quiz;project;presentation;written assignment"
    - **learning_style**: "visual;auditory;kinesthetic;reading/writing"
 
-### Workflow 3: Research Question Generation
+</details>
+
+<details>
+<summary>🔬 Workflow 3: Research Question Generation</summary>
 
 **Scenario**: Generate research questions for academic studies
 
@@ -245,7 +296,10 @@ Execute generated prompts automatically on AI platforms with progress tracking a
    - Input base concepts and let AI generate related variations
    - Review and refine generated values for accuracy
 
-### Advanced Features Usage
+</details>
+
+<details>
+<summary>⚙️ Advanced Features Usage</summary>
 
 #### Variable Value Wrapping
 Enable "Wrap variable values with square brackets" to generate:
@@ -284,7 +338,10 @@ Original variable "doctor" becomes:
 - Organized, tagged variable management
 - AI-generated variable values
 
-### Export and Integration
+</details>
+
+<details>
+<summary>📤 Export and Integration</summary>
 
 #### Export Formats
 
@@ -330,7 +387,10 @@ Original variable "doctor" becomes:
 3. Collect and analyze responses
 4. Iterate based on performance data
 
-### Performance Optimization
+</details>
+
+<details>
+<summary>⚡ Performance Optimization</summary>
 
 #### Large-Scale Generation
 - **Batch Size**: Generate in chunks of 500-1000 prompts
@@ -344,97 +404,278 @@ Original variable "doctor" becomes:
 - **Description Standards**: Clear, searchable descriptions
 - **Category Usage**: Logical categorization for navigation
 
-## API Documentation
+</details>
 
-### Templates API
-```bash
-GET    /api/templates          # List all templates
-POST   /api/templates          # Create new template
-GET    /api/templates/:id      # Get specific template
-PUT    /api/templates/:id      # Update template
-DELETE /api/templates/:id      # Delete template
+## 🔧 API Documentation
+
+<details>
+<summary>📚 Templates API</summary>
+
+#### `GET /api/templates`
+List all templates with pagination and filtering.
+
+**Query Parameters:**
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 10)
+- `category` (string): Filter by category
+- `search` (string): Search in name/description
+
+**Response:**
+```json
+{
+  "data": [
+    {
+      "id": "template-123",
+      "name": "Product Description",
+      "description": "Template for product descriptions",
+      "content": "Create a description for {{product}}...",
+      "category": "Marketing",
+      "tags": ["product", "marketing"],
+      "variables": ["product", "tone"],
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 25,
+    "page": 1,
+    "limit": 10,
+    "totalPages": 3
+  }
+}
 ```
 
-### Variable Presets API
-```bash
-GET    /api/variable-presets           # List all variable presets
-POST   /api/variable-presets           # Create new variable preset
-GET    /api/variable-presets/:id       # Get specific preset
-PUT    /api/variable-presets/:id       # Update preset
-DELETE /api/variable-presets/:id       # Delete preset
+#### `POST /api/templates`
+Create a new template.
+
+**Request Body:**
+```json
+{
+  "name": "Template Name",
+  "description": "Template description",
+  "content": "Template content with {{variables}}",
+  "category": "Category",
+  "tags": ["tag1", "tag2"]
+}
 ```
 
-### Prompt Generation API
-```bash
-POST   /api/generation/generate        # Generate prompts
-GET    /api/generation/prompts         # List generated prompts
-DELETE /api/generation/prompts         # Delete prompts
-GET    /api/generation/export          # Export prompts
+#### `GET /api/templates/:id`
+Get a specific template by ID.
+
+#### `PUT /api/templates/:id`
+Update a template.
+
+#### `DELETE /api/templates/:id`
+Delete a template.
+
+</details>
+
+<details>
+<summary>📚 Variable Presets API</summary>
+
+#### `GET /api/variable-presets`
+List all variable presets with pagination.
+
+#### `POST /api/variable-presets`
+Create a new variable preset.
+
+**Request Body:**
+```json
+{
+  "name": "Product Types",
+  "description": "Common product categories",
+  "placeholder": "product_type",
+  "values": ["smartphone", "laptop", "tablet"],
+  "tags": ["products", "ecommerce"]
+}
 ```
 
-### AI Integration API
-```bash
-POST   /api/ai/generate-variable-values    # Generate variable values
-GET    /api/ai/test-connection             # Test AI connection
-```
+#### `GET /api/variable-presets/:id`
+Get a specific variable preset.
 
-### Example API Usage
+#### `PUT /api/variable-presets/:id`
+Update a variable preset.
 
-**Generate Prompts:**
-```bash
-curl -X POST http://localhost:3001/api/generation/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "templateIds": ["template-id"],
-    "variablePresetIds": ["preset-id-1", "preset-id-2"],
-    "wrapVariableValues": true,
+#### `DELETE /api/variable-presets/:id`
+Delete a variable preset.
+
+</details>
+
+<details>
+<summary>📚 Generation API</summary>
+
+#### `POST /api/generation/generate`
+Generate prompts from templates and variables.
+
+**Request Body:**
+```json
+{
+  "templateIds": ["template-1", "template-2"],
+  "variablePresetIds": ["preset-1", "preset-2"],
+  "customVariables": {
+    "variable_name": ["value1", "value2"]
+  },
+  "options": {
+    "wrapValues": false,
     "addGenderSuffixes": false
-  }'
+  }
+}
 ```
 
-## Development
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "generatedCount": 24,
+    "prompts": [
+      {
+        "id": "prompt-123",
+        "content": "Generated prompt content...",
+        "templateId": "template-1",
+        "variables": {
+          "product_type": "smartphone",
+          "audience": "tech enthusiasts"
+        },
+        "generatedAt": "2024-01-15T10:30:00Z"
+      }
+    ]
+  }
+}
+```
 
-### Project Commands
+#### `POST /api/generation/export`
+Export generated prompts.
+
+**Request Body:**
+```json
+{
+  "format": "json|csv|txt",
+  "promptIds": ["prompt-1", "prompt-2"]
+}
+```
+
+</details>
+
+<details>
+<summary>📚 AI Integration API</summary>
+
+#### `POST /api/ai/generate-variable-values`
+Generate variable values using AI.
+
+**Request Body:**
+```json
+{
+  "templateContent": "Template with {{variable}}",
+  "variableName": "variable",
+  "direction": "creative|professional|technical",
+  "count": 10,
+  "existingValues": ["value1", "value2"]
+}
+```
+
+#### `POST /api/ai/test-connection`
+Test AI service connection.
+
+</details>
+
+## ⚙️ Development
+
+<details>
+<summary>🛠️ Development Commands</summary>
+
+### Initial Setup
 ```bash
-# Setup project
-npm run setup                   # Install deps and build shared package
-
-# Development
-npm run dev                     # Start backend and frontend
-npm run dev -w backend          # Backend only
-npm run dev -w frontend         # Frontend only
-
-# Building
-npm run build                   # Build all packages
-npm run build -w shared         # Build shared types first (required)
-
-# Type Checking
-npm run type-check              # Check TypeScript across all packages
+npm run setup  # Install dependencies and build shared package
 ```
 
-### Database
-
-- **Primary**: JSON database at `database/prompt-bulk-tool.json`
-- **Legacy**: SQLite database at `database/prompt-bulk-tool.db`
-- **Migrations**: Automatic on server startup
-- **Backup**: JSON format allows easy version control and backup
-
-### Testing
-
+### Development
 ```bash
-# Run tests (when implemented)
-npm test                        # All packages
-npm test -w backend             # Backend only
-npm test -w frontend            # Frontend only
+npm run dev    # Start backend and frontend in watch mode
+npm run build  # Build all packages (shared first, then backend/frontend)
+npm start      # Start production backend server
 ```
 
-## Configuration
+### Per-Workspace Commands
+```bash
+npm run build -w shared     # Build shared types package first
+npm run dev -w backend      # Backend development with watch mode  
+npm run dev -w frontend     # Frontend development server
+npm run type-check          # TypeScript checking across all workspaces
+```
 
-### Environment Variables
+### Database Operations
+Backend includes automatic database initialization and migrations on startup. The active JSON database is at `database/prompt-bulk-tool.json` with SQLite legacy support at `database/prompt-bulk-tool.db`.
 
-**Backend (.env):**
-```env
-# Server
+</details>
+
+<details>
+<summary>🔧 Key Implementation Details</summary>
+
+### Variable Extraction
+Templates are parsed to automatically extract `{{variable_name}}` placeholders using regex in `backend/src/utils/validation.ts:extractVariables()`.
+
+### API Structure  
+REST API follows this pattern:
+- `/api/templates` - CRUD operations for prompt templates
+- `/api/variable-presets` - Variable-Preset management with AI generation support
+- `/api/variables` - Legacy variable management (replaced by Variable-Presets)
+- `/api/generation` - Bulk prompt generation engine
+- `/api/automation` - Browser automation controls  
+- `/api/ai` - AI integration endpoints (generate-variable-values, test-connection)
+
+### Browser Automation Targets
+Predefined configurations for major AI platforms are seeded in the database with platform-specific CSS selectors and timing configurations.
+
+### Error Handling
+Centralized error handling with custom error types, SQLite constraint handling, and development vs production error responses in `backend/src/middleware/errorHandler.ts`.
+
+</details>
+
+<details>
+<summary>📝 TypeScript Configuration</summary>
+
+All packages use strict TypeScript. The shared package must be built before other packages since they import from `@prompt-bulk-tool/shared`.
+
+Build order: `shared` → `backend` → `frontend` → `automation`
+
+</details>
+
+<details>
+<summary>💡 Lessons Learned & Critical Issues</summary>
+
+### Frontend-Backend API Strategy
+- **Always use centralized API layer** (`frontend/src/lib/api.ts`) instead of direct fetch() calls for consistency and type safety
+- **Maintain TypeScript type safety** with shared interfaces in `shared/src/types.ts` (e.g., `AIGenerateVariableValuesRequest`)
+- **Use Next.js proxy routing** (`NEXT_PUBLIC_API_URL=/api`) instead of direct port connections to avoid CORS and routing issues
+
+### Development Environment Stability  
+- **Nodemon restart loops**: Fixed with `backend/nodemon.json` using 2-second delay to prevent server restarts during long-running AI requests
+- **Dev script configuration**: `"dev": "concurrently \"tsc --watch\" \"npm run copy-sql\" \"nodemon\""` uses nodemon.json config
+- **Root-level npm run dev**: Now works reliably with stable backend during AI operations
+
+### AI Integration
+- **AI API endpoints**: `/api/ai/generate-variable-values` and `/api/ai/test-connection`
+- **Request parameters**: Requires templateContent, variableName, direction, count, and optional existingValues
+- **Processing times**: Typically 1-3 seconds - server stability during requests is critical
+- **Ollama integration**: Configured via backend services with proper error handling and logging
+
+### Common Pitfalls Avoided
+- **Direct fetch() calls**: Bypass centralized error handling, logging, and type safety
+- **Hardcoded port URLs**: Cause proxy routing failures and CORS issues in development
+- **Missing nodemon delay**: Causes server restarts during active AI request processing
+- **API migration syntax errors**: Require careful review of bracket matching and import statements
+
+</details>
+
+## 🔧 Configuration
+
+<details>
+<summary>⚙️ Environment Variables</summary>
+
+### Backend Configuration (`.env`)
+```bash
+# Server Settings
 NODE_ENV=development
 PORT=3001
 FRONTEND_URL=http://localhost:3000
@@ -451,90 +692,249 @@ DEBUG_OLLAMA_REQUESTS=false
 LOG_LEVEL=info
 ```
 
-**Frontend (.env.local):**
-```env
-# API Configuration
+### Frontend Configuration (`.env.local`)
+```bash
 NEXT_PUBLIC_API_URL=/api
 BACKEND_URL=http://localhost:3001
 NODE_ENV=development
 ```
 
-### AI Integration Setup
+</details>
 
-1. **Install Ollama** (optional for AI features)
-2. **Configure endpoint** in `backend/.env`
-3. **Test connection** via `/api/ai/test-connection`
+<details>
+<summary>🤖 AI Integration Setup</summary>
 
-## Troubleshooting
+### Ollama Configuration
+1. Install and run Ollama server
+2. Configure `MODEL1_BASE_URL` and `MODEL1_TOKEN`
+3. Ensure network connectivity between backend and Ollama server
+4. Test connection using `/api/ai/test-connection` endpoint
 
-### Common Issues
+### Supported Models
+- `mistral-20k:latest` (default)
+- Custom models can be configured in `backend/src/config/app.config.ts`
 
-**Frontend/Backend Connection:**
-- Ensure backend is running on port 3001
-- Check CORS settings in backend configuration
-- Verify proxy settings in Next.js config
+</details>
 
-**AI Integration:**
-- Verify Ollama server is accessible
-- Check API token and endpoint configuration
-- Test connection via health check endpoint
+<details>
+<summary>🗄️ Database Configuration</summary>
 
-**Database Issues:**
-- Ensure write permissions in `database/` directory
-- Check JSON database format validity
-- Review migration logs on startup
+### JSON Database (Primary)
+- **Location**: `database/prompt-bulk-tool.json`
+- **Auto-initialization**: Creates database on first run
+- **Migrations**: Automatic schema updates
+- **Cross-platform**: Works on all operating systems
 
-**Build Issues:**
-- Build `shared` package first: `npm run build -w shared`
-- Clear node_modules and reinstall if needed
-- Check TypeScript configuration compatibility
+### Database Initialization
+The application automatically creates the JSON database on first startup with:
+- Basic automation targets for popular AI platforms (ChatGPT, Gemini)  
+- Empty collections ready for templates, variables, and generated prompts
+- Default configuration settings optimized for general use
 
-### Debug Mode
+Database files are excluded from version control to ensure clean installations.
 
-Enable detailed logging:
-```env
-LOG_LEVEL=debug
-DEBUG_OLLAMA_REQUESTS=true
+</details>
+
+## 🚨 Troubleshooting
+
+<details>
+<summary>🔧 Installation Issues</summary>
+
+### Port Already in Use
+```bash
+# Check what's using the port
+lsof -i :3001  # Backend port
+lsof -i :3000  # Frontend port
+
+# Kill the process
+kill -9 <PID>
 ```
 
-### Performance Tips
+### Missing Dependencies
+```bash
+# Clean install
+npm run clean
+npm install
+npm run setup
+```
 
-- Use Variable Presets for frequently used variable sets
-- Generate prompts in smaller batches for large datasets
-- Monitor memory usage during bulk operations
-- Use export features to avoid browser memory limits
+### Permission Issues
+```bash
+# Fix npm permissions (Unix/Linux)
+sudo chown -R $(whoami) ~/.npm
+sudo chown -R $(whoami) /usr/local/lib/node_modules
+```
 
-## Contributing
+</details>
 
-### Development Workflow
+<details>
+<summary>⚠️ Runtime Errors</summary>
 
-1. **Fork** the repository
-2. **Create** feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to branch (`git push origin feature/amazing-feature`)
-5. **Open** Pull Request
+### Database Connection Failed
+1. Check if `database/` directory exists
+2. Verify file permissions
+3. Check disk space
+4. Review logs in `logs/` directory
+
+### AI Generation Not Working
+1. Verify Ollama server is running
+2. Check `MODEL1_BASE_URL` and `MODEL1_TOKEN` configuration
+3. Test connection via `/api/ai/test-connection`
+4. Review API logs for detailed errors
+
+### Frontend Build Errors
+1. Clear Next.js cache: `rm -rf .next`
+2. Reinstall dependencies: `npm install`
+3. Check TypeScript errors: `npm run type-check`
+
+</details>
+
+<details>
+<summary>🚨 Performance Issues</summary>
+
+### Slow Generation
+- **Reduce variable combinations**: Fewer variables = faster generation
+- **Use batch processing**: Generate in smaller chunks
+- **Optimize templates**: Remove unnecessary complexity
+
+### Memory Issues
+- **Export regularly**: Don't accumulate thousands of prompts in memory
+- **Restart services**: Periodically restart backend during large operations
+- **Monitor system resources**: Check available RAM and disk space
+
+### Database Performance
+- **Regular cleanup**: Remove old generated prompts
+- **Optimize queries**: Use filtering and pagination
+- **Consider migration**: Switch to SQLite for large datasets
+
+</details>
+
+<details>
+<summary>🔄 Migration and Updates</summary>
+
+### Updating from Previous Versions
+1. Backup current database
+2. Run `npm run setup` to install new dependencies
+3. Start application - automatic migrations will run
+4. Verify data integrity after migration
+
+### Data Export/Import
+- Export all data via API endpoints before major updates
+- Use JSON format for complete data preservation
+- Restore from backup if migration fails
+
+</details>
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+<details>
+<summary>🛠️ Development Setup</summary>
+
+1. **Fork the repository**
+2. **Clone your fork**:
+   ```bash
+   git clone https://github.com/planichttm/prompt-bulk-tool.git
+   cd prompt-bulk-tool
+   ```
+3. **Install dependencies**:
+   ```bash
+   npm run setup
+   ```
+4. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+5. **Start development**:
+   ```bash
+   npm run dev
+   ```
+
+</details>
+
+<details>
+<summary>📋 Contributing Guidelines</summary>
 
 ### Code Standards
+- Use TypeScript for all new code
+- Follow existing code style and conventions
+- Add proper JSDoc comments for functions
+- Include tests for new features
+- Update documentation as needed
 
-- **TypeScript**: Strict mode enabled
-- **ESLint**: Follow project configuration
-- **Formatting**: Prettier for consistent formatting
-- **Testing**: Add tests for new features
-- **Documentation**: Update README and API docs
+### Commit Messages
+Follow conventional commits format:
+```
+feat: add new variable generation feature
+fix: resolve database connection issue
+docs: update API documentation
+test: add tests for template validation
+```
 
-### Build Order
+### Pull Request Process
+1. Ensure all tests pass
+2. Update documentation
+3. Add changelog entry
+4. Request review from maintainers
+5. Address feedback promptly
 
-Always build in this order:
-1. `shared` (types and utilities)
-2. `backend` (API server)
-3. `frontend` (React application)
-4. `automation` (browser scripts)
+</details>
+
+<details>
+<summary>🐛 Bug Reports</summary>
+
+When reporting bugs, please include:
+- **Environment**: OS, Node.js version, npm version
+- **Steps to reproduce**: Clear, step-by-step instructions
+- **Expected behavior**: What should happen
+- **Actual behavior**: What actually happens
+- **Logs**: Any error messages or console output
+- **Screenshots**: If applicable
+
+</details>
+
+<details>
+<summary>💡 Feature Requests</summary>
+
+For feature requests, please provide:
+- **Problem description**: What problem does this solve?
+- **Proposed solution**: How should it work?
+- **Alternatives considered**: Other approaches you've thought about
+- **Use cases**: Specific scenarios where this would be helpful
+
+</details>
 
 ---
 
-**License**: MIT  
-**Repository**: [Add your repository URL]  
-**Issues**: [Add your issues URL]  
-**Documentation**: [Add documentation URL]
+<div align="center">
 
-For questions, issues, or contributions, please visit our GitHub repository or open an issue.
+**[⭐ Star this repository](https://github.com/planichttm/prompt-bulk-tool)** if you find it helpful!
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub issues](https://img.shields.io/github/issues/planichttm/prompt-bulk-tool)](https://github.com/planichttm/prompt-bulk-tool/issues)
+[![GitHub forks](https://img.shields.io/github/forks/planichttm/prompt-bulk-tool)](https://github.com/planichttm/prompt-bulk-tool/network)
+[![GitHub stars](https://img.shields.io/github/stars/planichttm/prompt-bulk-tool)](https://github.com/planichttm/prompt-bulk-tool/stargazers)
+
+Made with ❤️ for the AI community
+
+</div>
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### 🙏 Acknowledgments
+
+- [Ollama](https://ollama.ai/) - AI model integration
+- [Next.js](https://nextjs.org/) - Frontend framework
+- [Tailwind CSS](https://tailwindcss.com/) - Styling framework
+
+### 🔗 Related Projects
+
+- [Ollama Middleware](https://github.com/planichttm/ollama-middleware) - TypeScript library for robust AI backends with Ollama integration
+- [Ollama Proxy](https://github.com/planichttm/ollama-proxy) - Secure proxy server providing OpenAI-compatible API for Ollama models
+- [Ollama](https://ollama.ai/) - Local AI model runtime and inference server
+- [Next.js](https://nextjs.org/) - Frontend framework

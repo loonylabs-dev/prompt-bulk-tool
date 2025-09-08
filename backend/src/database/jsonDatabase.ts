@@ -101,26 +101,6 @@ export class JsonDatabase {
           },
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
-        },
-        {
-          id: 'claude-default',
-          name: 'Claude',
-          type: 'claude',
-          url: 'https://claude.ai/',
-          selectors: {
-            input: 'div[contenteditable="true"]',
-            submit: 'button[aria-label="Send Message"]',
-            response: '[data-is-streaming="false"] .font-claude-message',
-            newChat: 'button[aria-label="Start new conversation"]'
-          },
-          config: {
-            delayBetweenPrompts: 3000,
-            maxRetries: 3,
-            waitForResponse: 30000,
-            useNewChatPerPrompt: false
-          },
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
         }
       ],
       automationSessions: []

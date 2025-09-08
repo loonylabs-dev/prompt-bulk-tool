@@ -241,8 +241,8 @@ export default function HomePage() {
               <Link href="/templates" className="text-primary-600 hover:text-primary-700">
                 Templates
               </Link>
-              <Link href="/variables" className="text-primary-600 hover:text-primary-700">
-                Variables
+              <Link href="/variable-presets" className="text-primary-600 hover:text-primary-700">
+                Variable Presets
               </Link>
               <Link href="/generation" className="text-primary-600 hover:text-primary-700">
                 Generation

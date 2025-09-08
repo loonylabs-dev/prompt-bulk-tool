@@ -35,8 +35,8 @@ export const appConfig: AppConfig = {
     environment: (process.env.NODE_ENV as 'development' | 'production' | 'test') || 'development',
   },
   ollama: {
-    baseUrl: process.env.MODEL3_BASE_URL || 'http://model3.scribomate.ai',
-    token: process.env.MODEL3_TOKEN || '',
+    baseUrl: process.env.MODEL1_BASE_URL || 'http://model1.scribomate.ai',
+    token: process.env.MODEL1_TOKEN || '',
     model: 'mistral-20k:latest',
   },
   database: {
@@ -56,10 +56,10 @@ export const appConfig: AppConfig = {
 };
 
 /**
- * Validierung der Konfiguration
+ * Configuration validation
  */
 export function validateConfig(): void {
-  const requiredEnvVars = ['MODEL3_TOKEN'];
+  const requiredEnvVars = ['MODEL1_TOKEN'];
   
   for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {

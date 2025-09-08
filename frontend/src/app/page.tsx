@@ -36,13 +36,13 @@ export default function HomePage() {
                 href="/variable-presets" 
                 className="btn btn-outline btn-md"
               >
-                Variable-Presets
+                Variable Presets
               </Link>
               <Link 
                 href="/generation" 
                 className="btn btn-primary btn-md"
               >
-                Generieren
+                Generate
               </Link>
             </nav>
           </div>
@@ -56,26 +56,26 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl">
-                Bulk-Prompts erstellen
-                <span className="block text-primary-600">automatisiert ausführen</span>
+                Create Bulk Prompts
+                <span className="block text-primary-600">Execute Automatically</span>
               </h1>
               <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600">
-                Erstelle Prompt-Templates mit Platzhaltern, definiere Variablen und generiere 
-                hunderte von Prompts für die automatisierte Ausführung auf AI-Plattformen.
+                Create prompt templates with placeholders, define variables and generate 
+                hundreds of prompts for automated execution on AI platforms.
               </p>
               <div className="mt-8 flex justify-center space-x-4">
                 <Link 
                   href="/templates"
                   className="btn btn-primary btn-lg"
                 >
-                  Templates erstellen
+                  Create Templates
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
                 <Link 
                   href="/generation"
                   className="btn btn-outline btn-lg"
                 >
-                  Prompts generieren
+                  Generate Prompts
                 </Link>
               </div>
             </div>
@@ -87,10 +87,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900">
-                Wie funktioniert es?
+                How does it work?
               </h2>
               <p className="mt-4 text-lg text-gray-600">
-                In drei einfachen Schritten von Templates zu automatisierten AI-Prompts
+                From templates to automated AI prompts in three simple steps
               </p>
             </div>
 
@@ -101,16 +101,16 @@ export default function HomePage() {
                   <FileText className="w-8 h-8 text-primary-600" />
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-gray-900">
-                  1. Templates erstellen
+                  1. Create Templates
                 </h3>
                 <p className="mt-4 text-gray-600">
-                  Erstelle Prompt-Templates mit <code className="bg-gray-100 px-1 rounded">{'{{variable_name}}'}</code> 
-                  Platzhaltern für dynamische Inhalte.
+                  Create prompt templates with <code className="bg-gray-100 px-1 rounded">{'{{variable_name}}'}</code> 
+                  placeholders for dynamic content.
                 </p>
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg text-left">
                   <code className="text-sm text-gray-700">
-                    Erstelle eine <span className="text-primary-600">{'{{style}}'}</span> Produktbeschreibung 
-                    für <span className="text-primary-600">{'{{product}}'}</span>
+                    Create a <span className="text-primary-600">{'{{style}}'}</span> product description 
+                    for <span className="text-primary-600">{'{{product}}'}</span>
                   </code>
                 </div>
               </div>
@@ -121,15 +121,15 @@ export default function HomePage() {
                   <Settings className="w-8 h-8 text-purple-600" />
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-gray-900">
-                  2. Variable-Presets erstellen
+                  2. Create Variable Presets
                 </h3>
                 <p className="mt-4 text-gray-600">
-                  Erstelle wiederverwendbare Variable-Presets mit Semikolon-getrennten Werten 
-                  für deine Template-Platzhalter.
+                  Create reusable variable presets with semicolon-separated values 
+                  for your template placeholders.
                 </p>
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg text-left">
                   <div className="text-sm text-gray-700">
-                    <div><strong>style:</strong> modern;klassisch;kreativ;minimalistisch</div>
+                    <div><strong>style:</strong> modern;classic;creative;minimalistic</div>
                     <div><strong>product:</strong> Smartphone;Laptop;Tablet;Smartwatch</div>
                   </div>
                 </div>
@@ -141,15 +141,15 @@ export default function HomePage() {
                   <Zap className="w-8 h-8 text-blue-600" />
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-gray-900">
-                  3. Bulk generieren
+                  3. Generate in Bulk
                 </h3>
                 <p className="mt-4 text-gray-600">
-                  Das System erstellt alle Kombinationen automatisch. 
-                  3 Templates × 3 Styles × 3 Produkte = 27 Prompts!
+                  The system creates all combinations automatically. 
+                  3 Templates × 3 Styles × 3 Products = 27 Prompts!
                 </p>
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                   <div className="text-sm text-green-600 font-medium">
-                    ✨ 27 einzigartige Prompts generiert
+                    ✨ 27 unique prompts generated
                   </div>
                 </div>
               </div>
@@ -162,18 +162,18 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900">
-                Automatisierte Ausführung
+                Automated Execution
               </h2>
               <p className="mt-4 text-lg text-gray-600">
-                Führe deine generierten Prompts automatisch auf AI-Plattformen aus
+                Execute your generated prompts automatically on AI platforms
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { name: 'ChatGPT', icon: '🤖', status: 'Konfiguriert' },
-                { name: 'Claude', icon: '🧠', status: 'Konfiguriert' },
-                { name: 'Gemini', icon: '💎', status: 'Konfiguriert' }
+                { name: 'ChatGPT', icon: '🤖', status: 'Configured' },
+                { name: 'Claude', icon: '🧠', status: 'Configured' },
+                { name: 'Gemini', icon: '💎', status: 'Configured' }
               ].map((platform) => (
                 <div key={platform.name} className="card">
                   <div className="card-body text-center">
@@ -188,7 +188,7 @@ export default function HomePage() {
                       </span>
                     </div>
                     <p className="mt-3 text-sm text-gray-600">
-                      Browser-Automation via Playwright mit Cookie-Management für persistente Sessions.
+                      Browser automation via Playwright with cookie management for persistent sessions.
                     </p>
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export default function HomePage() {
               <div className="inline-flex items-center space-x-2 bg-yellow-100 text-yellow-800 px-4 py-2 rounded-lg">
                 <Bot className="w-5 h-5" />
                 <span className="font-medium">
-                  Automation-Feature kommt bald
+                  Automation feature coming soon
                 </span>
               </div>
             </div>
@@ -212,8 +212,8 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
                 { label: 'Templates', value: '∞' },
-                { label: 'Variablen', value: '∞' },
-                { label: 'Generierte Prompts', value: '∞' },
+                { label: 'Variables', value: '∞' },
+                { label: 'Generated Prompts', value: '∞' },
                 { label: 'AI-Plattformen', value: '3+' }
               ].map((stat) => (
                 <div key={stat.label}>
@@ -235,17 +235,17 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-sm text-gray-600">
             <p>
-              Prompt Bulk Tool - Bulk-Prompt-Erstellung und automatisierte Ausführung
+              Prompt Bulk Tool - Bulk prompt creation and automated execution
             </p>
             <div className="mt-2 space-x-4">
               <Link href="/templates" className="text-primary-600 hover:text-primary-700">
                 Templates
               </Link>
               <Link href="/variables" className="text-primary-600 hover:text-primary-700">
-                Variablen
+                Variables
               </Link>
               <Link href="/generation" className="text-primary-600 hover:text-primary-700">
-                Generierung
+                Generation
               </Link>
             </div>
           </div>

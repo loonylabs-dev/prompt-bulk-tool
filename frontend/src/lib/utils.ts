@@ -6,10 +6,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Format date to German locale
+// Format date to localized format
 export function formatDate(date: Date | string): string {
   const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('de-DE', {
+  return d.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
@@ -179,19 +179,19 @@ export function isValidJSON(str: string): boolean {
   }
 }
 
-// Pluralize German words (simple implementation)
+// Pluralize English words (simple implementation)
 export function pluralize(word: string, count: number): string {
   if (count === 1) return word;
   
-  // Simple German pluralization rules
+  // Simple English pluralization rules
   const pluralRules: Record<string, string> = {
     'Template': 'Templates',
-    'Variable': 'Variablen',
+    'Variable': 'Variables',
     'Prompt': 'Prompts',
-    'Kategorie': 'Kategorien',
-    'Ergebnis': 'Ergebnisse',
-    'Fehler': 'Fehler',
-    'Tag': 'Tage',
+    'Category': 'Categories',
+    'Result': 'Results',
+    'Error': 'Errors',
+    'Tag': 'Tags',
     'Stunde': 'Stunden',
     'Minute': 'Minuten',
   };

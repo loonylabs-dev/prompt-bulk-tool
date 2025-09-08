@@ -1,7 +1,7 @@
 {
   "name": "@prompt-bulk-tool/backend",
   "version": "1.0.0",
-  "description": "Express API Backend für Prompt Bulk Tool",
+  "description": "Express API Backend for Prompt Bulk Tool",
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc && npm run copy-sql",

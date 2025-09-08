@@ -46,7 +46,7 @@ Important:
 - Create at least 5-10 different values for each detected variable
 - The values should be diverse, creative, and practically usable
 - Consider the context and theme of the template
-- Use only German or English values, depending on the template language`;
+- Use English values primarily, with localization support when appropriate`;
 
   public buildUserMessage(input: VariableSuggestionsInput): string {
     this.validateRequiredParams(input, ['templateContent']);

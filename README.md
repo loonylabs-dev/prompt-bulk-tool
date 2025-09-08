@@ -440,8 +440,8 @@ PORT=3001
 FRONTEND_URL=http://localhost:3000
 
 # AI Integration (Ollama)
-MODEL3_BASE_URL=http://your-ollama-server.com
-MODEL3_TOKEN=your_api_token_here
+MODEL1_BASE_URL=http://your-ollama-server.com
+MODEL1_TOKEN=your_api_token_here
 
 # Database
 DATABASE_PATH=./database/prompt-bulk-tool.json

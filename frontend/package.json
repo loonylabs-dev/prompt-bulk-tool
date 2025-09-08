@@ -1,7 +1,7 @@
 {
   "name": "@prompt-bulk-tool/frontend",
   "version": "1.0.0",
-  "description": "Next.js Frontend für Prompt Bulk Tool",
+  "description": "Next.js Frontend for Prompt Bulk Tool",
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",

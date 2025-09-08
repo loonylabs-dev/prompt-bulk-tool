@@ -1,7 +1,7 @@
 {
   "name": "prompt-bulk-tool",
   "version": "1.0.0",
-  "description": "Webapp für Bulk-Prompt-Erstellung und automatisierte Ausführung",
+  "description": "Web application for bulk prompt creation and automated execution",
   "private": true,
   "workspaces": [
     "backend",

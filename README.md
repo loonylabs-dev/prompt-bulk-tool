@@ -127,7 +127,7 @@ prompt-bulk-tool/
 
 1. **Clone and Setup**
 ```bash
-git clone https://github.com/planichttm/prompt-bulk-tool.git
+git clone https://github.com/loonylabs-dev/prompt-bulk-tool.git
 cd prompt-bulk-tool
 npm run setup  # Installs dependencies and builds shared package
 ```
@@ -835,7 +835,7 @@ We welcome contributions! Here's how to get started:
 1. **Fork the repository**
 2. **Clone your fork**:
    ```bash
-   git clone https://github.com/planichttm/prompt-bulk-tool.git
+   git clone https://github.com/loonylabs-dev/prompt-bulk-tool.git
    cd prompt-bulk-tool
    ```
 3. **Install dependencies**:
@@ -909,12 +909,12 @@ For feature requests, please provide:
 
 <div align="center">
 
-**[⭐ Star this repository](https://github.com/planichttm/prompt-bulk-tool)** if you find it helpful!
+**[⭐ Star this repository](https://github.com/loonylabs-dev/prompt-bulk-tool)** if you find it helpful!
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/planichttm/prompt-bulk-tool)](https://github.com/planichttm/prompt-bulk-tool/issues)
-[![GitHub forks](https://img.shields.io/github/forks/planichttm/prompt-bulk-tool)](https://github.com/planichttm/prompt-bulk-tool/network)
-[![GitHub stars](https://img.shields.io/github/stars/planichttm/prompt-bulk-tool)](https://github.com/planichttm/prompt-bulk-tool/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/loonylabs-dev/prompt-bulk-tool)](https://github.com/loonylabs-dev/prompt-bulk-tool/issues)
+[![GitHub forks](https://img.shields.io/github/forks/loonylabs-dev/prompt-bulk-tool)](https://github.com/loonylabs-dev/prompt-bulk-tool/network)
+[![GitHub stars](https://img.shields.io/github/stars/loonylabs-dev/prompt-bulk-tool)](https://github.com/loonylabs-dev/prompt-bulk-tool/stargazers)
 
 Made with ❤️ for the AI community
 
@@ -934,7 +934,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 🔗 Related Projects
 
-- [Ollama Middleware](https://github.com/planichttm/ollama-middleware) - TypeScript library for robust AI backends with Ollama integration
-- [Ollama Proxy](https://github.com/planichttm/ollama-proxy) - Secure proxy server providing OpenAI-compatible API for Ollama models
+- [Ollama Middleware](https://github.com/loonylabs-dev/ollama-middleware) - TypeScript library for robust AI backends with Ollama integration
+- [Ollama Proxy](https://github.com/loonylabs-dev/ollama-proxy) - Secure proxy server providing OpenAI-compatible API for Ollama models
 - [Ollama](https://ollama.ai/) - Local AI model runtime and inference server
 - [Next.js](https://nextjs.org/) - Frontend framework
